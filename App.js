@@ -11,6 +11,8 @@ import {createStore, compose, applyMiddleware} from 'redux';
 import ReduxThunk from 'redux-thunk';
 import {persistStore, persistReducer} from 'redux-persist';
 import reducers from './reducers';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import firebase from 'firebase';
 
@@ -40,8 +42,21 @@ tabBarOptions: {
 });
 
 const RootTab2 = createBottomTabNavigator({
-  AdminMenu: {screen: AdminMenu},
-  AdminSettings: {screen: AdminSettings}
+  AdminMenu: {screen: AdminMenu,
+    navigationOptions:{
+      header: null,
+      tabBarIcon:({tintColor}) =>{
+          return <Icon name={'reorder'} size={28} color={tintColor} />
+      },
+  }
+  },
+  AdminSettings: {screen: AdminSettings,
+    navigationOptions:{
+    header: null,
+    tabBarIcon:({tintColor}) =>{
+        return <Icon2 name={'account-box-multiple'} size={28} color={tintColor} />
+    },
+}}
 },
 {
 tabBarOptions: {
@@ -103,7 +118,7 @@ export default class App extends React.Component{
       };
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
-      firebase.analytics();
+      //firebase.analytics();
   }
 }
 

@@ -80,3 +80,17 @@ export const EditInfo = ({City, Address1, Address2, FirstName, LastName, AdminSt
         })
     }
 }
+
+export const EditInfoAdmin = ({AdminName, AdminStatus, uid}) =>{
+    return(dispatch) =>{
+        dispatch({type: 'edit_start'});
+        const {currentUser} = firebase.auth();
+        firebase.database().ref(`/users/${currentUser.uid}/Address/${uid}`)
+        .set({AdminName, AdminStatus})
+        .then(()=>{
+            dispatch({type: 'edit_success', payload: 'Edit was successful'})
+        }).catch(()=>{
+            dispatch({type: 'edit_fail', payload: 'Edit Failed '})
+        })
+    }
+}

@@ -1,23 +1,32 @@
-import React from 'react';
-import {View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, {useEffect} from 'react';
+import AccInfoAdmin from './AccInfoAdmin';
+import {connect} from 'react-redux';
+import {Credential} from '../actions';
+import _ from 'lodash';
 
-class AdminSettings extends React.Component{
+function AdminSettings(props){
+    useEffect(() =>{
+        const {data, Credential} = props;
+            data.map(d =>{
+                Credential({prop: "AdminName", value: d.AdminName})
+            })
+    }, [])
 
-    static navigationOptions = {
-        header: null,
-        tabBarIcon:({tintColor}) =>{
-            return <Icon name={'account'} size={28} color={tintColor} />
-        },
+    const takeMeToHome = () =>{
+        props.navigation.navigate("Home");
     }
-
-    render(){
-        return(
-            <View stlye={{flex: 1}}>
-                <Text>AdminSettings page</Text>
-            </View>
-        )
-    }
+    
+    return (
+        <AccInfoAdmin away={() => takeMeToHome()}/>
+    )
 }
 
-export default AdminSettings;
+
+const mapStateToProps= ({FetchedDatabase}) =>{
+    const data = _.map(FetchedDatabase, (val, uid) =>{
+        return {...val, uid}
+    })
+    return {data}
+}
+
+export default connect(mapStateToProps, {Credential}) (AdminSettings);
