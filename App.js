@@ -16,7 +16,7 @@ const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({$rem: entireScreenWidth / 380});
 
 
-//All the React navigators in the Navigators.js file
+//All the React navigators in the Navigators.js file in the same folder
 const AppContainer = createAppContainer(RootStack);
 
 //Redux setup
