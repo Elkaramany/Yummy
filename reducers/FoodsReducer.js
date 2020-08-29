@@ -14,8 +14,6 @@ export default(state={INITIAL_STATE}, action)=>{
         return{...state, addError: action.payload}
     }else if(action.type === "erase_error"){
         return {...state, addError: ''}
-    }else if(action.type === "addPrice"){
-        return{...state, totalPrice: (state.totalPrice + action.payload)}
     }
     return state;
 }

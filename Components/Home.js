@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, Image, TouchableOpacity, Dimensions, Alert, ScrollView} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {connect} from 'react-redux';
@@ -10,23 +10,31 @@ import {Credential, TryLogin, fetchData, getAllCategories, getAllFoods, fetchMyO
 
 import Spinner from './common/Spinner';
 
-const entireScreenWidth = Dimensions.get('window').width;
+function Home(props){
 
-class Home extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            called: false,
-            navigated: false,
-        }
-    }
+    useEffect(() =>{
+        props.getAllFoods();
+        props.getAllCategories();
+        props.fetchData();
+        props.fetchMyOrders();
+    }, [])
 
-    showErrorMessage(){
-        if(this.props.errorMessage){
+    useEffect(() =>{
+        props.data.map(d =>{
+            if(d.AdminStatus == true){
+                props.navigation.navigate("AdminMenu");
+            }else if(d.AdminStatus == false){
+                props.navigation.navigate("Menu");
+            }
+        })
+    },[props.data])
+
+    const showErrorMessage = () =>{
+        if(props.errorMessage){
             return( 
             <View style={styles.buttonContainer}>
                 <Text style={styles.textMissMatch}>
-                    {this.props.errorMessage}
+                    {props.errorMessage}
                 </Text>
             </View>
             )
@@ -35,8 +43,8 @@ class Home extends React.Component{
         }
     }
 
-    functionsCombined = () =>{
-        const {email, password,TryLogin} = this.props;
+    const functionsCombined = () =>{
+        const {email, password,TryLogin} = props;
         if(email && password){
             TryLogin({email, password});
         }else{
@@ -44,10 +52,8 @@ class Home extends React.Component{
         }
     }
 
-    
-
-    showButton = () =>{
-        const {loading} = this.props;
+    const showButton = () =>{
+        const {loading} = props;
         if(!loading){
             return(
                 <View style={styles.buttonContainer2}>
@@ -63,7 +69,7 @@ class Home extends React.Component{
                     title={'Login'}
                     titleStyle={{color: Colors.DarkGreen}}
                     buttonStyle={{backgroundColor: 'transparent'}}
-                    onPress={() => this.functionsCombined()}
+                    onPress={() => functionsCombined()}
                 />
                 </View>
             )
@@ -72,90 +78,61 @@ class Home extends React.Component{
         }
     }
 
-    fetchOnce = async() =>{
-        if(!this.state.called){
-            this.setState({called: true})
-            this.props.getAllFoods();
-            this.props.getAllCategories();   
-            await this.props.fetchData();
-            await this.props.fetchMyOrders();
-        }
-    }
-    
-    componentDidUpdate =() =>{
-        this.props.data.map(d =>{
-            if(d.AdminStatus == true){
-                if(!this.state.navigated){
-                    this.setState({navigated: true})
-                    this.props.navigation.navigate("AdminMenu");
-                }
-            }else if(d.AdminStatus == false){
-                if(!this.state.navigated){
-                    this.setState({navigated: true})
-                    this.props.navigation.navigate("Menu");
-                }
-            }
-        })
-    }
-
-    render(){
-        if(this.props.user){
-            {this.fetchOnce()}
-            return (
-            <View style={[styles.buttonContainer, {backgroundColor: Colors.BrightYellow, flex: 1}]}>
-                <Spinner size={'large'} />
-            </View>
-            )
-        }else{
-            const {Credential, email, password} = this.props;
-            return(
-            <View style={styles.container}>
-               <Image 
-               style={styles.imageDimensions}
-                source={require("../Images/logo.jpg")}
-               />
-               <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Input
-                    placeholder='Email'
-                    leftIcon={<Icon name={'email'} size={25} color={Colors.DarkGreen}/>}
-                    onChangeText={(text) => Credential({prop: 'email', value: text})}
-                    value={email}
-                    inputContainerStyle={styles.textInputContainer}
-                    inputStyle={styles.textInputStyle}
-                    placeholderTextColor={Colors.DarkGreen}
-                />
-                <Input
-                    placeholder='Password'
-                    leftIcon={<Icon name={'lock'} size={25} color={Colors.DarkGreen}/>}
-                    onChangeText={(text) => Credential({prop: 'password', value: text})}
-                    value={password}
-                    secureTextEntry
-                    inputStyle={styles.textInputStyle}
-                    inputContainerStyle={styles.textInputContainer}
-                    placeholderTextColor={Colors.DarkGreen}
-                />                
-                {this.showButton()}
-                <View style={[styles.OrStyle, {flexDirection: 'row'}]}>
-                    <Text style={styles.textInputStyle}>Don't have an account?</Text>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate('SignUp')}
-                        >
-                        <Text style={styles.signUpStyle}>Sign Up
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                <Text style={styles.OrStyle}>Or</Text>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("AdminSignUp")}
-                >
-                <Text style={[styles.OrStyle, {color:Colors.MediumOrange}]}>Sign Up as an Admin</Text>
+    if(props.user){
+        return (
+        <View style={[styles.buttonContainer, {backgroundColor: Colors.BrightYellow, flex: 1}]}>
+            <Spinner size={'large'} />
+        </View>
+        )
+    }else{
+        const {Credential, email, password} = props;
+        return(
+        <View style={styles.container}>
+            <Image 
+            style={styles.imageDimensions}
+            source={require("../Images/logo.jpg")}
+            />
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Input
+                placeholder='Email'
+                leftIcon={<Icon name={'email'} size={25} color={Colors.DarkGreen}/>}
+                onChangeText={(text) => Credential({prop: 'email', value: text})}
+                value={email}
+                inputContainerStyle={styles.textInputContainer}
+                inputStyle={styles.textInputStyle}
+                placeholderTextColor={Colors.DarkGreen}
+            />
+            <Input
+                placeholder='Password'
+                leftIcon={<Icon name={'lock'} size={25} color={Colors.DarkGreen}/>}
+                onChangeText={(text) => Credential({prop: 'password', value: text})}
+                value={password}
+                secureTextEntry
+                inputStyle={styles.textInputStyle}
+                inputContainerStyle={styles.textInputContainer}
+                placeholderTextColor={Colors.DarkGreen}
+            />                
+            {showButton()}
+            <View style={[styles.OrStyle, {flexDirection: 'row'}]}>
+                <Text style={styles.textInputStyle}>Don't have an account?</Text>
+                <TouchableOpacity
+                    onPress={() => props.navigation.navigate('SignUp')}
+                    >
+                    <Text style={styles.signUpStyle}>Sign Up
+                    </Text>
                 </TouchableOpacity>
-                <View style={styles.ErrorStyle}>
-                    {this.showErrorMessage()}
-                </View>
-                </View>
             </View>
-           )
-        }
+            <Text style={styles.OrStyle}>Or</Text>
+            <TouchableOpacity onPress={() => props.navigation.navigate("AdminSignUp")}
+            >
+            <Text style={[styles.OrStyle, {color:Colors.MediumOrange}]}>Sign Up as an Admin</Text>
+            </TouchableOpacity>
+            <View style={styles.ErrorStyle}>
+                {showErrorMessage()}
+            </View>
+            </View>
+        </View>
+        )
     }
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import  React, {useEffect} from 'react';
 import {View, Text, FlatList, ScrollView, Dimensions, TouchableOpacity, Image} from 'react-native';
 import {connect} from 'react-redux';
 import {getAllCategories, getAllFoods} from '../actions';
@@ -6,21 +6,13 @@ import _ from 'lodash';
 import EStyleSheet from 'react-native-extended-stylesheet'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Colors} from './Colors';
+import Spinner from './common/Spinner';
 
 const WIDTH = Dimensions.get('window').width;
 
-class Menu extends React.Component{
+function Menu(props){
 
-    static navigationOptions = {
-        header: null,
-        tabBarIcon:({tintColor}) =>{
-            return <Icon name={'food'} size={25} color={tintColor} />
-        },
-    }
-
-    navigae
-
-    renderItem =({item}) =>{
+    const renderItem =({item}) =>{
         return(
             <View style={styles.container}>
                 <Text style={styles.categoryStyle}>{item.name}</Text>
@@ -28,12 +20,12 @@ class Menu extends React.Component{
                     horizontal
                     style={{flex: 1}}
                     >
-                        {this.props.food.map((recipe)=>{
+                        {props.foods.map((recipe)=>{
                             if(recipe.category === item.name){
                                 return(
                                     <TouchableOpacity
                                     key={recipe.id}
-                                    onPress={() => this.props.navigation.navigate("FoodSpecific",{
+                                    onPress={() => props.navigation.navigate("FoodSpecific",{
                                         item: recipe,
                                     })}
                                     >
@@ -55,17 +47,15 @@ class Menu extends React.Component{
         )
     }
 
-    render(){
-        return(
-            <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
-                <FlatList 
-                data={this.props.categories}
-                renderItem={this.renderItem}
-                keyExtractor={cat => cat.id}
-                />
-            </View>
-        )
-    }
+    return(
+        <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
+            <FlatList 
+            data={props.categories}
+            renderItem={(renderItem)}
+            keyExtractor={cat => cat.id}
+            />
+        </View>
+    )
 }
 
 const styles = EStyleSheet.create({
@@ -91,7 +81,7 @@ container:{
 
 const mapStateToProps =({FoodsReducer}) =>{
     return{
-        food: FoodsReducer.allFoods,
+        foods: FoodsReducer.allFoods,
         categories: FoodsReducer.allCategories,
     }
 }
