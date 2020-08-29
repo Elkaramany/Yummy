@@ -12,7 +12,8 @@ const INITIAL_STATE={
     AdminToken: '',
     AdminName: '',
     uid: '',
-    EditLoading: false
+    EditLoading: false,
+    navigated: false,
 }
 
 export default (state={INITIAL_STATE}, action)=>{
@@ -23,13 +24,11 @@ export default (state={INITIAL_STATE}, action)=>{
     }else if(action.type === 'login_failed'){
         return{...state, ...INITIAL_STATE, loading: false, errorMessage: 'Email or password is incorrect'}
     }else if(action.type === 'create_account_success'){
-        return {...state, ...INITIAL_STATE, loading: false, user: action.payload}
+        return {...state, ...INITIAL_STATE, loading: false, errorMessage: "Account created successfully, Please login"}
     }else if (action.type === 'create_account_fail'){
         return {...state, ...INITIAL_STATE, loading: false, errorMessage: 'Failed to create account with those credentials, Please try again with different ones!!'}
     }else if(action.type === 'login_started'){
         return{...state, loading: true}
-    }else if(action.type === 'sign_out'){
-        return {...state, ...INITIAL_STATE}
     }else if(action.type === "edit_success" || action.type === "edit_fail" || action.type === 'sign_me_out_fail'){
         return{...state, EditLoading: false, errorMessage: action.payload}
     }else if(action.type === "edit_start"){

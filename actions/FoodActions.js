@@ -46,12 +46,6 @@ export const fetchMyOrders = () => {
     }
 }
 
-export const addThePrice =(p)=>{
-    return(dispatch)=>{
-        dispatch({type: 'addPrice', payload: p})
-    }
-}
-
 export const deleteSingleFood =(uid)=>{
     return async (dispatch)=>{
         const {currentUser} = firebase.auth(); 

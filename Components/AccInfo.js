@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {Input, Button} from 'react-native-elements';
 import Header from './common/Header';
@@ -13,73 +13,68 @@ import _ from 'lodash';
 import { withNavigation } from 'react-navigation';
 
 
-class AccInfo extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            InvalidName: '',
-            missMatch: ''
-        }
-    }
+function AccInfo(props){
+    const [InvalidName, setInvalidName] = useState('');
+    const [missMatch, setmissMatch] = useState('');
 
 
-    validateName = (text, type) =>{
+    const validateName = (text, type) =>{
         if(text.length < 2){
-            this.setState({InvalidName: `${type} must be more than 2 chars long.`})
+            setInvalidName(`${type} must be more than 2 chars long.`)
         }else{
-            this.setState({InvalidName: ""})
+            setInvalidName("")
         }
-        this.props.Credential({prop: type, value: text})
+        props.Credential({prop: type, value: text})
     }
 
-    functionsCombined=() =>{
-        const {City, Address1, Address2, FirstName, LastName} = this.props;
-        if(this.state.InvalidName !== ''){
-            this.setState({missMatch: this.state.InvalidName})
+    const functionsCombined=() =>{
+        const {City, Address1, Address2, FirstName, LastName} = props;
+        if(InvalidName !== ''){
+            setmissMatch(InvalidName)
         }else if(!City || !Address1 || !Address2 || !FirstName || !LastName){
             Alert.alert("Please fill all form values");
         }else{
-            this.setState({missMatch: ''});
-            this.setState({InvalidName: ''})
-            this.functionTwo();
+            setmissMatch("");
+            setInvalidName('')
+            functionTwo();
             
         }
     }
 
-    functionTwo = async () =>{
+    const functionTwo = async () =>{
         let AdminStatus = false;
-        const {City, Address1, Address2, FirstName, LastName, uid, EditInfo} = this.props;
+        const {City, Address1, Address2, FirstName, LastName, uid, EditInfo} = props;
         await EditInfo({City, Address1, Address2, FirstName, LastName, AdminStatus, uid});
     }
 
-    showMissMatch = () =>{
+    const showMissMatch = () =>{
         let toBeShown = '';
-        if(this.state.missMatch){
-            toBeShown = this.state.missMatch
-        }else if(this.props.errorMessage !== ''){
-            toBeShown = this.props.errorMessage
+        if(missMatch){
+            toBeShown = missMatch
+        }else if(props.errorMessage !== ''){
+            toBeShown = props.errorMessage
         }
         return <View style={styles.buttonContainer}><Text style={styles.textMissMatch}>{toBeShown}</Text></View>
     }
 
-    HandleOut =() =>{
-        this.functionOut();
-        this.functionAway();
+    const HandleOut =() =>{
+        functionOut();
+        functionAway();
     }
 
-    functionOut = () =>{
-        this.props.signMeOut();
+    const functionOut = () =>{
+        props.signMeOut();
     }
 
-    functionAway =()=>{
-        this.props.away();
+    const functionAway =()=>{
+        props.away();
     }
 
-    showLogOut =() =>{
+    const showLogOut =() =>{
         return(
             <View style={styles.buttonContainer2}>
                 <TouchableOpacity style={[styles.buttonContainer2, {flexDirection: 'row'}]}
-                    onPress={() => this.HandleOut()}
+                    onPress={() => HandleOut()}
                 >
                 <Icon
                 name={'logout'}
@@ -92,8 +87,8 @@ class AccInfo extends React.Component{
         )
     }
 
-    showButton = () =>{
-        if(!this.props.loading){
+    const showButton = () =>{
+        if(!props.loading){
         return(
             <View style={styles.buttonContainer2}>
             <Button
@@ -107,7 +102,7 @@ class AccInfo extends React.Component{
                 title={'Save Changes'}
                 titleStyle={styles.buttonTitleStyle}
                 buttonStyle={styles.Login}
-                onPress={() => this.functionsCombined()}
+                onPress={() => functionsCombined()}
             />
         </View>
         )}else{
@@ -115,16 +110,14 @@ class AccInfo extends React.Component{
         }
     }
 
-    showEditMessage = () =>{
-        if(this.props.errorMessage){
-            return <View style={styles.buttonContainer}><Text style={styles.textMissMatch}>{this.props.errorMessage}</Text></View>
+    const showEditMessage = () =>{
+        if(props.errorMessage){
+            return <View style={styles.buttonContainer}><Text style={styles.textMissMatch}>{props.errorMessage}</Text></View>
         }else{
             return <View></View>
         }
     }
-
-    render(){
-        const {FirstName, LastName, City, Address1, Address2} = this.props;
+        const {FirstName, LastName, City, Address1, Address2} = props;
         return(
             <View style={{flex: 1, backgroundColor: Colors.BrightYellow}} behaviour={'padding'} enabled={false}>
                 <Header HeaderText={'Account Settings'} HeaderStyle={{backgroundColor: 'transparent'}} TextStyle={styles.headerTextStyle} />
@@ -134,7 +127,7 @@ class AccInfo extends React.Component{
                 leftIcon={<Icon name={'account'} size={25} color={Colors.DarkGreen}/>}
                 inputContainerStyle={styles.textInputContainer}
                 inputStyle={styles.textInputStyle}
-                onChangeText={(text) => this.validateName(text, "FirstName")}
+                onChangeText={(text) => validateName(text, "FirstName")}
                 value={FirstName}
                 placeholderTextColor={Colors.DarkGreen}
                 />
@@ -143,7 +136,7 @@ class AccInfo extends React.Component{
                 leftIcon={<Icon name={'account-box'} size={25} color={Colors.DarkGreen}/>}
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
-                onChangeText={(text) => this.validateName(text, "LastName")}
+                onChangeText={(text) => validateName(text, "LastName")}
                 value={LastName}
                 placeholderTextColor={Colors.DarkGreen}
                 />
@@ -153,7 +146,7 @@ class AccInfo extends React.Component{
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
                 value={City}
-                onChangeText={(text) => this.validateName(text, "City")}
+                onChangeText={(text) => validateName(text, "City")}
                 placeholderTextColor={Colors.DarkGreen}
                 />
                 <Input
@@ -162,7 +155,7 @@ class AccInfo extends React.Component{
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
                 value={Address1}
-                onChangeText={(text) => this.validateName(text, "Address1")}
+                onChangeText={(text) => validateName(text, "Address1")}
                 placeholderTextColor={Colors.DarkGreen}
                 />
                 <Input
@@ -171,16 +164,15 @@ class AccInfo extends React.Component{
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
                 value={Address2}
-                onChangeText={(text) => this.validateName(text, "Address2")}
+                onChangeText={(text) => validateName(text, "Address2")}
                 placeholderTextColor={Colors.DarkGreen}
                 />
-                {this.showButton()}
-                {this.showLogOut()}
-                {this.showMissMatch()}             
+                {showButton()}
+                {showLogOut()}
+                {showMissMatch()}             
             </ScrollView>
             </View>
         )
-    };
 }
 
 const styles = EStyleSheet.create({

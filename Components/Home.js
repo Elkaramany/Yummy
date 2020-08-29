@@ -6,27 +6,34 @@ import { Input, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import _ from 'lodash';
 import {Colors} from './Colors';
-import {Credential, TryLogin, fetchData, getAllCategories, getAllFoods, fetchMyOrders} from '../actions';
+import {Credential, TryLogin, fetchData, getAllCategories, getAllFoods, fetchMyOrders, fetchAdmin} from '../actions';
 
 import Spinner from './common/Spinner';
 
 function Home(props){
+    
+    useEffect(() =>{
+        if(props.user){
+            props.getAllFoods();
+            props.getAllCategories();
+            props.fetchData(props.user.user.uid);
+            props.fetchAdmin(props.user.user.uid);
+            props.fetchMyOrders();
+        }
+    }, [props.user])
 
     useEffect(() =>{
-        props.getAllFoods();
-        props.getAllCategories();
-        props.fetchData();
-        props.fetchMyOrders();
-    }, [])
-
-    useEffect(() =>{
-        props.data.map(d =>{
-            if(d.AdminStatus == true){
-                props.navigation.navigate("AdminMenu");
-            }else if(d.AdminStatus == false){
-                props.navigation.navigate("Menu");
-            }
-        })
+        //To prevent multiple navigation everytime data gets updated
+        if(props.user && !props.navigated && props.data.length !== 0){
+            props.Credential({prop: 'navigated', value: true})
+            props.data.map(d =>{
+                if(d.AdminStatus === false){
+                    props.navigation.navigate("Menu");
+                }else if(d.AdminStatus === true){
+                    props.navigation.navigate("AdminMenu");
+                }
+            })  
+        }
     },[props.data])
 
     const showErrorMessage = () =>{
@@ -191,7 +198,7 @@ const styles = EStyleSheet.create({
 })
 
 const mapStateToProps= ({ SignInReducer, FetchedDatabase}) =>{
-    const data = _.map(FetchedDatabase, (val, uid) =>{
+    const data = _.map(FetchedDatabase.admin, (val, uid) =>{
         return {...val, uid}
     })
     return{
@@ -200,8 +207,10 @@ const mapStateToProps= ({ SignInReducer, FetchedDatabase}) =>{
         password: SignInReducer.password,
         errorMessage: SignInReducer.errorMessage,
         loading: SignInReducer.loading,
+        navigated: SignInReducer.navigated,
         data,
     }
 }
 
-export default connect(mapStateToProps, { Credential, TryLogin, fetchData, getAllCategories, getAllFoods, fetchMyOrders}) (Home);
+export default connect(mapStateToProps, { Credential, TryLogin, fetchData, getAllCategories
+    , getAllFoods, fetchMyOrders, fetchAdmin}) (Home);

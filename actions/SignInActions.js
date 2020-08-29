@@ -22,10 +22,13 @@ return(dispatch)=>{
 export const createAccount = ({email, password, City, Address1, Address2, FirstName, LastName, AdminStatus}) =>{
     return(dispatch)=>{
         firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(async (user)=>{
-            const {currentUser} = await firebase.auth();
-            firebase.database().ref(`/users/${currentUser.uid}/Address`).push({City, Address1, Address2, FirstName, LastName, AdminStatus}).then(() =>{
-                dispatch({type: 'create_account_success', payload: user})
+        .then((user)=>{
+            firebase.database().ref(`/users/${user.user.uid}/Address`).push({City, Address1, Address2, FirstName, LastName}).then(() =>{
+                firebase.database().ref(`/users/${user.user.uid}/Admin`).push({AdminStatus}).then(() =>{
+                    dispatch({type: 'create_account_success', payload: user})
+                }).catch(() =>{
+                    dispatch({type: 'create_account_fail'})
+                })
             })
         }).catch(()=>{
             dispatch({type: 'create_account_fail'})
@@ -36,10 +39,13 @@ export const createAccount = ({email, password, City, Address1, Address2, FirstN
 export const createAccount2 = ({email, password, AdminName, AdminStatus}) =>{
     return(dispatch)=>{
         firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(async (user)=>{
-            const {currentUser} = await firebase.auth();
-            firebase.database().ref(`/users/${currentUser.uid}/Address`).push({AdminName, AdminStatus}).then(() =>{
-                dispatch({type: 'create_account_success', payload: user})
+        .then((user)=>{
+            firebase.database().ref(`/users/${user.user.uid}/Address`).push({AdminName}).then(() =>{
+                firebase.database().ref(`/users/${user.user.uid}/Admin`).push({AdminStatus}).then(() =>{
+                    dispatch({type: 'create_account_success', payload: user})
+                }).catch(() =>{
+                    dispatch({type: 'create_account_fail'})
+                })
             })
         }).catch(()=>{
             dispatch({type: 'create_account_fail'})
@@ -57,22 +63,30 @@ export const signMeOut = () =>{
     }
 }
 
-export const fetchData = () => {
-    return async (dispatch)=>{
-        const {currentUser} = firebase.auth(); 
-        firebase.database().ref(`/users/${currentUser.uid}/Address`)
+export const fetchData = (uid) => {
+    return (dispatch)=>{
+        firebase.database().ref(`/users/${uid}/Address`)
         .on('value', snapshot =>{
             dispatch({type: 'fetch_data_success', payload: snapshot.val()})
         })
     }
 }
 
-export const EditInfo = ({City, Address1, Address2, FirstName, LastName, AdminStatus, uid}) =>{
+export const fetchAdmin = (uid) => {
+    return (dispatch)=>{
+        firebase.database().ref(`/users/${uid}/Admin`)
+        .on('value', snapshot =>{
+            dispatch({type: 'fetch_admin_success', payload: snapshot.val()})
+        })
+    }
+}
+
+export const EditInfo = ({City, Address1, Address2, FirstName, LastName, uid}) =>{
     return(dispatch) =>{
         dispatch({type: 'edit_start'});
         const {currentUser} = firebase.auth();
         firebase.database().ref(`/users/${currentUser.uid}/Address/${uid}`)
-        .set({City, Address1, Address2, FirstName, LastName, AdminStatus})
+        .set({City, Address1, Address2, FirstName, LastName})
         .then(()=>{
             dispatch({type: 'edit_success', payload: 'Edit was successful'})
         }).catch(()=>{
@@ -81,12 +95,12 @@ export const EditInfo = ({City, Address1, Address2, FirstName, LastName, AdminSt
     }
 }
 
-export const EditInfoAdmin = ({AdminName, AdminStatus, uid}) =>{
+export const EditInfoAdmin = ({AdminName, uid}) =>{
     return(dispatch) =>{
         dispatch({type: 'edit_start'});
         const {currentUser} = firebase.auth();
         firebase.database().ref(`/users/${currentUser.uid}/Address/${uid}`)
-        .set({AdminName, AdminStatus})
+        .set({AdminName})
         .then(()=>{
             dispatch({type: 'edit_success', payload: 'Edit was successful'})
         }).catch(()=>{

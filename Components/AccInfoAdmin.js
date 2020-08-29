@@ -39,9 +39,8 @@ function AccInfoAdmin(props){
     }
 
     const functionTwo = async () =>{
-        let AdminStatus = true;
         const {AdminName, uid, EditInfoAdmin} = props;
-        await EditInfoAdmin({AdminName, AdminStatus, uid});
+        await EditInfoAdmin({AdminName, uid});
     }
 
     const showMissMatch = () =>{

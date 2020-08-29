@@ -22,18 +22,26 @@ const RootTab = createBottomTabNavigator({
   Menu: {screen: Menu,
     navigationOptions:{
     tabBarIcon:({tintColor}) =>{
-        return <Icon name={'foods'} size={ICON_SIZE} color={tintColor} />
+        return <Icon2 name={'food'} size={ICON_SIZE} color={tintColor} />
     },
   }
   },
   Cart: {screen: Cart},
-  Settings: {screen: Settings},
+  Settings: {screen: Settings,
+    navigationOptions:{
+    tabBarIcon:({tintColor}) =>{
+        return <Icon2 name={'account'} size={ICON_SIZE} color={tintColor} />
+    },
+  }},
 },
 {
 tabBarOptions: {
   labelStyle: { fontSize: 18, marginTop: 5},
   tabStyle: {marginTop: 10}
 },
+defaultNavigationOptions:{
+  header: null,
+}
 });
 
 //The Admin account navigator
