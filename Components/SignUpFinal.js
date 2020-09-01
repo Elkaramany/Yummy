@@ -105,7 +105,7 @@ class SignUpFinal extends React.Component{
         return(
             <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
             <HeaderArrow  navigateMeBack={() => this.backToSignIn()} HeaderText={'Sign up (2 of 2)'} HeaderStyle={{backgroundColor: 'transparent'}}
-             TextEdited={{color: '#FF8C00'}}  adder={false}/>
+             TextEdited={{color: '#FF8C00'}}/>
             <View style={styles.container} >
                 <Input
                 placeholder='Email'

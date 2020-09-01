@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View, Image, TouchableOpacity, Dimensions, Alert, ScrollView} from 'react-native';
+import React, {useEffect} from 'react';
+import {Text, View, Image, TouchableOpacity, Alert} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {connect} from 'react-redux';
 import { Input, Button} from 'react-native-elements';

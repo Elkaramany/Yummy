@@ -67,10 +67,10 @@ export const deleteAllCart =()=>{
     }
 }
 
-export const makeOrder=({data, price , deliver, address})=>{
+export const makeOrder=({data, price , deliver, address, method, fullDate})=>{
     return(dispatch)=>{
         const {currentUser} = firebase.auth();
-        firebase.database().ref(`/orders/AllOrders`).push({data, price , deliver, address}).then(() =>{
+        firebase.database().ref(`/orders/AllOrders`).push({data, price , deliver, address, method, fullDate}).then(() =>{
             firebase.database().ref(`/users/${currentUser.uid}/MyOrder`).remove();
             Alert.alert('Your order was made successfully');
             dispatch({type: 'order_success'})

@@ -6,6 +6,7 @@ import _ from 'lodash';
 import EStyleSheet from 'react-native-extended-stylesheet'
 import {Colors} from './Colors';
 import Spinner from './common/Spinner';
+import {withNavigation} from 'react-navigation';
 
 function Menu(props){
 
@@ -102,4 +103,4 @@ const mapStateToProps =({FoodsReducer}) =>{
     }
 }
 
-export default connect(mapStateToProps, {getAllCategories, getAllFoods}) (Menu);
+export default withNavigation(connect(mapStateToProps, {getAllCategories, getAllFoods}) (Menu));

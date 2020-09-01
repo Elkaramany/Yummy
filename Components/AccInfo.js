@@ -12,6 +12,8 @@ import Spinner from './common/Spinner';
 import _ from 'lodash';
 import { withNavigation } from 'react-navigation';
 
+import CityPicker from './CityPicker';
+
 
 function AccInfo(props){
     const [InvalidName, setInvalidName] = useState('');
@@ -140,15 +142,7 @@ function AccInfo(props){
                 value={LastName}
                 placeholderTextColor={Colors.DarkGreen}
                 />
-                <Input
-                placeholder='City'
-                leftIcon={<Icon name={'city'} size={25} color={Colors.DarkGreen}/>}
-                inputStyle={styles.textInputStyle}
-                inputContainerStyle={styles.textInputContainer}
-                value={City}
-                onChangeText={(text) => validateName(text, "City")}
-                placeholderTextColor={Colors.DarkGreen}
-                />
+                <CityPicker />
                 <Input
                 placeholder='Address1'
                 leftIcon={<Icon2 name={'address'} size={25} color={Colors.DarkGreen}/>}

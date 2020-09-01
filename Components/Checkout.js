@@ -5,33 +5,86 @@ import {Colors} from './Colors';
 import HeaderArrow from './common/HeaderArrow';
 import {connect} from 'react-redux';
 import _, { add } from 'lodash';
-import {makeOrder} from '../actions';
+import {makeOrder, Credential} from '../actions';
 import Icon from 'react-native-vector-icons/Octicons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon3 from 'react-native-vector-icons/FontAwesome';
 import Icon4 from 'react-native-vector-icons/SimpleLineIcons';
+import CardForm from './CardForm';
+import axios from 'axios';
+import stripe from 'tipsi-stripe';
+
+stripe.setOptions({
+    publishableKey:'pk_test_51HLo2zFQ6XcCeM3SnP2VHEkBSVskdi0wmEwaQ1Yku5WnNYv1W01pG8qb4bNutTbVGkopFSCWOUUVib1N7ccQ1piw00Tur1PvEY',
+})
 
 const entireScreenWidth = Dimensions.get('window').width;
 
 function Checkout(props){
-
+    const [method, setMethod] = useState("");
     const [address, setAddress] = useState(null);
     const[deliver, setDeliver] = useState(false);
     const[card, setCard] = useState(false);
     const[cash, setCash] = useState(false);
     const[paypal, setPaypal] = useState(false);
     const[momo, setMomo] = useState(false);
+    useEffect(() =>{
+        const {data, Credential} = props;
+        data.map(d =>{
+            Credential({prop: "FirstName", value: d.FirstName})
+            Credential({prop: "LastName", value: d.LastName})
+            Credential({prop: "City", value: d.City})
+            Credential({prop: "Address1", value: d.Address1})
+            Credential({prop: "Address2", value: d.Address2})
+            Credential({prop: "uid", value: d.uid})
+        })
+    }, [])
 
     useEffect(() =>{
         const {data} = props;
         data.map(d =>{
             setAddress(d)
         })
-
         return () =>{
 
         }
     }, [])
+
+    const CardForm =async (data, price , deliver, address, method, fullDate)=>{
+        try{
+            const {Address1, Address2, FirstName, LastName, City} = props;
+            let name = FirstName + ' ' + LastName;
+            const options = {
+                requiredBillingAddressFields: 'full',
+                prefilledInformation: {
+                  billingAddress: {
+                    name,
+                    line1: Address1,
+                    line2: Address2,
+                    state: City,
+                    country: 'RW',
+                  },
+                },
+              }
+                const token = await stripe.paymentRequestWithCardForm(options);
+                axios({
+                    method: 'GET',
+                    url: 'https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent',
+                    data:{
+                        money: price,
+                        cur: "RWF",
+                        token: 'nope'
+                    }
+                }).then(res =>{
+                    props.makeOrder({data, price , deliver, address, method, fullDate});
+                    props.navigation.navigate("Menu");
+                }).catch(e=>{
+                    Alert.alert("Error confirming Payment");
+                })
+        }catch{
+            Alert.alert("Error making payment, Please try again")
+        }
+    }
 
     const backToCart =() =>{
         props.navigation.goBack();
@@ -45,11 +98,16 @@ function Checkout(props){
 
     const navigateMeAway = () =>{
         const {price, data} = props.navigation.state.params;
+        let currentDate = new Date();
+        let month = currentDate.getMonth() + 1;
+        let fullDate = currentDate.getDate() + '-' + month + ' at ' + currentDate.getHours() + ":" + currentDate.getMinutes();
         if(cash){
-            props.makeOrder({data, price , deliver, address});
+            setMethod("Customer will pay with cash");
+            props.makeOrder({data, price , deliver, address, method, fullDate});
             props.navigation.navigate("Menu");
         }else if(card){
-
+            setMethod("Customer Paid with Credit card");
+            CardForm(data, price , deliver, address, method, fullDate);
         }else if(paypal){
 
         }else if(momo){
@@ -190,4 +248,4 @@ const mapStateToProps = ({FetchedDatabase}) =>{
     return {data}
 }
 
-export default connect (mapStateToProps, {makeOrder})(Checkout);
+export default connect (mapStateToProps, {makeOrder, Credential})(Checkout);

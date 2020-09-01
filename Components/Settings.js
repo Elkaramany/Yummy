@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {Credential} from '../actions';
+import {Alert} from 'react-native';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import AccInfo from './AccInfo';
@@ -7,7 +8,11 @@ import AccInfo from './AccInfo';
 function Settings(props){
 
     useEffect(() =>{
-        const {data, Credential} = props;
+        if(!props.user){
+            Alert.alert("Please login to access your settings");
+            props.navigation.navigate("Home");
+        }else{
+            const {data, Credential} = props;
         data.map(d =>{
             Credential({prop: "FirstName", value: d.FirstName})
             Credential({prop: "LastName", value: d.LastName})
@@ -16,6 +21,7 @@ function Settings(props){
             Credential({prop: "Address2", value: d.Address2})
             Credential({prop: "uid", value: d.uid})
         })
+        }
     }, [])
 
     const takeMeToHome = () =>{
@@ -26,11 +32,14 @@ function Settings(props){
 }
 
 
-const mapStateToProps= ({FetchedDatabase}) =>{
+const mapStateToProps= ({FetchedDatabase, SignInReducer}) =>{
     const data = _.map(FetchedDatabase.data, (val, uid) =>{
         return {...val, uid}
     })
-    return {data}
+    return {
+        data,
+        user: SignInReducer.user
+    }
 }
 
 export default connect(mapStateToProps, {Credential}) (Settings);

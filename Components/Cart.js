@@ -16,7 +16,12 @@ let all = 0;
 function Cart(props){
     
     useEffect(() =>{
-        props.fetchMyOrders(props.user.user.uid);
+        if(!props.user){
+            Alert.alert("Please login to access your cart");
+            props.navigation.navigate("Home");
+        }else{
+            props.fetchMyOrders(props.user.user.uid);
+        }
     }, [])
 
     const functionsCombined =(x) =>{

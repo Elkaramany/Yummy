@@ -68,13 +68,21 @@ function FoodSpecific(props){
         setCount(count + 1)
     }
 
+    const checkUserAndAdd =()=>{
+        if(!props.user){
+            Alert.alert("Please login to access your cart");
+            props.navigation.navigate("Home");
+        }else{
+            props.AddUserFood(item);
+        }
+    }
+
     const {item} = props.navigation.state.params;
     return(
         <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
             <HeaderArrow HeaderText={"Yummy n Fresh Ingredients Summary"} HeaderStyle={{backgroundColor: 'transparent'}}
             navigateMeBack={() => backToMenu()}
             TextEdited={{color: Colors.MediumOrange}}
-            extraArrow={styles.arrowStyle}
             />
             <ScrollView contentContainerStyle={styles.container}>
                 <Text style={styles.catTitle}>
@@ -111,7 +119,7 @@ function FoodSpecific(props){
                     </TouchableOpacity>  
                 </View>
                 <TouchableOpacity style={{flexDirection: 'row'}}
-                onPress={() => props.AddUserFood(item)}
+                onPress={() => checkUserAndAdd()}
                 >
                     <Text style={[styles.catTitle, {color:Colors.Tomato}]}>Add to cart</Text>
                     <Icon 
@@ -158,9 +166,10 @@ const styles = EStyleSheet.create({
     },
 })
 
-const mapStateToProps =({FoodsReducer}) =>{
+const mapStateToProps =({FoodsReducer, SignInReducer}) =>{
     return{
         errorMessage: FoodsReducer.addError,
+        user: SignInReducer.user
     }
 }
 

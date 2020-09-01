@@ -1,7 +1,7 @@
 export const Colors= {
-    BrightYellow: '#f6f7cd',
+    BrightYellow: '#DBFFDB',
     MediumYellow: "#dfe49b",
-    DarkGreen: "#264e2c",
+    DarkGreen: "#7575FF",
     MediumGreen: "#55761a",
     BrightGreen: "#55761a",
     MediumOrange: '#F26522',

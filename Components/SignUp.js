@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, KeyboardAvoidingView, Alert, TextInput} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {Input, Button} from 'react-native-elements';
 import HeaderArrow from './common/HeaderArrow';
@@ -9,7 +9,8 @@ import {createAccount, Credential} from '../actions';
 import {connect} from 'react-redux';
 import {Colors} from './Colors';
 
-import Spinner from './common/Spinner'
+import Spinner from './common/Spinner';
+import CityPicker from './CityPicker';
 
 class SignUp extends React.Component{
     constructor(props){
@@ -102,7 +103,7 @@ class SignUp extends React.Component{
 
 
     render(){
-        const {City, Address1, Address2, FirstName, LastName} = this.props;
+        const {Address1, Address2, FirstName, LastName} = this.props;
         return(
             <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
             <HeaderArrow  navigateMeBack={() => this.backToSignIn()} HeaderText={'Sign up (1 of 2)'} HeaderStyle={{backgroundColor: 'transparent'}} TextEdited={{color: '#FF8C00'}} />
@@ -125,15 +126,7 @@ class SignUp extends React.Component{
                 value={LastName}
                 placeholderTextColor={Colors.DarkGreen}
                 />
-                <Input
-                placeholder='City'
-                leftIcon={<Icon name={'city'} size={25} color={Colors.DarkGreen}/>}
-                inputStyle={styles.textInputStyle}
-                inputContainerStyle={styles.textInputContainer}
-                value={City}
-                onChangeText={(text) => this.validateName(text, "City")}
-                placeholderTextColor={Colors.DarkGreen}
-                />
+                <CityPicker />
                 <Input
                 placeholder='Address1'
                 leftIcon={<Icon2 name={'address'} size={25} color={Colors.DarkGreen}/>}

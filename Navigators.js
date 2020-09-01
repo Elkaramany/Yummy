@@ -14,6 +14,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from './Components/Home';
 import Checkout from './Components/Checkout';
+import CardForm from './Components/CardForm';
+import MainMenu from './Components/MainMenu';
 
 const ICON_SIZE = 28;
 
@@ -79,12 +81,14 @@ const RootTab2 = createBottomTabNavigator({
   //Default navigator
   
 const RootStack = createStackNavigator({
+    MainMenu:{screen: MainMenu},
     Home: {screen: Home},
     SignUp: {screen: SignUp},
     SignUpFinal: {screen: SignUpFinal},
     AdminSignUp: {screen: AdminSignUp},
     FoodSpecific: {screen: FoodSpecific},
     Checkout:{screen: Checkout},
+    CardForm:{screen:CardForm},
     RootTab: {screen: RootTab},
     RootTab2: {screen: RootTab2},
     },
@@ -92,9 +96,6 @@ const RootStack = createStackNavigator({
     defaultNavigationOptions:{
         headerShown: false
     },
-    },
-    { 
-        initialRouteName: 'Home',
-});
+    });
 
 export default RootStack;

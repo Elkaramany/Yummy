@@ -7,6 +7,13 @@ export const Credential = ({prop, value}) =>{
     }
 }
 
+export const CredentialCard = ({prop, value}) =>{
+    return{
+        type: 'Credential_In_Card',
+        payload: {prop,value}
+    }
+}
+
 export const TryLogin = ({email, password}) =>{
 return(dispatch)=>{
     dispatch({type: 'login_started'})
@@ -22,11 +29,11 @@ return(dispatch)=>{
 export const createAccount = ({email, password, City, Address1, Address2, FirstName, LastName, AdminStatus}) =>{
     return(dispatch)=>{
         firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((user)=>{
+        .then(()=>{
             const {currentUser} = firebase.auth(); 
             firebase.database().ref(`/users/${currentUser.uid}/Address`).push({City, Address1, Address2, FirstName, LastName}).then(() =>{
                 firebase.database().ref(`/users/${currentUser.uid}/Admin`).push({AdminStatus}).then(() =>{
-                    dispatch({type: 'create_account_success', payload: user})
+                    dispatch({type: 'create_account_success'})
                 }).catch(() =>{
                     dispatch({type: 'create_account_fail'})
                 })
