@@ -1,16 +1,25 @@
-import  React, {useEffect} from 'react';
+import  React, {useEffect, useState} from 'react';
 import {View, Text, FlatList, ScrollView, Dimensions, TouchableOpacity, Image} from 'react-native';
 import {connect} from 'react-redux';
 import {getAllCategories, getAllFoods} from '../actions';
 import _ from 'lodash';
 import EStyleSheet from 'react-native-extended-stylesheet'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Colors} from './Colors';
 import Spinner from './common/Spinner';
 
-const WIDTH = Dimensions.get('window').width;
-
 function Menu(props){
+
+    const [loaded, setLoaded] = useState(false);
+    useEffect(()=>{
+        props.getAllFoods();
+        props.getAllCategories();
+    },[])
+
+    useEffect(()=>{
+        if(props.foods){
+            setLoaded(true);
+        }
+    },[props.foods])
 
     const renderItem =({item}) =>{
         return(
@@ -46,16 +55,23 @@ function Menu(props){
             </View>
         )
     }
-
-    return(
-        <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
-            <FlatList 
-            data={props.categories}
-            renderItem={(renderItem)}
-            keyExtractor={cat => cat.id}
-            />
-        </View>
-    )
+    if(loaded){     
+        return(
+            <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
+                <FlatList 
+                data={props.categories}
+                renderItem={(renderItem)}
+                keyExtractor={cat => cat.id}
+                />
+            </View>
+        )
+    }else{
+        return(
+            <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
+                <Spinner size={'large'} />
+            </View>
+        )
+    }
 }
 
 const styles = EStyleSheet.create({

@@ -23,8 +23,9 @@ export const createAccount = ({email, password, City, Address1, Address2, FirstN
     return(dispatch)=>{
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((user)=>{
-            firebase.database().ref(`/users/${user.user.uid}/Address`).push({City, Address1, Address2, FirstName, LastName}).then(() =>{
-                firebase.database().ref(`/users/${user.user.uid}/Admin`).push({AdminStatus}).then(() =>{
+            const {currentUser} = firebase.auth(); 
+            firebase.database().ref(`/users/${currentUser.uid}/Address`).push({City, Address1, Address2, FirstName, LastName}).then(() =>{
+                firebase.database().ref(`/users/${currentUser.uid}/Admin`).push({AdminStatus}).then(() =>{
                     dispatch({type: 'create_account_success', payload: user})
                 }).catch(() =>{
                     dispatch({type: 'create_account_fail'})
@@ -40,8 +41,9 @@ export const createAccount2 = ({email, password, AdminName, AdminStatus}) =>{
     return(dispatch)=>{
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((user)=>{
-            firebase.database().ref(`/users/${user.user.uid}/Address`).push({AdminName}).then(() =>{
-                firebase.database().ref(`/users/${user.user.uid}/Admin`).push({AdminStatus}).then(() =>{
+            const {currentUser} = firebase.auth();
+            firebase.database().ref(`/users/${currentUser.uid}/Address`).push({AdminName}).then(() =>{
+                firebase.database().ref(`/users/${currentUser.uid}/Admin`).push({AdminStatus}).then(() =>{
                     dispatch({type: 'create_account_success', payload: user})
                 }).catch(() =>{
                     dispatch({type: 'create_account_fail'})

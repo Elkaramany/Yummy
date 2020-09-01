@@ -13,6 +13,7 @@ import FoodSpecific from './Components/FoodSpecific';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from './Components/Home';
+import Checkout from './Components/Checkout';
 
 const ICON_SIZE = 28;
 
@@ -26,7 +27,11 @@ const RootTab = createBottomTabNavigator({
     },
   }
   },
-  Cart: {screen: Cart},
+  Cart: {screen: Cart,navigationOptions:{
+    tabBarIcon:({tintColor}) =>{
+      return <Icon name={'shopping-cart'} size={25} color={tintColor} />
+  },
+  }},
   Settings: {screen: Settings,
     navigationOptions:{
     tabBarIcon:({tintColor}) =>{
@@ -79,6 +84,7 @@ const RootStack = createStackNavigator({
     SignUpFinal: {screen: SignUpFinal},
     AdminSignUp: {screen: AdminSignUp},
     FoodSpecific: {screen: FoodSpecific},
+    Checkout:{screen: Checkout},
     RootTab: {screen: RootTab},
     RootTab2: {screen: RootTab2},
     },

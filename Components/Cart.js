@@ -1,6 +1,5 @@
-import React from 'react';
+import React , {useEffect, useState} from 'react';
 import {View, Text, FlatList, Image, ScrollView, Dimensions, TouchableOpacity, Alert} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -14,54 +13,44 @@ const WIDTH = Dimensions.get('window').width;
 
 let all = 0;
 
-class Cart extends React.Component{
-    constructor(props){
-        super(props);
+function Cart(props){
+    
+    useEffect(() =>{
+        props.fetchMyOrders(props.user.user.uid);
+    }, [])
+
+    const functionsCombined =(x) =>{
+        functionOne(x);
+        functionTwo();
     }
 
-
-    static navigationOptions = {
-        header: null,
-        tabBarIcon:({tintColor}) =>{
-            return <Icon name={'shopping-cart'} size={25} color={tintColor} />
-        },
+    const functionOne =(x)=>{
+        props.deleteSingleFood(x);
     }
 
-
-    UNSAFE_componentWillMount =() =>{
-        all = 0;
-        this.props.fetchMyOrders();
+    const functionTwo =()=>{
+       all = 0;
     }
 
-    functionsCombined =(x) =>{
-        this.functionOne(x);
-        this.functionTwo();
+    const checkMeOut = () =>{
+        props.navigation.navigate('Checkout',{
+            data: props.data,
+            price: all,
+        });
     }
 
-    functionOne =(x)=>{
-        this.props.deleteSingleFood(x);
+    const ClearMeOut =() =>{
+        props.deleteAllCart();
     }
 
-    functionTwo =()=>{
-        all = 0;
-    }
-
-    checkMeOut = () =>{
-        console.log('clicked check')
-    }
-
-    ClearMeOut =() =>{
-        this.props.deleteAllCart();
-    }
-
-    showFooter =()=>{
-        if(this.props.data.length !== 0){
-            return <ListFooter price={all} ClearMeOut={() => this.ClearMeOut()} CheckMeOut={() => this.checkMeOut()} />
+    const showFooter =()=>{
+        if(props.data.length !== 0){
+            return <ListFooter price={all} ClearMeOut={() => ClearMeOut()} CheckMeOut={() => checkMeOut()} />
         }
     }
 
-    cartLength =() =>{
-        if(this.props.data.length === 0){
+    const cartLength =() =>{
+        if(props.data.length === 0){
             all = 0;
             return(
                 <View style={{flex: 1, backgroundColor: Colors.BrightYellow, justifyContent: 'center', alignItems: 'center'}}>
@@ -69,9 +58,11 @@ class Cart extends React.Component{
                 </View>
             )
         }else{
+            // to prevent adding to the previous state
             all = 0;
-            return this.props.data.map((item) =>{
-                all += item.price * item.count;
+            return props.data.map((item) =>{
+                //Calculating the total price
+                all += (item.price * item.count);
                 return(
                     <>
                         <View style={styles.container}>
@@ -87,7 +78,7 @@ class Cart extends React.Component{
                             </View>
                         </View>
                         <TouchableOpacity style={styles.singleRemove}
-                        onPress={() => this.functionsCombined(item.uid)}
+                        onPress={() => functionsCombined(item.uid)}
                         >
                             <Icon2
                             name={'delete-empty'}
@@ -102,15 +93,14 @@ class Cart extends React.Component{
         }
     }
     
-    render(){
-        return(
-            <ScrollView style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
-                <Header HeaderText={'Your Eating Cart'} HeaderStyle={{backgroundColor: 'transparent'}} TextStyle={[styles.headerTextStyle, {color: Colors.MediumOrange}]} />
-                {this.cartLength()}
-                {this.showFooter()}
-            </ScrollView>
-        )
-    }
+    return(
+        <ScrollView style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
+            <Header HeaderText={'Your Eating Cart'} HeaderStyle={{backgroundColor: 'transparent'}} 
+            TextStyle={[styles.headerTextStyle, {color: Colors.MediumOrange}]} />
+            {cartLength()}
+            {showFooter()}
+        </ScrollView>
+    )
 }
 
 const styles = EStyleSheet.create({
@@ -152,13 +142,14 @@ const styles = EStyleSheet.create({
         borderRadius: '50rem',
         marginHorizontal: WIDTH * 0.45,
         left: WIDTH * 0.33,
+        //to make a circle:
         borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
         width: Dimensions.get('window').width * 0.06,
         height: Dimensions.get('window').width * 0.06,
     }
 })
 
-const mapStateToProps =({FetchedOrders, FoodsReducer}) =>{
+const mapStateToProps =({FetchedOrders, FoodsReducer, SignInReducer}) =>{
     const data = _.map(FetchedOrders, (val, uid) =>{
         return {...val, uid}
     })
@@ -166,6 +157,7 @@ const mapStateToProps =({FetchedOrders, FoodsReducer}) =>{
         data,
         addError: FoodsReducer.addError,
         totalPrice: FoodsReducer.totalPrice,
+        user: SignInReducer.user,
     }
 }
 

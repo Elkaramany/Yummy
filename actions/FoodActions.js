@@ -36,10 +36,9 @@ export const ResetError =() =>{
     }
 }
 
-export const fetchMyOrders = () => {
+export const fetchMyOrders = (uid) => {
     return async (dispatch)=>{
-        const {currentUser} = firebase.auth(); 
-        firebase.database().ref(`/users/${currentUser.uid}/MyOrder`)
+        firebase.database().ref(`/users/${uid}/MyOrder`)
         .on('value', snapshot =>{
             dispatch({type: 'fetch_MyOrder_success', payload: snapshot.val()})
         })
@@ -57,13 +56,27 @@ export const deleteSingleFood =(uid)=>{
     }
 }
 
-export const deleteAllCart =(uid)=>{
+export const deleteAllCart =()=>{
     return async (dispatch)=>{
         const {currentUser} = firebase.auth(); 
         firebase.database().ref(`/users/${currentUser.uid}/MyOrder`).remove().then(() =>{
             Alert.alert('Cart cleared successfully');
         }).catch(() =>{
             Alert.alert('Error clearing the cart');
+        })
+    }
+}
+
+export const makeOrder=({data, price , deliver, address})=>{
+    return(dispatch)=>{
+        const {currentUser} = firebase.auth();
+        firebase.database().ref(`/orders/AllOrders`).push({data, price , deliver, address}).then(() =>{
+            firebase.database().ref(`/users/${currentUser.uid}/MyOrder`).remove();
+            Alert.alert('Your order was made successfully');
+            dispatch({type: 'order_success'})
+        }).catch(()=>{
+            Alert.alert('Error making yout order');
+            dispatch({type: 'order_fail'})
         })
     }
 }

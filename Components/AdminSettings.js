@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import AccInfoAdmin from './AccInfoAdmin';
 import {connect} from 'react-redux';
 import {Credential} from '../actions';
-import {fetchData} from '../actions';
 import _ from 'lodash';
 
 function AdminSettings(props){
@@ -34,4 +33,4 @@ const mapStateToProps= ({FetchedDatabase, SignInReducer}) =>{
     }
 }
 
-export default connect(mapStateToProps, {Credential, fetchData}) (AdminSettings);
+export default connect(mapStateToProps, {Credential}) (AdminSettings);

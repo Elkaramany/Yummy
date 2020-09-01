@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {AddUserFood, ResetError} from '../actions';
@@ -8,20 +8,15 @@ import {Colors} from './Colors';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { map } from 'lodash';
 
-class FoodSpecific extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            cnt: null,
-        }
-    }
+function FoodSpecific(props){
+    const [count, setCount] = useState(null);
 
-    showErrorMessage(){
-        if(this.props.errorMessage){
+    const showErrorMessage = () =>{
+        if(props.errorMessage){
             return( 
             <View style={styles.buttonContainer}>
                 <Text style={styles.textMissMatch}>
-                {this.props.navigation.state.params.item.name} is {this.props.errorMessage}
+                {props.navigation.state.params.item.name} is {props.errorMessage}
                 </Text>
             </View>
             )
@@ -30,108 +25,105 @@ class FoodSpecific extends React.Component{
         }
     }
 
-    componentWillUnmount =() =>{
-        this.props.ResetError();
+    useEffect(() =>{
+        setCount(props.navigation.state.params.item.count);
+
+        return () =>{
+            props.ResetError();
+        }
+    }, [])
+
+    const backToMenu =() =>{
+        props.navigation.navigate("Menu");
     }
 
-    UNSAFE_componentWillMount=()=>{
-        this.setState({cnt: this.props.navigation.state.params.item.count})
-    }
-
-    backToMenu =() =>{
-        this.props.navigation.navigate("Menu");
-    }
-
-    functionsCombinedMinus =(item) =>{
+    const functionsCombinedMinus =(item) =>{
         if(item.count === 1){
             Alert.alert("Quantity can't be less than 1");
         }else{
-            this.functionOneMinus(item);
-            this.functionTwoMinus();
+            functionOneMinus(item);
+            functionTwoMinus();
         }
     }
 
-    functionOneMinus =(item)=>{
+    const functionOneMinus =(item)=>{
         item.count--;
     }
 
-    functionTwoMinus =() =>{
-        this.setState({cnt: this.state.cnt - 1});
+    const functionTwoMinus =() =>{
+        setCount(count - 1)
     }
     
 
-    functionsCombinedAdd =(item) =>{
-        this.functionOneAdd(item);
-        this.functionTwoAdd();
+    const functionsCombinedAdd =(item) =>{
+        functionOneAdd(item);
+        functionTwoAdd();
     }
 
-    functionOneAdd = (item) =>{
+    const functionOneAdd = (item) =>{
         item.count++;
     }
 
-    functionTwoAdd = () =>{
-        this.setState({cnt: this.state.cnt + 1});
+    const functionTwoAdd = () =>{
+        setCount(count + 1)
     }
 
-
-    render(){
-        const {item} = this.props.navigation.state.params;
-        return(
-            <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
-                <HeaderArrow HeaderText={"Yummy n Fresh Ingredients Summary"} HeaderStyle={{backgroundColor: 'transparent'}}
-                navigateMeBack={() => this.backToMenu()}
-                TextEdited={{color: Colors.MediumOrange}}
-                extraArrow={styles.arrowStyle}
+    const {item} = props.navigation.state.params;
+    return(
+        <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
+            <HeaderArrow HeaderText={"Yummy n Fresh Ingredients Summary"} HeaderStyle={{backgroundColor: 'transparent'}}
+            navigateMeBack={() => backToMenu()}
+            TextEdited={{color: Colors.MediumOrange}}
+            extraArrow={styles.arrowStyle}
+            />
+            <ScrollView contentContainerStyle={styles.container}>
+                <Text style={styles.catTitle}>
+                    {item.name}
+                </Text>
+                <Image
+                source={{uri: item.ImageLink}}
+                style={styles.imageDims}
                 />
-                <ScrollView contentContainerStyle={styles.container}>
-                    <Text style={styles.catTitle}>
-                        {item.name}
-                    </Text>
-                    <Image
-                    source={{uri: item.ImageLink}}
-                    style={styles.imageDims}
-                    />
-                    <Text style={[styles.ingStyle, {fontWeight:'bold'}]}>Ingredients:</Text>
-                    <Text style={styles.ingStyle}>
-                        {item.ingredients}
-                    </Text>
-                    <Text style={[styles.ingStyle, {fontWeight:'bold'}]}>Price: {item.price}RWF</Text>
-                    <View style={{flexDirection: 'row', padding: 10, alignItems: 'center'}}
+                <Text style={[styles.ingStyle, {fontWeight:'bold'}]}>Ingredients:</Text>
+                <Text style={styles.ingStyle}>
+                    {item.ingredients}
+                </Text>
+                <Text style={[styles.ingStyle, {fontWeight:'bold'}]}>Price: {item.price}RWF</Text>
+                <View style={{flexDirection: 'row', padding: 10, alignItems: 'center'}}
+                >
+                    <Text style={[styles.ingStyle, {marginHorizontal: 10, bottom: 3}]}>Quantity: </Text>
+                    <TouchableOpacity
+                    onPress={() => functionsCombinedAdd(item)}
                     >
-                        <Text style={[styles.ingStyle, {marginHorizontal: 10, bottom: 3}]}>Quantity: </Text>
-                        <TouchableOpacity
-                        onPress={() => this.functionsCombinedAdd(item)}
-                        >
-                            <Icon 
-                            name={'plus-circle'}
-                            color={Colors.DarkGreen}
-                            size={15}
-                            />
-                        </TouchableOpacity>   
-                        <Text style={[styles.ingStyle, {marginHorizontal: 10, bottom: 3}]}>{this.state.cnt}</Text>
-                        <TouchableOpacity onPress={() => this.functionsCombinedMinus(item)}>
-                            <Icon 
-                            name={'minus-circle'}
-                            color={Colors.DarkGreen}
-                            size={15}
-                            />
-                        </TouchableOpacity>  
-                    </View>
-                    <TouchableOpacity style={{flexDirection: 'row'}}
-                    onPress={() => this.props.AddUserFood(item)}
-                    >
-                        <Text style={[styles.catTitle, {color:Colors.Tomato}]}>Add to cart</Text>
                         <Icon 
-                        name={'cart-plus'}
-                        color={Colors.Tomato}
-                        size={20}
+                        name={'plus-circle'}
+                        color={Colors.DarkGreen}
+                        size={15}
                         />
-                    </TouchableOpacity>
-                </ScrollView>
-                {this.showErrorMessage()}
-            </View>
-        )
-    }
+                    </TouchableOpacity>   
+                    <Text style={[styles.ingStyle, {marginHorizontal: 10, bottom: 3}]}>{item.count}</Text>
+                    <TouchableOpacity onPress={() => functionsCombinedMinus(item)}>
+                        <Icon 
+                        name={'minus-circle'}
+                        color={Colors.DarkGreen}
+                        size={15}
+                        />
+                    </TouchableOpacity>  
+                </View>
+                <TouchableOpacity style={{flexDirection: 'row'}}
+                onPress={() => props.AddUserFood(item)}
+                >
+                    <Text style={[styles.catTitle, {color:Colors.Tomato}]}>Add to cart</Text>
+                    <Icon 
+                    name={'cart-plus'}
+                    color={Colors.Tomato}
+                    size={20}
+                    />
+                </TouchableOpacity>
+            </ScrollView>
+            {showErrorMessage()}
+        </View>
+    )
 }
 
 const styles = EStyleSheet.create({

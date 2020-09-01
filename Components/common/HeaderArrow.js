@@ -18,7 +18,6 @@ function HeaderArrow (props){
 
 const styles = EStyleSheet.create({
     HeaderContainer:{
-        width: '100%',
         flexDirection: 'row',
         backgroundColor: '#f8f8f8',
         justifyContent: 'space-between',
@@ -29,7 +28,7 @@ const styles = EStyleSheet.create({
         shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.2,
         elevation: 2,
-        position: 'relative',
+        marginRight: '15rem'
     },
     TextStyle:{
         fontSize: '17rem',

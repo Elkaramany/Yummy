@@ -18,7 +18,7 @@ function Home(props){
             props.getAllCategories();
             props.fetchData(props.user.user.uid);
             props.fetchAdmin(props.user.user.uid);
-            props.fetchMyOrders();
+            props.fetchMyOrders(props.user.user.uid);
         }
     }, [props.user])
 
