@@ -134,6 +134,11 @@ function Home(props){
             >
             <Text style={[styles.OrStyle, {color:Colors.MediumOrange}]}>Sign Up as an Admin</Text>
             </TouchableOpacity>
+            <Text style={styles.OrStyle}>Or</Text>
+            <TouchableOpacity onPress={() => props.navigation.navigate("MainMenu")}
+            >
+            <Text style={[styles.OrStyle, {color:Colors.MediumOrange}]}>Browse without login</Text>
+            </TouchableOpacity>
             <View style={styles.ErrorStyle}>
                 {showErrorMessage()}
             </View>

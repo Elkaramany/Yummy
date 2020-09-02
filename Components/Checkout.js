@@ -21,13 +21,13 @@ stripe.setOptions({
 const entireScreenWidth = Dimensions.get('window').width;
 
 function Checkout(props){
-    const [method, setMethod] = useState("");
     const [address, setAddress] = useState(null);
     const[deliver, setDeliver] = useState(false);
     const[card, setCard] = useState(false);
     const[cash, setCash] = useState(false);
     const[paypal, setPaypal] = useState(false);
     const[momo, setMomo] = useState(false);
+
     useEffect(() =>{
         const {data, Credential} = props;
         data.map(d =>{
@@ -97,16 +97,18 @@ function Checkout(props){
     }
 
     const navigateMeAway = () =>{
+        let method = "";
         const {price, data} = props.navigation.state.params;
         let currentDate = new Date();
         let month = currentDate.getMonth() + 1;
         let fullDate = currentDate.getDate() + '-' + month + ' at ' + currentDate.getHours() + ":" + currentDate.getMinutes();
         if(cash){
-            setMethod("Customer will pay with cash");
+            method = "Customer will pay with cash";
+            console.log(method + ' here')
             props.makeOrder({data, price , deliver, address, method, fullDate});
             props.navigation.navigate("Menu");
         }else if(card){
-            setMethod("Customer Paid with Credit card");
+            method = "Customer Paid with Credit card";
             CardForm(data, price , deliver, address, method, fullDate);
         }else if(paypal){
 

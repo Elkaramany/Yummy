@@ -56,9 +56,25 @@ function Menu(props){
             </View>
         )
     }
+
+    const showLogin =()=>{
+        if(!props.user){
+            return(
+                <TouchableOpacity
+                onPress={() => props.navigation.navigate("Home")}
+                >
+                    <Text style={[styles.catTitle, {color: Colors.purple}]}>
+                        Login Here for more of Yummy n Fresh
+                    </Text>
+                </TouchableOpacity>
+            )
+        }
+    }
+
     if(loaded){     
         return(
             <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
+                {showLogin()}
                 <FlatList 
                 data={props.categories}
                 renderItem={(renderItem)}
@@ -96,10 +112,11 @@ container:{
     }
 })
 
-const mapStateToProps =({FoodsReducer}) =>{
+const mapStateToProps =({FoodsReducer, SignInReducer}) =>{
     return{
         foods: FoodsReducer.allFoods,
         categories: FoodsReducer.allCategories,
+        user: SignInReducer.user
     }
 }
 

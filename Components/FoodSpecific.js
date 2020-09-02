@@ -34,7 +34,7 @@ function FoodSpecific(props){
     }, [])
 
     const backToMenu =() =>{
-        props.navigation.navigate("Menu");
+        props.navigation.goBack();
     }
 
     const functionsCombinedMinus =(item) =>{

@@ -28,6 +28,7 @@ return(dispatch)=>{
 
 export const createAccount = ({email, password, City, Address1, Address2, FirstName, LastName, AdminStatus}) =>{
     return(dispatch)=>{
+        dispatch({type: 'login_started'})
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(()=>{
             const {currentUser} = firebase.auth(); 
@@ -46,12 +47,13 @@ export const createAccount = ({email, password, City, Address1, Address2, FirstN
 
 export const createAccount2 = ({email, password, AdminName, AdminStatus}) =>{
     return(dispatch)=>{
+        dispatch({type: 'login_started'})
         firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((user)=>{
+        .then(()=>{
             const {currentUser} = firebase.auth();
             firebase.database().ref(`/users/${currentUser.uid}/Address`).push({AdminName}).then(() =>{
                 firebase.database().ref(`/users/${currentUser.uid}/Admin`).push({AdminStatus}).then(() =>{
-                    dispatch({type: 'create_account_success', payload: user})
+                    dispatch({type: 'create_account_success'})
                 }).catch(() =>{
                     dispatch({type: 'create_account_fail'})
                 })

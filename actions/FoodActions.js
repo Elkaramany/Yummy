@@ -80,3 +80,18 @@ export const makeOrder=({data, price , deliver, address, method, fullDate})=>{
         })
     }
 }
+
+export const fetchAllOrders =()=>{
+    return(dispatch)=>{
+        firebase.database().ref(`/orders/AllOrders`)
+        .on('value', snapshot =>{
+            dispatch({type: 'fetch_AllOrders_Success', payload: snapshot.val()})
+        })
+    }
+}
+
+export const OrderFinished =(uid)=>{
+    return async (dispatch)=>{
+        firebase.database().ref(`/orders/AllOrders/${uid}`).remove();
+    }
+}

@@ -1,6 +1,7 @@
 const INITIAL_STATE={
     data: null,
     admin: null,
+    allOrders: null
 }
 
 export default (state={INITIAL_STATE}, action)=>{
@@ -10,5 +11,7 @@ export default (state={INITIAL_STATE}, action)=>{
         return {...state, admin: action.payload}
     }else if(action.type === "sign_me_out_success"){
         return {...state, ...INITIAL_STATE};
+    }else if(action.type === "fetch_AllOrders_Success"){
+        return{...state, allOrders:action.payload}
     }return state
 }
