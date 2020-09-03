@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import { createAppContainer} from 'react-navigation';
 import { StyleSheet, View, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -33,7 +33,7 @@ const store = createStore(persistedReducer, {},
       applyMiddleware(ReduxThunk)) 
   );
 
-export default class App extends Component{
+export default class App extends PureComponent{
   constructor(props){
     super(props);
   }

@@ -14,7 +14,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from './Components/Home';
 import Checkout from './Components/Checkout';
-import CardForm from './Components/CardForm';
 import MainMenu from './Components/MainMenu';
 
 const ICON_SIZE = 28;
@@ -88,7 +87,6 @@ const RootStack = createStackNavigator({
     AdminSignUp: {screen: AdminSignUp},
     FoodSpecific: {screen: FoodSpecific},
     Checkout:{screen: Checkout},
-    CardForm:{screen:CardForm},
     RootTab: {screen: RootTab},
     RootTab2: {screen: RootTab2},
     },

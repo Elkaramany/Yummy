@@ -4,13 +4,12 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import {Colors} from './Colors';
 import HeaderArrow from './common/HeaderArrow';
 import {connect} from 'react-redux';
-import _, { add } from 'lodash';
+import _ from 'lodash';
 import {makeOrder, Credential} from '../actions';
 import Icon from 'react-native-vector-icons/Octicons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon3 from 'react-native-vector-icons/FontAwesome';
 import Icon4 from 'react-native-vector-icons/SimpleLineIcons';
-import CardForm from './CardForm';
 import axios from 'axios';
 import stripe from 'tipsi-stripe';
 
@@ -18,7 +17,6 @@ stripe.setOptions({
     publishableKey:'pk_test_51HLo2zFQ6XcCeM3SnP2VHEkBSVskdi0wmEwaQ1Yku5WnNYv1W01pG8qb4bNutTbVGkopFSCWOUUVib1N7ccQ1piw00Tur1PvEY',
 })
 
-const entireScreenWidth = Dimensions.get('window').width;
 
 function Checkout(props){
     const [address, setAddress] = useState(null);
@@ -67,18 +65,15 @@ function Checkout(props){
                 },
               }
                 const token = await stripe.paymentRequestWithCardForm(options);
-                axios({
-                    method: 'GET',
-                    url: 'https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent',
-                    data:{
-                        money: price,
-                        cur: "RWF",
-                        token: 'nope'
+                axios.get(`https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent?money=${price}&&cur=${"RWF"}&&token=${token.tokenId}`).then(res =>{
+                    if(res.status === 200){
+                        props.makeOrder({data, price , deliver, address, method, fullDate});
+                        props.navigation.navigate("Menu");
+                    }else{
+                        Alert.alert("Error confirming Payment");
                     }
-                }).then(res =>{
-                    props.makeOrder({data, price , deliver, address, method, fullDate});
-                    props.navigation.navigate("Menu");
                 }).catch(e=>{
+                    console.log(e);
                     Alert.alert("Error confirming Payment");
                 })
         }catch{
@@ -155,7 +150,7 @@ function Checkout(props){
                     size={25}
                     color={card ? Colors.BrightYellow : Colors.purple}
                     />
-                    <Text style={[styles.footerStyle,{color: card ? Colors.BrightYellow : Colors.purple}]}>Credit or debit Card</Text>
+                    <Text style={[styles.footerStyle,{color: card ? Colors.BrightYellow : Colors.purple}]}>Credit or debit or MTN Momo Card</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.clearContainer,{
                     backgroundColor: cash ? Colors.purple: null,
@@ -188,7 +183,7 @@ function Checkout(props){
                 }]}
                 onPress={() => setPaymentMethod(false,false,false,true)}
                 >
-                    <Text style={[styles.footerStyle,{color: momo ? Colors.BrightYellow : Colors.purple}]}>Pay with MoMo</Text>
+                    <Text style={[styles.footerStyle,{color: momo ? Colors.BrightYellow : Colors.purple}]}>MTN MoMo</Text>
                 </TouchableOpacity>
             </View>
                 <TouchableOpacity style={styles.buttonContainerStyle}
@@ -230,7 +225,7 @@ const styles = EStyleSheet.create({
         paddingHorizontal: '5rem', 
         backgroundColor: 'transparent',
         borderRadius: '10rem',
-        marginBottom: '5rem',
+        marginBottom: '10rem',
         marginHorizontal: '5rem'
     },HeaderOptionStyle:{
         color: Colors.DarkGreen, 

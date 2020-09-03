@@ -10,7 +10,7 @@ function CityPicker(props){
 
     useEffect(() =>{
         if(!props.City){
-            props.Credential({prop: 'City', value: 'City of Kigali'})
+            props.Credential({prop: 'City', value: 'Gasabo'})
         }
     }, [])
     
@@ -23,11 +23,9 @@ function CityPicker(props){
             onValueChange={(itemValue, itemIndex) =>
                 props.Credential({prop: 'City', value: itemValue})
             }>
-            <Picker.Item label="City of Kigali" value="City of Kigali" />
-            <Picker.Item label="Northern Province" value="Northern Province" />
-            <Picker.Item label="Southern Province" value="Southern Province" />
-            <Picker.Item label="Eastern Province" value="Eastern Province" />
-            <Picker.Item label="Western Province" value="Western Province" />
+            <Picker.Item label="Gasabo" value="Gasabo" />
+            <Picker.Item label="Kicukiro" value="Kicukiro" />
+            <Picker.Item label="Nyarugenge" value="Nyarugenge" />
         </Picker>
         </View>
     )

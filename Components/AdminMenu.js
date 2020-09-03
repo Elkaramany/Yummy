@@ -18,7 +18,6 @@ function AdminMenu(props){
 
     useEffect(() =>{
         setTimeout(() =>{
-            console.log('called');
             props.fetchAllOrders();
         }, 60000)
     })
