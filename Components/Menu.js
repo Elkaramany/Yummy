@@ -11,6 +11,8 @@ import {withNavigation} from 'react-navigation';
 function Menu(props){
 
     const [loaded, setLoaded] = useState(false);
+    const [font, setFont] = useState("");
+    
     useEffect(()=>{
         props.getAllFoods();
         props.getAllCategories();
@@ -40,7 +42,7 @@ function Menu(props){
                                     })}
                                     >
                                     <View style={{flex: 1, margin: 5, justifyContent: 'center', alignItems: 'center'}}>
-                                    <Text style={styles.catTitle}>
+                                    <Text style={[styles.catTitle, {fontFamily: 'Grandstander-Italic-VariableFont_wght'}]}>
                                         {recipe.name}
                                     </Text>
                                     <Image
@@ -97,16 +99,17 @@ container:{
         margin: '5rem',
         backgroundColor: 'transparent',
     },categoryStyle:{
-        fontSize: '15rem',
-        fontWeight: 'bold',
+        fontSize: '25rem',
         alignSelf: 'center',
-        color: Colors.Tomato
+        color: Colors.Tomato,
+        fontFamily: 'DancingScript-VariableFont_wght',
+        textAlign: 'center'
     },imageDims:{
         height: '150rem',
         width: '150rem',
         borderRadius: '20rem',
     },catTitle:{
-        fontSize: '15rem',
+        fontSize: '16rem',
         color: Colors.DarkGreen,
         alignSelf: 'center'
     }

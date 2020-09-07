@@ -3,7 +3,7 @@ import {View, Text, FlatList, Image, ScrollView, Dimensions, TouchableOpacity, A
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {fetchMyOrders, deleteSingleFood, ResetError, addThePrice, deleteAllCart} from '../actions';
+import {fetchMyOrders, deleteSingleFood, ResetError, addThePrice, deletetotalPriceCart} from '../actions';
 import {Colors} from './Colors';
 import Header from './common/Header';
 import _ from 'lodash';
@@ -11,7 +11,7 @@ import ListFooter from './ListFooter';
 
 const WIDTH = Dimensions.get('window').width;
 
-let all = 0;
+let totalPrice = 0;
 
 function Cart(props){
     
@@ -34,29 +34,33 @@ function Cart(props){
     }
 
     const functionTwo =()=>{
-       all = 0;
+       totalPrice = 0;
     }
 
     const checkMeOut = () =>{
-        props.navigation.navigate('Checkout',{
-            data: props.data,
-            price: all,
-        });
+        if(totalPrice !== 0){
+            props.navigation.navigate('Checkout',{
+                data: props.data,
+                price: totalPrice,
+            });
+        }else{
+            Alert.alert("You can't place an order with condiments only in you cart");
+        }     
     }
 
     const ClearMeOut =() =>{
-        props.deleteAllCart();
+        props.deletetotalPriceCart();
     }
 
     const showFooter =()=>{
         if(props.data.length !== 0){
-            return <ListFooter price={all} ClearMeOut={() => ClearMeOut()} CheckMeOut={() => checkMeOut()} />
+            return <ListFooter price={totalPrice} ClearMeOut={() => ClearMeOut()} CheckMeOut={() => checkMeOut()} />
         }
     }
 
     const cartLength =() =>{
         if(props.data.length === 0){
-            all = 0;
+            totalPrice = 0;
             return(
                 <View style={{flex: 1, backgroundColor: Colors.BrightYellow, justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={[styles.catTitle, {textAlign: 'center'}]}>Your Cart is empty</Text>
@@ -64,10 +68,10 @@ function Cart(props){
             )
         }else{
             // to prevent adding to the previous state
-            all = 0;
+            totalPrice = 0;
             return props.data.map((item) =>{
                 //Calculating the total price
-                all += (item.price * item.count);
+                totalPrice += (item.price * item.count);
                 return(
                     <>
                         <View style={styles.container}>
@@ -101,7 +105,7 @@ function Cart(props){
     return(
         <ScrollView style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
             <Header HeaderText={'Your Eating Cart'} HeaderStyle={{backgroundColor: 'transparent'}} 
-            TextStyle={[styles.headerTextStyle, {color: Colors.MediumOrange}]} />
+            TextStyle={[styles.headerTextStyle, {color: Colors.purple}]} />
             {cartLength()}
             {showFooter()}
         </ScrollView>
@@ -147,10 +151,10 @@ const styles = EStyleSheet.create({
         borderRadius: '50rem',
         marginHorizontal: WIDTH * 0.45,
         left: WIDTH * 0.33,
-        //to make a circle:
+        //to make a circle around the delete button:
         borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
-        width: Dimensions.get('window').width * 0.06,
-        height: Dimensions.get('window').width * 0.06,
+        width: Dimensions.get('window').width * 0.07,
+        height: Dimensions.get('window').width * 0.07,
     }
 })
 
@@ -166,4 +170,4 @@ const mapStateToProps =({FetchedOrders, FoodsReducer, SignInReducer}) =>{
     }
 }
 
-export default connect(mapStateToProps, {fetchMyOrders, deleteSingleFood, ResetError, addThePrice, deleteAllCart}) (Cart);
+export default connect(mapStateToProps, {fetchMyOrders, deleteSingleFood, ResetError, addThePrice, deletetotalPriceCart}) (Cart);

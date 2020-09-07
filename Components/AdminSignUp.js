@@ -108,7 +108,8 @@ class AdminSignUp extends React.Component{
         const {email, password,Credential, confirm, AdminName, AdminToken} = this.props;
         return(
             <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
-            <HeaderArrow  navigateMeBack={() => this.backToSignIn()} HeaderText={'Sign up as an Admin'} HeaderStyle={{backgroundColor: 'transparent'}} TextEdited={{color: '#FF8C00'}} />
+            <HeaderArrow  navigateMeBack={() => this.backToSignIn()} HeaderText={'Sign up as an Admin'} 
+            HeaderStyle={{backgroundColor: 'transparent'}}/>
             <View style={styles.container}>
                 <Input
                 placeholder='Email'

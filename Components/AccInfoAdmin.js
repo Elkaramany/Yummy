@@ -117,7 +117,8 @@ function AccInfoAdmin(props){
     const {AdminName} = props;
     return(
         <View style={{flex: 1, backgroundColor: Colors.BrightYellow}} behaviour={'padding'} enabled={false}>
-            <Header HeaderText={'Account Settings'} HeaderStyle={{backgroundColor: 'transparent'}} TextStyle={styles.headerTextStyle} />
+            <Header HeaderText={'Account Settings'} HeaderStyle={{backgroundColor: 'transparent'}} 
+            TextStyle={[styles.headerTextStyle, {color: Colors.purple}]} />
             <ScrollView contentContainerStyle={styles.container}>
                 <Input
                 placeholder='Admin Name'

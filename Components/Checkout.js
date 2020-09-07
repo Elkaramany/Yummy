@@ -23,8 +23,6 @@ function Checkout(props){
     const[deliver, setDeliver] = useState(false);
     const[card, setCard] = useState(false);
     const[cash, setCash] = useState(false);
-    const[paypal, setPaypal] = useState(false);
-    const[momo, setMomo] = useState(false);
 
     useEffect(() =>{
         const {data, Credential} = props;
@@ -65,7 +63,7 @@ function Checkout(props){
                 },
               }
                 const token = await stripe.paymentRequestWithCardForm(options);
-                axios.get(`https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent?money=${price}&&cur=${"RWF"}&&token=${token.tokenId}`).then(res =>{
+                axios.get(`https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent?money=${price}&&cur=${"FRw"}&&token=${token.tokenId}`).then(res =>{
                     if(res.status === 200){
                         props.makeOrder({data, price , deliver, address, method, fullDate});
                         props.navigation.navigate("Menu");
@@ -84,11 +82,9 @@ function Checkout(props){
     const backToCart =() =>{
         props.navigation.goBack();
     }
-    const setPaymentMethod =(card,cash,paypal,momo)=>{
+    const setPaymentMethod =(card,cash)=>{
         setCard(card);
         setCash(cash);
-        setPaypal(paypal);
-        setMomo(momo);
     }
 
     const navigateMeAway = () =>{
@@ -99,15 +95,12 @@ function Checkout(props){
         let fullDate = currentDate.getDate() + '-' + month + ' at ' + currentDate.getHours() + ":" + currentDate.getMinutes();
         if(cash){
             method = "Customer will pay with cash";
-            console.log(method + ' here')
             props.makeOrder({data, price , deliver, address, method, fullDate});
             props.navigation.navigate("Menu");
         }else if(card){
             method = "Customer Paid with Credit card";
             CardForm(data, price , deliver, address, method, fullDate);
         }else if(paypal){
-
-        }else if(momo){
 
         }else{
             Alert.alert("Please select a payment method")
@@ -164,26 +157,6 @@ function Checkout(props){
                     color={cash ? Colors.BrightYellow : Colors.purple}
                     />
                     <Text style={[styles.footerStyle,{color: cash ? Colors.BrightYellow : Colors.purple}]}>Cash</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.clearContainer,{
-                    backgroundColor: paypal ? Colors.purple: null,
-                    flexDirection:'row',
-                }]}
-                onPress={() => setPaymentMethod(false,false,true,false)}
-                >
-                    <Icon3
-                    name={'paypal'}
-                    size={25}
-                    color={paypal ? Colors.BrightYellow : Colors.purple}
-                    />
-                    <Text style={[styles.footerStyle,{color: paypal ? Colors.BrightYellow : Colors.purple}]}>Paypal</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.clearContainer,{
-                    backgroundColor: momo ? Colors.purple: null,
-                }]}
-                onPress={() => setPaymentMethod(false,false,false,true)}
-                >
-                    <Text style={[styles.footerStyle,{color: momo ? Colors.BrightYellow : Colors.purple}]}>MTN MoMo</Text>
                 </TouchableOpacity>
             </View>
                 <TouchableOpacity style={styles.buttonContainerStyle}

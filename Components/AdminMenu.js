@@ -129,8 +129,8 @@ const styles = EStyleSheet.create({
         left: WIDTH * 0.33,
         //to make a circle:
         borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
-        width: Dimensions.get('window').width * 0.06,
-        height: Dimensions.get('window').width * 0.06,
+        width: Dimensions.get('window').width * 0.07,
+        height: Dimensions.get('window').width * 0.07,
     }
 })
 

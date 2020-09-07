@@ -81,7 +81,7 @@ function Home(props){
                 </View>
             )
         }else{
-            return <View style={styles.buttonContainer}><Spinner size={'large'} /></View>
+            return <View style={styles.buttonContainer}><Spinner size={'small'} /></View>
         }
     }
 

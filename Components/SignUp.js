@@ -106,7 +106,8 @@ class SignUp extends React.Component{
         const {Address1, Address2, FirstName, LastName} = this.props;
         return(
             <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
-            <HeaderArrow  navigateMeBack={() => this.backToSignIn()} HeaderText={'Sign up (1 of 2)'} HeaderStyle={{backgroundColor: 'transparent'}} TextEdited={{color: '#FF8C00'}} />
+            <HeaderArrow  navigateMeBack={() => this.backToSignIn()} HeaderText={'Sign up (1 of 2)'} 
+            HeaderStyle={{backgroundColor: 'transparent'}} />
             <View style={styles.container}>
                 <Input
                 placeholder='First Name'

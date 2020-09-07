@@ -80,14 +80,11 @@ function FoodSpecific(props){
     const {item} = props.navigation.state.params;
     return(
         <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
-            <HeaderArrow HeaderText={"Yummy n Fresh Ingredients Summary"} HeaderStyle={{backgroundColor: 'transparent'}}
+            <HeaderArrow HeaderText={`${item.name}`} HeaderStyle={{backgroundColor: 'transparent'}}
             navigateMeBack={() => backToMenu()}
-            TextEdited={{color: Colors.MediumOrange}}
+            TextEdited={styles.catTitle}
             />
             <ScrollView contentContainerStyle={styles.container}>
-                <Text style={styles.catTitle}>
-                    {item.name}
-                </Text>
                 <Image
                 source={{uri: item.ImageLink}}
                 style={styles.imageDims}
@@ -106,7 +103,7 @@ function FoodSpecific(props){
                         <Icon 
                         name={'plus-circle'}
                         color={Colors.DarkGreen}
-                        size={15}
+                        size={20}
                         />
                     </TouchableOpacity>   
                     <Text style={[styles.ingStyle, {marginHorizontal: 10, bottom: 3}]}>{item.count}</Text>
@@ -114,18 +111,18 @@ function FoodSpecific(props){
                         <Icon 
                         name={'minus-circle'}
                         color={Colors.DarkGreen}
-                        size={15}
+                        size={20}
                         />
                     </TouchableOpacity>  
                 </View>
                 <TouchableOpacity style={{flexDirection: 'row'}}
                 onPress={() => checkUserAndAdd()}
                 >
-                    <Text style={[styles.catTitle, {color:Colors.Tomato}]}>Add to cart</Text>
+                    <Text style={[styles.catTitle, {color:Colors.Tomato, fontFamily: 'roboto'}]}>Add to cart</Text>
                     <Icon 
                     name={'cart-plus'}
                     color={Colors.Tomato}
-                    size={20}
+                    size={25}
                     />
                 </TouchableOpacity>
             </ScrollView>
@@ -142,18 +139,20 @@ const styles = EStyleSheet.create({
         marginTop: '10rem',
     },
     imageDims:{
-        height: '350rem',
-        width: '350rem',
+        height: '300rem',
+        width: '300rem',
         borderRadius: '20rem',
     },catTitle:{
-        fontSize: '15rem',
-        fontWeight: 'bold',
-        color: Colors.Tomato,
-        alignSelf: 'center'
+        fontSize: '19rem',
+        color: Colors.purple,
+        fontWeight: 'normal',
+        alignSelf: 'center',
+        fontFamily: 'Grandstander-Italic-VariableFont_wght',
     },ingStyle:{
         marginTop: '5rem',
         fontSize: '15rem',
         color: Colors.DarkGreen,
+        marginHorizontal: '10rem',
         textAlign: 'center'
     },buttonContainer:{
         height: '20rem',
