@@ -65,7 +65,7 @@ function Menu(props){
                 <TouchableOpacity
                 onPress={() => props.navigation.navigate("Home")}
                 >
-                    <Text style={[styles.catTitle, {color: Colors.purple}]}>
+                    <Text style={[styles.catTitle, {color: Colors.mainHeader}]}>
                         Login Here for more of Yummy n Fresh
                     </Text>
                 </TouchableOpacity>
@@ -75,7 +75,7 @@ function Menu(props){
 
     if(loaded){     
         return(
-            <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
+            <View style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
                 {showLogin()}
                 <FlatList 
                 data={props.categories}
@@ -86,7 +86,7 @@ function Menu(props){
         )
     }else{
         return(
-            <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
+            <View style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
                 <Spinner size={'large'} />
             </View>
         )
@@ -101,7 +101,7 @@ container:{
     },categoryStyle:{
         fontSize: '25rem',
         alignSelf: 'center',
-        color: Colors.Tomato,
+        color: Colors.mainFooter,
         fontFamily: 'DancingScript-VariableFont_wght',
         textAlign: 'center'
     },imageDims:{
@@ -110,7 +110,7 @@ container:{
         borderRadius: '20rem',
     },catTitle:{
         fontSize: '16rem',
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         alignSelf: 'center'
     }
 })

@@ -75,7 +75,7 @@ function AccInfoAdmin(props){
                 <Icon
                 name={'logout'}
                 size={25}
-                color={Colors.DarkGreen}
+                color={Colors.mainForeGround}
                 />
                 <Text style={styles.buttonTitleStyle}>Log Out</Text>
                 </TouchableOpacity>
@@ -92,7 +92,7 @@ function AccInfoAdmin(props){
                     <Icon
                     name={'account-edit'}
                     size={25}
-                    color={Colors.DarkGreen}
+                    color={Colors.mainForeGround}
                     />
                 }
                 title={'Save Changes'}
@@ -116,18 +116,18 @@ function AccInfoAdmin(props){
 
     const {AdminName} = props;
     return(
-        <View style={{flex: 1, backgroundColor: Colors.BrightYellow}} behaviour={'padding'} enabled={false}>
+        <View style={{flex: 1, backgroundColor: Colors.mainBackGround}} behaviour={'padding'} enabled={false}>
             <Header HeaderText={'Account Settings'} HeaderStyle={{backgroundColor: 'transparent'}} 
-            TextStyle={[styles.headerTextStyle, {color: Colors.purple}]} />
+            TextStyle={[styles.headerTextStyle, {color: Colors.mainHeader}]} />
             <ScrollView contentContainerStyle={styles.container}>
                 <Input
                 placeholder='Admin Name'
-                leftIcon={<Icon name={'account'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon name={'account'} size={25} color={Colors.mainForeGround}/>}
                 inputContainerStyle={styles.textInputContainer}
                 inputStyle={styles.textInputStyle}
                 onChangeText={(text) => validateName(text, "AdminName")}
                 value={AdminName}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
             {showButton()}
             {showLogOut()}
@@ -142,11 +142,11 @@ const styles = EStyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: Colors.BrightYellow
+        backgroundColor: Colors.mainBackGround
     },
     textInputStyle:{
         fontSize: '13rem',
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         height: '15rem',
         marginLeft: '5rem'
     },
@@ -156,9 +156,9 @@ const styles = EStyleSheet.create({
     },
     Login:{
         backgroundColor: 'transparent',
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
     },buttonTitleStyle:{
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         fontSize: '15rem'
     },
     textMissMatch:{
@@ -171,7 +171,7 @@ const styles = EStyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },headerTextStyle:{
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         fontSize: '18rem',
         fontWeight: 'bold'
     }

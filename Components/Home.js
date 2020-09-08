@@ -70,11 +70,11 @@ function Home(props){
                         <Icon
                         name={'login'}
                         size={25}
-                        color={Colors.DarkGreen}
+                        color={Colors.mainForeGround}
                         />
                     }
                     title={'Login'}
-                    titleStyle={{color: Colors.DarkGreen}}
+                    titleStyle={{color: Colors.mainForeGround}}
                     buttonStyle={{backgroundColor: 'transparent'}}
                     onPress={() => functionsCombined()}
                 />
@@ -87,7 +87,7 @@ function Home(props){
 
     if(props.user){
         return (
-        <View style={[styles.buttonContainer, {backgroundColor: Colors.BrightYellow, flex: 1}]}>
+        <View style={[styles.buttonContainer, {backgroundColor: Colors.mainBackGround, flex: 1}]}>
             <Spinner size={'large'} />
         </View>
         )
@@ -102,22 +102,22 @@ function Home(props){
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <Input
                 placeholder='Email'
-                leftIcon={<Icon name={'email'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon name={'email'} size={25} color={Colors.mainForeGround}/>}
                 onChangeText={(text) => Credential({prop: 'email', value: text})}
                 value={email}
                 inputContainerStyle={styles.textInputContainer}
                 inputStyle={styles.textInputStyle}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
             />
             <Input
                 placeholder='Password'
-                leftIcon={<Icon name={'lock'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon name={'lock'} size={25} color={Colors.mainForeGround}/>}
                 onChangeText={(text) => Credential({prop: 'password', value: text})}
                 value={password}
                 secureTextEntry
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
             />                
             {showButton()}
             <View style={[styles.OrStyle, {flexDirection: 'row'}]}>
@@ -132,12 +132,12 @@ function Home(props){
             <Text style={styles.OrStyle}>Or</Text>
             <TouchableOpacity onPress={() => props.navigation.navigate("AdminSignUp")}
             >
-            <Text style={[styles.OrStyle, {color:Colors.MediumOrange}]}>Sign Up as an Admin</Text>
+            <Text style={[styles.OrStyle, {color:Colors.sideText}]}>Sign Up as an Admin</Text>
             </TouchableOpacity>
             <Text style={styles.OrStyle}>Or</Text>
             <TouchableOpacity onPress={() => props.navigation.navigate("MainMenu")}
             >
-            <Text style={[styles.OrStyle, {color:Colors.MediumOrange}]}>Browse without login</Text>
+            <Text style={[styles.OrStyle, {color:Colors.sideText}]}>Browse without login</Text>
             </TouchableOpacity>
             <View style={styles.ErrorStyle}>
                 {showErrorMessage()}
@@ -153,11 +153,11 @@ const styles = EStyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: Colors.BrightYellow
+        backgroundColor: Colors.mainBackGround
     },
     textInputStyle:{
         fontSize: '15rem',
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         height: '20rem',
         marginLeft: '5rem'
     },
@@ -170,7 +170,7 @@ const styles = EStyleSheet.create({
         height: '150rem',
 
     },signUpStyle:{
-        color: Colors.MediumOrange,
+        color: Colors.sideText,
         fontSize: '15rem',
         fontWeight: 'bold',
     },buttonContainer2:{
@@ -189,7 +189,7 @@ const styles = EStyleSheet.create({
         bottom: '15rem'
     },OrStyle:{
         fontSize: '14rem',
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         height: '25rem',
         marginLeft: '5rem'
     },ErrorStyle:{

@@ -3,12 +3,12 @@ import {View, Text, Dimensions, TouchableOpacity, Alert} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {Colors} from './Colors';
 import HeaderArrow from './common/HeaderArrow';
+import {Input} from 'react-native-elements';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import {makeOrder, Credential} from '../actions';
 import Icon from 'react-native-vector-icons/Octicons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
-import Icon3 from 'react-native-vector-icons/FontAwesome';
 import Icon4 from 'react-native-vector-icons/SimpleLineIcons';
 import axios from 'axios';
 import stripe from 'tipsi-stripe';
@@ -23,8 +23,11 @@ function Checkout(props){
     const[deliver, setDeliver] = useState(false);
     const[card, setCard] = useState(false);
     const[cash, setCash] = useState(false);
+    const [momo,setMomo] = useState(false);
+    const [mobile, setMobile] = useState("");
 
     useEffect(() =>{
+        //getting the user address for the checkout
         const {data, Credential} = props;
         data.map(d =>{
             Credential({prop: "FirstName", value: d.FirstName})
@@ -82,9 +85,17 @@ function Checkout(props){
     const backToCart =() =>{
         props.navigation.goBack();
     }
-    const setPaymentMethod =(card,cash)=>{
+    const setPaymentMethod =(card,cash, momo)=>{
         setCard(card);
         setCash(cash);
+        setMomo(momo);
+        if(momo){
+            setMobile('+250')
+        }
+    }
+
+    const MobilePay =()=>{
+        
     }
 
     const navigateMeAway = () =>{
@@ -100,10 +111,36 @@ function Checkout(props){
         }else if(card){
             method = "Customer Paid with Credit card";
             CardForm(data, price , deliver, address, method, fullDate);
-        }else if(paypal){
-
+        }else if(momo){
+            if(mobile.length < 13){
+                Alert.alert("Please enter a valid phone number")
+            }else{
+                method = "Customer Paid with MTN mobile money";
+                MobilePay(data, price , deliver, address, method, fullDate);
+            }
         }else{
             Alert.alert("Please select a payment method")
+        }
+    }
+
+    const showMobileInput =()=>{
+        if(momo){
+            return(
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                    <Input
+                    maxLength={13}
+                    placeholder='Please enter your phone number'
+                    inputContainerStyle={styles.textInputContainer}
+                    inputStyle={styles.textInputStyle}
+                    onChangeText={(text) => setMobile(text)}
+                    value={mobile}
+                    textAlign={'center'}
+                    placeholderTextColor={Colors.mainForeGround}
+                    />
+                </View>
+            )
+        }else{
+            return <View />
         }
     }
 
@@ -111,53 +148,66 @@ function Checkout(props){
         <View style={styles.container}>
              <HeaderArrow HeaderText={"Checkout"} HeaderStyle={{backgroundColor: 'transparent'}}
                 navigateMeBack={() => backToCart()}
-                TextEdited={{color: Colors.MediumOrange}}
             />
             <Text style={[styles.footerStyle, styles.HeaderOptionStyle]}>Delivery Method:</Text>
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                 <TouchableOpacity style={[styles.clearContainer,{
-                    backgroundColor: deliver ? null : Colors.purple,
+                    backgroundColor: deliver ? null : Colors.mainHeader,
                 }]}
                 onPress={() => setDeliver(false)}
                 >
-                    <Text style={[styles.footerStyle,{color: deliver ? Colors.purple : Colors.BrightYellow}]}>Pick up at the restaurant</Text>
+                    <Text style={[styles.footerStyle,{color: deliver ? Colors.mainHeader : Colors.mainBackGround}]}>Pick up at the restaurant</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.clearContainer,{
-                    backgroundColor: !deliver ? null : Colors.purple,
+                    backgroundColor: !deliver ? null : Colors.mainHeader,
                 }]}
                 onPress={() => setDeliver(true)}
                 >
-                    <Text style={[styles.footerStyle,{color: !deliver ? Colors.purple : Colors.BrightYellow}]}>Deliver to my address</Text>
+                    <Text style={[styles.footerStyle,{color: !deliver ? Colors.mainHeader : Colors.mainBackGround}]}>Deliver to my address</Text>
                 </TouchableOpacity>
             </View>
             <Text style={[styles.footerStyle, styles.HeaderOptionStyle]}>Payment Method:</Text>
             <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                 <TouchableOpacity style={[styles.clearContainer,{
-                    backgroundColor: card ? Colors.purple: null,
+                    backgroundColor: card ? Colors.mainHeader: null,
                     flexDirection:'row',
                 }]}
-                onPress={() => setPaymentMethod(true,false, false,false)}
+                onPress={() => setPaymentMethod(true,false, false)}
                 >
                     <Icon 
                     name={'credit-card'}
                     size={25}
-                    color={card ? Colors.BrightYellow : Colors.purple}
+                    color={card ? Colors.mainBackGround : Colors.mainHeader}
                     />
-                    <Text style={[styles.footerStyle,{color: card ? Colors.BrightYellow : Colors.purple}]}>Credit or debit or MTN Momo Card</Text>
+                    <Text style={[styles.footerStyle,{color: card ? Colors.mainBackGround : Colors.mainHeader}]}>Credit or debit Card</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.clearContainer,{
-                    backgroundColor: cash ? Colors.purple: null,
+                    backgroundColor: cash ? Colors.mainHeader: null,
                     flexDirection:'row',
                 }]}
-                onPress={() => setPaymentMethod(false,true,false,false)}
+                onPress={() => setPaymentMethod(false,true,false)}
                 >
                     <Icon2 
                     name={'cash'}
                     size={25}
-                    color={cash ? Colors.BrightYellow : Colors.purple}
+                    color={cash ? Colors.mainBackGround : Colors.mainHeader}
                     />
-                    <Text style={[styles.footerStyle,{color: cash ? Colors.BrightYellow : Colors.purple}]}>Cash</Text>
+                    <Text style={[styles.footerStyle,{color: cash ? Colors.mainBackGround : Colors.mainHeader}]}>Cash</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={[styles.clearContainer,{
+                    backgroundColor: momo ? Colors.mainHeader: null,
+                    flexDirection:'row',
+                }]}
+                onPress={() => setPaymentMethod(false,false,true)}
+                >
+                    <Icon 
+                    name={'device-mobile'}
+                    size={25}
+                    color={momo ? Colors.mainBackGround : Colors.mainHeader}
+                    />
+                    <Text style={[styles.footerStyle,{color: momo ? Colors.mainBackGround : Colors.mainHeader}]}>MTN Mobile money</Text>
+                </TouchableOpacity>
+                {showMobileInput()}
             </View>
                 <TouchableOpacity style={styles.buttonContainerStyle}
                 onPress={() => navigateMeAway()}
@@ -165,7 +215,7 @@ function Checkout(props){
                     <Icon4
                         name={'arrow-right-circle'}
                         size={25}
-                        color={Colors.purple}
+                        color={Colors.mainHeader}
                     />
                     <Text style={[styles.footerStyle, {fontWeight:'bold'}]}>Proceed</Text>
                 </TouchableOpacity>
@@ -176,15 +226,15 @@ function Checkout(props){
 const styles = EStyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: Colors.BrightYellow,
+        backgroundColor: Colors.mainBackGround,
     },headerTextStyle:{
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         fontSize: '20rem',
         fontWeight: 'bold'
     },footerStyle:{
         fontSize: '12rem',
         fontWeight:'bold',
-        color: Colors.purple,
+        color: Colors.mainHeader,
         textAlign:'center',
         backgroundColor: 'transparent',
         borderRadius: '10rem',
@@ -194,20 +244,25 @@ const styles = EStyleSheet.create({
         flexDirection: 'row', 
         justifyContent: 'center', 
         alignItems: 'center',
-        padding: '1rem',
-        paddingHorizontal: '5rem', 
+        padding: '5rem',
         backgroundColor: 'transparent',
         borderRadius: '10rem',
         marginBottom: '10rem',
         marginHorizontal: '5rem'
     },HeaderOptionStyle:{
-        color: Colors.DarkGreen, 
+        color: Colors.mainForeGround, 
         fontWeight: 'bold',
         fontSize:'15rem'
     },buttonContainerStyle:{
         flexDirection: 'row',
         justifyContent:'center',
         alignItems:'center'
+    },textInputStyle:{
+        fontSize: '13rem',
+        color: Colors.mainForeGround,
+        height: '15rem',
+    },textInputContainer:{
+        width: '70%'
     }
 })
 

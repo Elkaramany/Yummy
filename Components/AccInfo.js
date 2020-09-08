@@ -81,7 +81,7 @@ function AccInfo(props){
                 <Icon
                 name={'logout'}
                 size={25}
-                color={Colors.DarkGreen}
+                color={Colors.mainHeader}
                 />
                 <Text style={styles.buttonTitleStyle}>Log Out</Text>
                 </TouchableOpacity>
@@ -98,7 +98,7 @@ function AccInfo(props){
                     <Icon
                     name={'account-edit'}
                     size={25}
-                    color={Colors.DarkGreen}
+                    color={Colors.mainHeader}
                     />
                 }
                 title={'Save Changes'}
@@ -121,46 +121,46 @@ function AccInfo(props){
     }
         const {FirstName, LastName, City, Address1, Address2} = props;
         return(
-            <View style={{flex: 1, backgroundColor: Colors.BrightYellow}} behaviour={'padding'} enabled={false}>
+            <View style={{flex: 1, backgroundColor: Colors.mainBackGround}} behaviour={'padding'} enabled={false}>
                 <Header HeaderText={'Account Settings'} HeaderStyle={{backgroundColor: 'transparent'}} 
-                TextStyle={[styles.headerTextStyle, {color: Colors.purple}]} />
+                TextStyle={[styles.headerTextStyle, {color: Colors.mainHeader}]} />
                 <ScrollView contentContainerStyle={styles.container}>
                 <Input
                 placeholder='First Name'
-                leftIcon={<Icon name={'account'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon name={'account'} size={25} color={Colors.mainForeGround}/>}
                 inputContainerStyle={styles.textInputContainer}
                 inputStyle={styles.textInputStyle}
                 onChangeText={(text) => validateName(text, "FirstName")}
                 value={FirstName}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
                 <Input
                 placeholder='Last Name'
-                leftIcon={<Icon name={'account-box'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon name={'account-box'} size={25} color={Colors.mainForeGround}/>}
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
                 onChangeText={(text) => validateName(text, "LastName")}
                 value={LastName}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
                 <CityPicker />
                 <Input
                 placeholder='Address1'
-                leftIcon={<Icon2 name={'address'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon2 name={'address'} size={25} color={Colors.mainForeGround}/>}
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
                 value={Address1}
                 onChangeText={(text) => validateName(text, "Address1")}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
                 <Input
                 placeholder='Address2'
-                leftIcon={<Icon2 name={'address'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon2 name={'address'} size={25} color={Colors.mainForeGround}/>}
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
                 value={Address2}
                 onChangeText={(text) => validateName(text, "Address2")}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
                 {showButton()}
                 {showLogOut()}
@@ -175,11 +175,11 @@ const styles = EStyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: Colors.BrightYellow
+        backgroundColor: Colors.mainBackGround
     },
     textInputStyle:{
         fontSize: '13rem',
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         height: '15rem',
         marginLeft: '5rem'
     },
@@ -189,9 +189,9 @@ const styles = EStyleSheet.create({
     },
     Login:{
         backgroundColor: 'transparent',
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
     },buttonTitleStyle:{
-        color: Colors.DarkGreen,
+        color: Colors.mainHeader,
         fontSize: '15rem'
     },
     textMissMatch:{
@@ -204,7 +204,7 @@ const styles = EStyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },headerTextStyle:{
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         fontSize: '18rem',
         fontWeight: 'bold'
     }

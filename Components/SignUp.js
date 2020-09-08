@@ -83,7 +83,7 @@ class SignUp extends React.Component{
                     <Icon
                     name={'account-plus'}
                     size={25}
-                    color={Colors.DarkGreen}
+                    color={Colors.mainForeGround}
                     />
                 }
                 title={'Proceed to Sign Up'}
@@ -105,46 +105,46 @@ class SignUp extends React.Component{
     render(){
         const {Address1, Address2, FirstName, LastName} = this.props;
         return(
-            <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
+            <View style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
             <HeaderArrow  navigateMeBack={() => this.backToSignIn()} HeaderText={'Sign up (1 of 2)'} 
             HeaderStyle={{backgroundColor: 'transparent'}} />
             <View style={styles.container}>
                 <Input
                 placeholder='First Name'
-                leftIcon={<Icon name={'account'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon name={'account'} size={25} color={Colors.mainForeGround}/>}
                 inputContainerStyle={styles.textInputContainer}
                 inputStyle={styles.textInputStyle}
                 onChangeText={(text) => this.validateName(text, "FirstName")}
                 value={FirstName}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
                 <Input
                 placeholder='Last Name'
-                leftIcon={<Icon name={'account-box'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon name={'account-box'} size={25} color={Colors.mainForeGround}/>}
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
                 onChangeText={(text) => this.validateName(text, "LastName")}
                 value={LastName}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
                 <CityPicker />
                 <Input
                 placeholder='Address1'
-                leftIcon={<Icon2 name={'address'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon2 name={'address'} size={25} color={Colors.mainForeGround}/>}
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
                 value={Address1}
                 onChangeText={(text) => this.validateName(text, "Address1")}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
                 <Input
                 placeholder='Address2'
-                leftIcon={<Icon2 name={'address'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon2 name={'address'} size={25} color={Colors.mainForeGround}/>}
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
                 value={Address2}
                 onChangeText={(text) => this.validateName(text, "Address2")}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
                 {this.showButton()}
                 {this.showMissMatch()}
@@ -162,7 +162,7 @@ const styles = EStyleSheet.create({
     },
     textInputStyle:{
         fontSize: '13rem',
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         height: '15rem',
         marginLeft: '5rem'
     },
@@ -174,7 +174,7 @@ const styles = EStyleSheet.create({
         flex:1,
         backgroundColor: 'transparent',
     },buttonTitleStyle:{
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         fontSize: '15rem'
     },
     textMissMatch:{

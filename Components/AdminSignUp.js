@@ -85,7 +85,7 @@ class AdminSignUp extends React.Component{
                     <Icon
                     name={'account-plus'}
                     size={25}
-                    color={Colors.DarkGreen}
+                    color={Colors.mainForeGround}
                     />
                 }
                 title={'Sign Up as an Admin'}
@@ -107,56 +107,56 @@ class AdminSignUp extends React.Component{
     render(){
         const {email, password,Credential, confirm, AdminName, AdminToken} = this.props;
         return(
-            <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
+            <View style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
             <HeaderArrow  navigateMeBack={() => this.backToSignIn()} HeaderText={'Sign up as an Admin'} 
             HeaderStyle={{backgroundColor: 'transparent'}}/>
             <View style={styles.container}>
                 <Input
                 placeholder='Email'
-                leftIcon={<Icon name={'email'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon name={'email'} size={25} color={Colors.mainForeGround}/>}
                 inputContainerStyle={styles.textInputContainer}
                 inputStyle={styles.textInputStyle}
                 onChangeText={(text) => this.validateEmail(text)}
                 value={email}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
                 <Input
                 placeholder='Password'
-                leftIcon={<Icon name={'lock'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon name={'lock'} size={25} color={Colors.mainForeGround}/>}
                 secureTextEntry
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
                 onChangeText={(text) => this.validatePassword(text)}
                 value={password}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
                 <Input
                 placeholder='Confirm password'
-                leftIcon={<Icon name={'lock'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon name={'lock'} size={25} color={Colors.mainForeGround}/>}
                 secureTextEntry
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
                 value={confirm}
                 onChangeText={(text) => Credential({prop: 'confirm', value: text})}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
                 <Input
                 placeholder='User Name'
-                leftIcon={<Icon name={'account-box'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon name={'account-box'} size={25} color={Colors.mainForeGround}/>}
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
                 value={AdminName}
                 onChangeText={(text) => Credential({prop: 'AdminName', value: text})}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
                 <Input
                 placeholder='Admin Token'
-                leftIcon={<Icon2 name={'user-secret'} size={25} color={Colors.DarkGreen}/>}
+                leftIcon={<Icon2 name={'user-secret'} size={25} color={Colors.mainForeGround}/>}
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
                 value={AdminToken}
                 onChangeText={(text) => Credential({prop: 'AdminToken', value: text})}
-                placeholderTextColor={Colors.DarkGreen}
+                placeholderTextColor={Colors.mainForeGround}
                 />
                 {this.showButton()}
                 {this.showMissMatch()}
@@ -174,7 +174,7 @@ const styles = EStyleSheet.create({
     },
     textInputStyle:{
         fontSize: '13rem',
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         height: '20rem',
         marginLeft: '5rem'
     },
@@ -186,7 +186,7 @@ const styles = EStyleSheet.create({
         flex:1,
         backgroundColor: 'transparent',
     },buttonTitleStyle:{
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         fontSize: '15rem'
     },
     textMissMatch:{

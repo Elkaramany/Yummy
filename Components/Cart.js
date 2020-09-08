@@ -62,7 +62,7 @@ function Cart(props){
         if(props.data.length === 0){
             totalPrice = 0;
             return(
-                <View style={{flex: 1, backgroundColor: Colors.BrightYellow, justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{flex: 1, backgroundColor: Colors.mainBackGround, justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={[styles.catTitle, {textAlign: 'center'}]}>Your Cart is empty</Text>
                 </View>
             )
@@ -103,9 +103,9 @@ function Cart(props){
     }
     
     return(
-        <ScrollView style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
+        <ScrollView style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
             <Header HeaderText={'Your Eating Cart'} HeaderStyle={{backgroundColor: 'transparent'}} 
-            TextStyle={[styles.headerTextStyle, {color: Colors.purple}]} />
+            TextStyle={[styles.headerTextStyle, {color: Colors.mainHeader}]} />
             {cartLength()}
             {showFooter()}
         </ScrollView>
@@ -124,13 +124,13 @@ const styles = EStyleSheet.create({
         flexDirection: 'row'
     },catTitle:{
         fontSize: '17rem',
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
     },imageDims:{
         height: '100rem',
         width: '100rem',
         borderRadius: '20rem',
     },headerTextStyle:{
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         fontSize: '20rem',
         fontWeight: 'bold'
     },secondContainer:{
@@ -140,7 +140,7 @@ const styles = EStyleSheet.create({
     },footerStyle:{
         fontSize: '20rem',
         fontWeight:'bold',
-        color: Colors.Tomato,
+        color: Colors.mainFooter,
         textAlign:'center'
     },singleRemove:{
         flexDirection: 'row', 

@@ -41,11 +41,11 @@ const styles = EStyleSheet.create({
     pickerContainer:{
         flex: 1,
         height: '35rem',
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         fontSize: '13rem', 
     },textInputStyle:{
         fontSize: '13rem',
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
     },
 })
 

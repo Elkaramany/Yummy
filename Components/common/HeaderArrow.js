@@ -9,7 +9,7 @@ const WIDTH = Dimensions.get('window').width;
 function HeaderArrow (props){
     return(
         <View style={[styles.HeaderContainer, props.HeaderStyle]}>
-            <Icon style={[styles.arrowStyle, props.extraArrow]} name={'arrow-back'} size={30} color={Colors.purple} onPress={() => props.navigateMeBack()}/>
+            <Icon style={[styles.arrowStyle, props.extraArrow]} name={'arrow-back'} size={30} color={Colors.mainHeader} onPress={() => props.navigateMeBack()}/>
             <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}>
             <Text style={[styles.TextStyle, props.TextEdited]}>
                 {props.HeaderText}
@@ -36,7 +36,7 @@ const styles = EStyleSheet.create({
     TextStyle:{
         fontSize: '18rem',
         fontWeight: 'bold',
-        color: Colors.purple,
+        color: Colors.mainHeader,
     }
 })
 

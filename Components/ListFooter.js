@@ -19,7 +19,7 @@ function ListFooter({price, CheckMeOut, ClearMeOut}){
                     <Text style={[styles.footerStyle, {color: '#fff', backgroundColor: 'transparent', marginHorizontal: 0}]}>Clear Cart</Text>
                     <Icon2 name={'delete-forever'} size={20} color={'#fff'} />
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.clearContainer, {backgroundColor: Colors.purple}]}
+                <TouchableOpacity style={[styles.clearContainer, {backgroundColor: Colors.mainHeader}]}
                 onPress={() => CheckMeOut()}
                 >
                     <Text style={[styles.footerStyle, {color:'#fff', backgroundColor: 'transparent', marginHorizontal: 0}]}>Check out</Text>

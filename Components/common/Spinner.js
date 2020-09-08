@@ -12,7 +12,7 @@ function Spinner ({size}){
         >
             <ActivityIndicator
             size={size}
-            color={Colors.DarkGreen}
+            color={Colors.mainForeGround}
             />
         </View>
     );

@@ -99,18 +99,18 @@ function AdminMenu(props){
 const styles = EStyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: Colors.BrightYellow
+        backgroundColor: Colors.mainBackGround
     },headerTextStyle:{
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         fontSize: '18rem',
         fontWeight: 'bold'
     },itemName:{
         fontSize: '14rem',
-        color: Colors.DarkGreen
+        color: Colors.mainForeGround
     },miniHeaderStyle:{
         fontSize: '16rem',
         fontWeight: 'bold',
-        color: Colors.purple,
+        color: Colors.mainHeader,
     },itemContainer:{
         margin: '10rem'
     },mainItemContainer:{

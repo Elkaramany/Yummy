@@ -79,7 +79,7 @@ function FoodSpecific(props){
 
     const {item} = props.navigation.state.params;
     return(
-        <View style={{flex: 1, backgroundColor: Colors.BrightYellow}}>
+        <View style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
             <HeaderArrow HeaderText={`${item.name}`} HeaderStyle={{backgroundColor: 'transparent'}}
             navigateMeBack={() => backToMenu()}
             TextEdited={styles.catTitle}
@@ -102,7 +102,7 @@ function FoodSpecific(props){
                     >
                         <Icon 
                         name={'plus-circle'}
-                        color={Colors.DarkGreen}
+                        color={Colors.mainForeGround}
                         size={20}
                         />
                     </TouchableOpacity>   
@@ -110,7 +110,7 @@ function FoodSpecific(props){
                     <TouchableOpacity onPress={() => functionsCombinedMinus(item)}>
                         <Icon 
                         name={'minus-circle'}
-                        color={Colors.DarkGreen}
+                        color={Colors.mainForeGround}
                         size={20}
                         />
                     </TouchableOpacity>  
@@ -118,10 +118,10 @@ function FoodSpecific(props){
                 <TouchableOpacity style={{flexDirection: 'row'}}
                 onPress={() => checkUserAndAdd()}
                 >
-                    <Text style={[styles.catTitle, {color:Colors.Tomato, fontFamily: 'roboto'}]}>Add to cart</Text>
+                    <Text style={[styles.catTitle, {color:Colors.mainFooter, fontFamily: 'roboto'}]}>Add to cart</Text>
                     <Icon 
                     name={'cart-plus'}
-                    color={Colors.Tomato}
+                    color={Colors.mainFooter}
                     size={25}
                     />
                 </TouchableOpacity>
@@ -144,14 +144,14 @@ const styles = EStyleSheet.create({
         borderRadius: '20rem',
     },catTitle:{
         fontSize: '19rem',
-        color: Colors.purple,
+        color: Colors.mainHeader,
         fontWeight: 'normal',
         alignSelf: 'center',
         fontFamily: 'Grandstander-Italic-VariableFont_wght',
     },ingStyle:{
         marginTop: '5rem',
         fontSize: '15rem',
-        color: Colors.DarkGreen,
+        color: Colors.mainForeGround,
         marginHorizontal: '10rem',
         textAlign: 'center'
     },buttonContainer:{
