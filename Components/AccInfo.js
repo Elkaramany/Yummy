@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import {Input, Button} from 'react-native-elements';
 import Header from './common/Header';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux';
-import {Credential, EditInfo, signMeOut} from '../actions';
+import {Credential, EditInfo, signMeOut, resetErrorMessage} from '../actions';
 import {Colors} from './Colors';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Icon2 from 'react-native-vector-icons/Entypo';
@@ -14,11 +14,10 @@ import { withNavigation } from 'react-navigation';
 
 import CityPicker from './CityPicker';
 
-
+let toBeShown;
 function AccInfo(props){
     const [InvalidName, setInvalidName] = useState('');
     const [missMatch, setmissMatch] = useState('');
-
 
     const validateName = (text, type) =>{
         if(text.length < 2){
@@ -28,6 +27,12 @@ function AccInfo(props){
         }
         props.Credential({prop: type, value: text})
     }
+
+    useEffect(() =>{
+        return function cleanup() {
+            props.resetErrorMessage();
+        };
+    }, [])
 
     const functionsCombined=() =>{
         const {City, Address1, Address2, FirstName, LastName} = props;
@@ -50,13 +55,15 @@ function AccInfo(props){
     }
 
     const showMissMatch = () =>{
-        let toBeShown = '';
         if(missMatch){
             toBeShown = missMatch
         }else if(props.errorMessage !== ''){
             toBeShown = props.errorMessage
         }
-        return <View style={styles.buttonContainer}><Text style={styles.textMissMatch}>{toBeShown}</Text></View>
+        if(toBeShown !== ''){
+            Alert.alert(toBeShown);
+            toBeShown = '';
+        }
     }
 
     const HandleOut =() =>{
@@ -112,13 +119,6 @@ function AccInfo(props){
         }
     }
 
-    const showEditMessage = () =>{
-        if(props.errorMessage){
-            return <View style={styles.buttonContainer}><Text style={styles.textMissMatch}>{props.errorMessage}</Text></View>
-        }else{
-            return <View></View>
-        }
-    }
         const {FirstName, LastName, City, Address1, Address2} = props;
         return(
             <View style={{flex: 1, backgroundColor: Colors.mainBackGround}} behaviour={'padding'} enabled={false}>
@@ -223,4 +223,4 @@ const mapStateToProps = ({SignInReducer}) =>{
     }
 }
 
-export default withNavigation (connect (mapStateToProps, {Credential, EditInfo, signMeOut})(AccInfo));
+export default withNavigation (connect (mapStateToProps, {Credential, EditInfo, signMeOut, resetErrorMessage})(AccInfo));

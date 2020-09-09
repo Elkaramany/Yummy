@@ -29,7 +29,8 @@ export default (state={INITIAL_STATE}, action)=>{
         return {...state, ...INITIAL_STATE, errorMessage: 'Failed to create account with those credentials, Please try again with different ones!!'}
     }else if(action.type === 'login_started'){
         return{...state, loading: true}
-    }else if(action.type === "edit_success" || action.type === "edit_fail" || action.type === 'sign_me_out_fail'){
+    }else if(action.type === "edit_success" || action.type === "edit_fail" 
+    || action.type === 'sign_me_out_fail' || action.type === "edit_out"){
         return{...state, EditLoading: false, errorMessage: action.payload}
     }else if(action.type === "edit_start"){
         return {...state, EditLoading: true}

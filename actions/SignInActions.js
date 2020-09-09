@@ -119,3 +119,9 @@ export const EditInfoAdmin = ({AdminName, uid}) =>{
         })
     }
 }
+
+export const resetErrorMessage =()=>{
+    return(dispatch)=>{
+        dispatch({type: 'edit_out', payload: ''});
+    }
+}

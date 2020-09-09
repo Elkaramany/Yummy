@@ -43,7 +43,8 @@ const RootTab = createBottomTabNavigator({
 {
 tabBarOptions: {
   labelStyle: { fontSize: 18, marginTop: 5},
-  tabStyle: {marginTop: 10}
+  tabStyle: {marginTop: 10},
+  activeTintColor: '#338329',
 },
 defaultNavigationOptions:{
   header: null,

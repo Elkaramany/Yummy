@@ -66,8 +66,8 @@ function Checkout(props){
                 },
               }
                 const token = await stripe.paymentRequestWithCardForm(options);
-                axios.get(`https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent?money=${price}&&cur=${"FRw"}&&token=${token.tokenId}`).then(res =>{
-                    if(res.status === 200){
+                axios.get(`https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent?money=${price}&&cur=${"rwf"}&&token=${token.tokenId}`).then(res =>{
+                    if(res.data.outcome.seller_message === "Payment complete."){
                         props.makeOrder({data, price , deliver, address, method, fullDate});
                         props.navigation.navigate("Menu");
                     }else{

@@ -77,10 +77,17 @@ function FoodSpecific(props){
         }
     }
 
-    const {item} = props.navigation.state.params;
+    const {item, category} = props.navigation.state.params;
+    let title = "";
+    title += item.name + " ";
+    if(category.id !== 7){
+        title += category.name;
+    }else{
+        title += "dressing";
+    }
     return(
-        <View style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
-            <HeaderArrow HeaderText={`${item.name}`} HeaderStyle={{backgroundColor: 'transparent'}}
+        <ScrollView style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
+            <HeaderArrow HeaderText={`${title}`} HeaderStyle={{backgroundColor: 'transparent'}}
             navigateMeBack={() => backToMenu()}
             TextEdited={styles.catTitle}
             />
@@ -102,20 +109,20 @@ function FoodSpecific(props){
                     >
                         <Icon 
                         name={'plus-circle'}
-                        color={Colors.mainForeGround}
-                        size={20}
+                        color={Colors.mainFooter}
+                        size={18}
                         />
                     </TouchableOpacity>   
-                    <Text style={[styles.ingStyle, {marginHorizontal: 10, bottom: 3}]}>{item.count}</Text>
+                    <Text style={[styles.ingStyle, {marginHorizontal: 10, bottom: 3, color: Colors.mainFooter}]}>{item.count}</Text>
                     <TouchableOpacity onPress={() => functionsCombinedMinus(item)}>
                         <Icon 
                         name={'minus-circle'}
-                        color={Colors.mainForeGround}
-                        size={20}
+                        color={Colors.mainFooter}
+                        size={18}
                         />
                     </TouchableOpacity>  
                 </View>
-                <TouchableOpacity style={{flexDirection: 'row'}}
+                <TouchableOpacity style={{flexDirection: 'row', marginTop: 10}}
                 onPress={() => checkUserAndAdd()}
                 >
                     <Text style={[styles.catTitle, {color:Colors.mainFooter, fontFamily: 'roboto'}]}>Add to cart</Text>
@@ -127,7 +134,7 @@ function FoodSpecific(props){
                 </TouchableOpacity>
             </ScrollView>
             {showErrorMessage()}
-        </View>
+        </ScrollView>
     )
 }
 
@@ -147,7 +154,6 @@ const styles = EStyleSheet.create({
         color: Colors.mainHeader,
         fontWeight: 'normal',
         alignSelf: 'center',
-        fontFamily: 'Grandstander-Italic-VariableFont_wght',
     },ingStyle:{
         marginTop: '5rem',
         fontSize: '15rem',

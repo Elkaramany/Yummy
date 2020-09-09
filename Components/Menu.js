@@ -1,5 +1,5 @@
 import  React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, ScrollView, Dimensions, TouchableOpacity, Image} from 'react-native';
+import {View, Text, FlatList, ScrollView, TouchableOpacity, Image} from 'react-native';
 import {connect} from 'react-redux';
 import {getAllCategories, getAllFoods} from '../actions';
 import _ from 'lodash';
@@ -39,16 +39,17 @@ function Menu(props){
                                     key={recipe.id}
                                     onPress={() => props.navigation.navigate("FoodSpecific",{
                                         item: recipe,
+                                        category: item,
                                     })}
                                     >
-                                    <View style={{flex: 1, margin: 5, justifyContent: 'center', alignItems: 'center'}}>
-                                    <Text style={[styles.catTitle, {fontFamily: 'Grandstander-Italic-VariableFont_wght'}]}>
-                                        {recipe.name}
-                                    </Text>
+                                    <View style={styles.singleItemContainer}>
                                     <Image
                                     source={{uri: recipe.ImageLink}}
                                     style={styles.imageDims}
                                     />
+                                    <Text style={styles.catTitle}>
+                                        {recipe.name}
+                                    </Text>
                                     </View>
                                     </TouchableOpacity>
                                 )
@@ -65,7 +66,7 @@ function Menu(props){
                 <TouchableOpacity
                 onPress={() => props.navigation.navigate("Home")}
                 >
-                    <Text style={[styles.catTitle, {color: Colors.mainHeader}]}>
+                    <Text style={[styles.categoryStyle, {color: Colors.mainHeader, textAlign: 'center'}]}>
                         Login Here for more of Yummy n Fresh
                     </Text>
                 </TouchableOpacity>
@@ -99,19 +100,22 @@ container:{
         margin: '5rem',
         backgroundColor: 'transparent',
     },categoryStyle:{
-        fontSize: '25rem',
+        fontSize: '20rem',
         alignSelf: 'center',
         color: Colors.mainFooter,
-        fontFamily: 'DancingScript-VariableFont_wght',
         textAlign: 'center'
     },imageDims:{
         height: '150rem',
         width: '150rem',
         borderRadius: '20rem',
     },catTitle:{
-        fontSize: '16rem',
+        fontSize: '12rem',
         color: Colors.mainForeGround,
         alignSelf: 'center'
+    },singleItemContainer:{
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal: '3rem'
     }
 })
 

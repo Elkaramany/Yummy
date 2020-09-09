@@ -36,6 +36,7 @@ const styles = EStyleSheet.create({
     TextStyle:{
         fontSize: '18rem',
         fontWeight: 'bold',
+        textAlign: 'center',
         color: Colors.mainHeader,
     }
 })
