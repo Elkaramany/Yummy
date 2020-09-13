@@ -75,12 +75,10 @@ function Cart(props){
                 return(
                     <>
                         <View style={styles.container}>
-                            <Image
-                            source={{uri: item.ImageLink}}
-                            style={styles.imageDims}
-                            />
                             <View style={styles.secondContainer}>
-                                <Text style={styles.catTitle}>Name: {item.name}</Text>
+                                <Text style={styles.catTitle}>{item.name}</Text>
+                                <Text style={styles.catTitle}>Sides: {item.sides}</Text>
+                                <Text style={styles.catTitle}>Dressings: {item.dressings}</Text>
                                 <Text style={styles.catTitle}>Price: {item.price} RWF</Text>
                                 <Text style={styles.catTitle}>Quantity: {item.count}</Text>
                                 <Text style={styles.catTitle}>Total price: {item.count * item.price} RWF</Text>
@@ -121,14 +119,13 @@ const styles = EStyleSheet.create({
     },
     container:{
         margin: '5rem',
-        flexDirection: 'row'
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
     },catTitle:{
-        fontSize: '17rem',
+        fontSize: '14rem',
         color: Colors.mainForeGround,
-    },imageDims:{
-        height: '100rem',
-        width: '100rem',
-        borderRadius: '20rem',
+        textAlign: 'center',
     },headerTextStyle:{
         color: Colors.mainForeGround,
         fontSize: '20rem',
@@ -136,6 +133,7 @@ const styles = EStyleSheet.create({
     },secondContainer:{
         flexDirection: 'column',
         justifyContent: 'center',
+        alignItems: 'center',
         marginLeft: '5rem',
     },footerStyle:{
         fontSize: '20rem',
@@ -148,7 +146,6 @@ const styles = EStyleSheet.create({
         backgroundColor: '#2E90C8', 
         justifyContent: 'center',
         padding: '3rem',
-        borderRadius: '50rem',
         marginHorizontal: WIDTH * 0.45,
         left: WIDTH * 0.33,
         //to make a circle around the delete button:

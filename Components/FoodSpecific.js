@@ -97,6 +97,17 @@ function FoodSpecific(props){
         }
     }
 
+    const showSides =()=>{
+        if(category.name !== "Smoothies" && category.name !== "Juices"){
+            return(
+                <CustomPicker title={'Sides: '} arr={props.sides} value={side} 
+                setValue={(item) => setSide(item)} 
+                pickerWidth={'90%'}
+                />
+            )
+        }
+    }
+
     const showDressings =()=>{
         if(category.name === "Salads" || category.name === "Veggie Bowls"){
             return(
@@ -123,10 +134,7 @@ function FoodSpecific(props){
                 <Text style={styles.ingStyle}>
                     {item.ingredients}
                 </Text>
-                <CustomPicker title={'Sides: '} arr={props.sides} value={side} 
-                setValue={(item) => setSide(item)} 
-                pickerWidth={'90%'}
-                />
+                {showSides()}
                 {showDressings()}
                 <Text style={[styles.ingStyle, {fontWeight:'bold'}]}>Price: {(item.price + addedPrice) * item.count}RWF</Text>
                 <View style={{flexDirection: 'row', padding: 10, alignItems: 'center'}}

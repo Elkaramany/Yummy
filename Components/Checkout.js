@@ -74,7 +74,7 @@ function Checkout(props){
                         Alert.alert("Error confirming Payment");
                     }
                 }).catch(e=>{
-                    console.log(e);
+                    console.log(e + ' here');
                     Alert.alert("Error confirming Payment");
                 })
         }catch{
