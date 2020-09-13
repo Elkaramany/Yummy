@@ -12,12 +12,22 @@ import Spinner from './common/Spinner';
 import _ from 'lodash';
 import { withNavigation } from 'react-navigation';
 
-import CityPicker from './CityPicker';
+import CityPicker from './CustomPicker';
 
-let toBeShown;
+let toBeShown = '';
 function AccInfo(props){
     const [InvalidName, setInvalidName] = useState('');
     const [missMatch, setmissMatch] = useState('');
+    const [cities] = useState([{name: "Gasabo"}, {name: "Kicukiro"}, {name: "Nyarugenge"}]);
+
+    useEffect(() =>{
+        if(!props.City){
+            props.Credential({prop: 'City', value: cities[1]})
+        }
+        return function cleanup() {
+            props.resetErrorMessage();
+        };
+    }, [])
 
     const validateName = (text, type) =>{
         if(text.length < 2){
@@ -27,13 +37,6 @@ function AccInfo(props){
         }
         props.Credential({prop: type, value: text})
     }
-
-    useEffect(() =>{
-        return function cleanup() {
-            props.resetErrorMessage();
-        };
-    }, [])
-
     const functionsCombined=() =>{
         const {City, Address1, Address2, FirstName, LastName} = props;
         if(InvalidName !== ''){
@@ -55,10 +58,12 @@ function AccInfo(props){
     }
 
     const showMissMatch = () =>{
-        if(missMatch){
-            toBeShown = missMatch
+        if(missMatch !== ''){
+            toBeShown = missMatch;
+            missMatch = '';
         }else if(props.errorMessage !== ''){
-            toBeShown = props.errorMessage
+            toBeShown = props.errorMessage;
+            props.resetErrorMessage();
         }
         if(toBeShown !== ''){
             Alert.alert(toBeShown);
@@ -119,7 +124,7 @@ function AccInfo(props){
         }
     }
 
-        const {FirstName, LastName, City, Address1, Address2} = props;
+        const {FirstName, LastName, City, Address1, Address2, Credential} = props;
         return(
             <View style={{flex: 1, backgroundColor: Colors.mainBackGround}} behaviour={'padding'} enabled={false}>
                 <Header HeaderText={'Account Settings'} HeaderStyle={{backgroundColor: 'transparent'}} 
@@ -143,7 +148,7 @@ function AccInfo(props){
                 value={LastName}
                 placeholderTextColor={Colors.mainForeGround}
                 />
-                <CityPicker />
+                <CityPicker title={'City: '} arr={cities} value={City} setValue={(item) => Credential({prop: "City", value: item})}/>
                 <Input
                 placeholder='Address1'
                 leftIcon={<Icon2 name={'address'} size={25} color={Colors.mainForeGround}/>}

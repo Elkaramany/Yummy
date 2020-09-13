@@ -1,6 +1,8 @@
 const INITIAL_STATE={
     allFoods: [],
     allCategories: [],
+    allSides: [],
+    allDressings: [],
     addError:'',
     totalPrice: 0,
 }
@@ -8,8 +10,12 @@ const INITIAL_STATE={
 export default(state={INITIAL_STATE}, action)=>{
     if(action.type === "assign_all_foods"){
         return {...state, allFoods: action.payload}
-    } else if(action.type === "assign_all_categories"){
+    }else if(action.type === "assign_all_categories"){
         return {...state, allCategories: action.payload}
+    }else if(action.type === "assign_all_sides"){
+        return {...state, allSides: action.payload}
+    }else if(action.type === "assign_all_dressings"){
+        return {...state, allDressings: action.payload}
     }else if(action.type === "My_Order_Success" || action.type === "My_Order_Fail" || action.type === 'remove'){
         return{...state, addError: action.payload}
     }else if(action.type === "erase_error"){

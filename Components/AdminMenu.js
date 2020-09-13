@@ -47,13 +47,17 @@ function AdminMenu(props){
                 <Text style={styles.miniHeaderStyle}>Order:</Text>
                 {item.data.map((order, index) =>{
                     return(
+                        <>
                         <Text style={styles.itemName}>{index + 1}. {order.name}</Text>
+                        <Text style={styles.itemName}>Sides: {order.sides}</Text>
+                        <Text style={styles.itemName}>Dressings: {order.dressings}</Text>
+                        </>
                     )
                 })}
                 <Text style={styles.miniHeaderStyle}>Notes:</Text>
                 <Text style={styles.itemName}>{item.method}</Text>
                 <Text style={styles.itemName}>Order made in: {item.fullDate}</Text>
-                <Text style={styles.itemName}>Total Price: {item.price}</Text>
+                <Text style={styles.itemName}>Total Price: {item.price}RWF</Text>
                 <Text style={styles.miniHeaderStyle}>Customer Information:</Text>
                 <Text style={styles.itemName}>Name: {item.address.FirstName} {item.address.LastName}</Text>
                 {showDelivery(item)}

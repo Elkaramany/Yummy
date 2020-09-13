@@ -7,9 +7,16 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Colors} from './Colors';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { map } from 'lodash';
+import CustomPicker from './CustomPicker';
 
 function FoodSpecific(props){
     const [count, setCount] = useState(null);
+    const [addedPrice, setAddedPrice] = useState(0);
+    const [side, setSide] = useState("No sides");
+    const [dressing, setDressing] = useState("No dressings");
+
+    const {item, category} = props.navigation.state.params;
+    let title = `${item.name} ${category.name}`;
 
     const showErrorMessage = () =>{
         if(props.errorMessage){
@@ -26,8 +33,16 @@ function FoodSpecific(props){
     }
 
     useEffect(() =>{
-        setCount(props.navigation.state.params.item.count);
+        props.sides.map(e =>{
+            if(e.name === side){
+                setAddedPrice(e.price);
+                return;
+            }
+        })
+    }, [side])
 
+    useEffect(() =>{
+        setCount(props.navigation.state.params.item.count);
         return () =>{
             props.ResetError();
         }
@@ -73,18 +88,26 @@ function FoodSpecific(props){
             Alert.alert("Please login to access your cart");
             props.navigation.navigate("Home");
         }else{
-            props.AddUserFood(item);
+            let x = {...item};
+            x.name = title;
+            x.price += addedPrice;
+            x.sides = side;
+            x.dressings = dressing;
+            props.AddUserFood(x);
         }
     }
 
-    const {item, category} = props.navigation.state.params;
-    let title = "";
-    title += item.name + " ";
-    if(category.id !== 7){
-        title += category.name;
-    }else{
-        title += "dressing";
+    const showDressings =()=>{
+        if(category.name === "Salads" || category.name === "Veggie Bowls"){
+            return(
+                <CustomPicker title={'Dressings: '} arr={props.dressings} value={dressing} 
+                setValue={(item) => setDressing(item)} 
+                pickerWidth={'90%'}
+                />
+            )
+        }
     }
+    
     return(
         <ScrollView style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
             <HeaderArrow HeaderText={`${title}`} HeaderStyle={{backgroundColor: 'transparent'}}
@@ -100,7 +123,12 @@ function FoodSpecific(props){
                 <Text style={styles.ingStyle}>
                     {item.ingredients}
                 </Text>
-                <Text style={[styles.ingStyle, {fontWeight:'bold'}]}>Price: {item.price}RWF</Text>
+                <CustomPicker title={'Sides: '} arr={props.sides} value={side} 
+                setValue={(item) => setSide(item)} 
+                pickerWidth={'90%'}
+                />
+                {showDressings()}
+                <Text style={[styles.ingStyle, {fontWeight:'bold'}]}>Price: {(item.price + addedPrice) * item.count}RWF</Text>
                 <View style={{flexDirection: 'row', padding: 10, alignItems: 'center'}}
                 >
                     <Text style={[styles.ingStyle, {marginHorizontal: 10, bottom: 3}]}>Quantity: </Text>
@@ -140,13 +168,11 @@ function FoodSpecific(props){
 
 const styles = EStyleSheet.create({
     container:{
-        //flex: 1,
-        //justifyContent: 'center',
         alignItems: 'center',
         marginTop: '10rem',
     },
     imageDims:{
-        height: '300rem',
+        height: '250rem',
         width: '300rem',
         borderRadius: '20rem',
     },catTitle:{
@@ -174,7 +200,9 @@ const styles = EStyleSheet.create({
 const mapStateToProps =({FoodsReducer, SignInReducer}) =>{
     return{
         errorMessage: FoodsReducer.addError,
-        user: SignInReducer.user
+        user: SignInReducer.user,
+        sides: FoodsReducer.allSides,
+        dressings: FoodsReducer.allDressings,
     }
 }
 

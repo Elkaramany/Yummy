@@ -6,7 +6,7 @@ import { Input, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import _ from 'lodash';
 import {Colors} from './Colors';
-import {Credential, TryLogin, fetchData, getAllCategories, getAllFoods, fetchMyOrders, fetchAdmin} from '../actions';
+import {Credential, TryLogin, fetchData, fetchAll, fetchMyOrders, fetchAdmin} from '../actions';
 
 import Spinner from './common/Spinner';
 
@@ -14,8 +14,7 @@ function Home(props){
     
     useEffect(() =>{
         if(props.user){
-            props.getAllFoods();
-            props.getAllCategories();
+            props.fetchAll();
             props.fetchData(props.user.user.uid);
             props.fetchAdmin(props.user.user.uid);
             props.fetchMyOrders(props.user.user.uid);
@@ -217,5 +216,5 @@ const mapStateToProps= ({ SignInReducer, FetchedDatabase}) =>{
     }
 }
 
-export default connect(mapStateToProps, { Credential, TryLogin, fetchData, getAllCategories
-    , getAllFoods, fetchMyOrders, fetchAdmin}) (Home);
+export default connect(mapStateToProps, { Credential, TryLogin, fetchData
+    , fetchAll, fetchMyOrders, fetchAdmin}) (Home);

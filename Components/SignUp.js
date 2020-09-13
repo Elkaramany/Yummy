@@ -1,81 +1,73 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Alert} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {Input, Button} from 'react-native-elements';
 import HeaderArrow from './common/HeaderArrow';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon2 from 'react-native-vector-icons/Entypo';
-import {createAccount, Credential} from '../actions';
+import {Credential} from '../actions';
 import {connect} from 'react-redux';
 import {Colors} from './Colors';
 
 import Spinner from './common/Spinner';
-import CityPicker from './CityPicker';
+import CityPicker from './CustomPicker';
 
-class SignUp extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            missMatch: '',
-            InvalidName:'',
-        }
-    }
+function SignUp (props){
 
-    functionsCombined = () =>{
-        const {City, Address1, Address2, FirstName, LastName} = this.props;
-        if(this.state.InvalidName !== ''){
-            this.setState({missMatch: this.state.InvalidName})
+    const [missMatch, setMissmatch] = useState('');
+    const [InvalidName, setInvalidName] = useState('');
+    const [cities] = useState([{name: "Gasabo"}, {name: "Kicukiro"}, {name: "Nyarugenge"}]);
+
+    useEffect(() =>{
+        props.Credential({prop: 'City', value: cities[1]})
+    }, [])
+
+
+    const functionsCombined = () =>{
+        const {City, Address1, Address2, FirstName, LastName} = props;
+        if(InvalidName !== ''){
+            setMissmatch(InvalidName);
         }else if(!City || !Address1 || !Address2 || !FirstName || !LastName){
             Alert.alert("Please fill all form values")
         }else{
-            this.setState({missMatch: ''});
-            this.setState({InvalidName: ''})
-            this.functionTwo();
+            setMissmatch('');
+            setInvalidName('');
+            functionTwo();
         }
     }
 
-    functionTwo = () =>{
-        this.props.navigation.navigate('SignUpFinal');
+    const functionTwo = () =>{
+        props.navigation.navigate('SignUpFinal');
     }
 
-    validateEmail = (text) =>{
+    const validateEmail = (text) =>{
         const form = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if(!text.match(form)){
-        this.setState({InvalidEmail:'Incorrect email'});
+            setInvalidName('Incorrect email format');
         }
         else {
-            this.setState({InvalidEmail: 'Valid email'})
+            setInvalidName('');
         }
-        this.props.Credential({prop: 'email', value: text})
+        props.Credential({prop: 'email', value: text})
     }
 
-    validatePassword = (text) =>{
-        const formula=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-        if(!text.match(formula)){
-            this.setState({InvalidPassword: 'Incorrect password'})
-        }else{
-            this.setState({InvalidPassword: 'Valid password'})
-        }
-        this.props.Credential({prop: 'password', value: text})
-    }
-
-    showMissMatch = () =>{
-        if(this.state.missMatch){
-            return <View style={styles.buttonContainer}><Text style={styles.textMissMatch}>{this.state.missMatch}</Text></View>
+    const showMissMatch = () =>{
+        if(missMatch){
+            return <View style={styles.buttonContainer}><Text style={styles.textMissMatch}>{missMatch}</Text></View>
         }
     }
 
-    validateName = (text, type) =>{
+    const validateName = (text, type) =>{
         if(text.length < 2){
-            this.setState({InvalidName: `${type} must be more than 2 chars long.`})
+            setInvalidName(`${type} must be more than 2 chars long.`);
         }else{
-            this.setState({InvalidName: ""})
+            setInvalidName('');
         }
-        this.props.Credential({prop: type, value: text})
+        props.Credential({prop: type, value: text})
     }
 
-    showButton = () =>{
-        if(!this.props.loading){
+    const showButton = () =>{
+        if(!props.loading){
         return(
             <View style={styles.buttonContainer2}>
             <Button
@@ -89,7 +81,7 @@ class SignUp extends React.Component{
                 title={'Proceed to Sign Up'}
                 titleStyle={styles.buttonTitleStyle}
                 buttonStyle={styles.Login}
-                onPress={() => this.functionsCombined()}
+                onPress={() => functionsCombined()}
             />
         </View>
         )}else{
@@ -97,61 +89,61 @@ class SignUp extends React.Component{
         }
     }
 
-    backToSignIn = () =>{
-        this.props.navigation.navigate('Home');
+    const backToSignIn = () =>{
+        props.navigation.navigate('Home');
     }
 
-
-    render(){
-        const {Address1, Address2, FirstName, LastName} = this.props;
-        return(
-            <View style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
-            <HeaderArrow  navigateMeBack={() => this.backToSignIn()} HeaderText={'Sign up (1 of 2)'} 
-            HeaderStyle={{backgroundColor: 'transparent'}} />
-            <View style={styles.container}>
-                <Input
-                placeholder='First Name'
-                leftIcon={<Icon name={'account'} size={25} color={Colors.mainForeGround}/>}
-                inputContainerStyle={styles.textInputContainer}
-                inputStyle={styles.textInputStyle}
-                onChangeText={(text) => this.validateName(text, "FirstName")}
-                value={FirstName}
-                placeholderTextColor={Colors.mainForeGround}
-                />
-                <Input
-                placeholder='Last Name'
-                leftIcon={<Icon name={'account-box'} size={25} color={Colors.mainForeGround}/>}
-                inputStyle={styles.textInputStyle}
-                inputContainerStyle={styles.textInputContainer}
-                onChangeText={(text) => this.validateName(text, "LastName")}
-                value={LastName}
-                placeholderTextColor={Colors.mainForeGround}
-                />
-                <CityPicker />
-                <Input
-                placeholder='Address1'
-                leftIcon={<Icon2 name={'address'} size={25} color={Colors.mainForeGround}/>}
-                inputStyle={styles.textInputStyle}
-                inputContainerStyle={styles.textInputContainer}
-                value={Address1}
-                onChangeText={(text) => this.validateName(text, "Address1")}
-                placeholderTextColor={Colors.mainForeGround}
-                />
-                <Input
-                placeholder='Address2'
-                leftIcon={<Icon2 name={'address'} size={25} color={Colors.mainForeGround}/>}
-                inputStyle={styles.textInputStyle}
-                inputContainerStyle={styles.textInputContainer}
-                value={Address2}
-                onChangeText={(text) => this.validateName(text, "Address2")}
-                placeholderTextColor={Colors.mainForeGround}
-                />
-                {this.showButton()}
-                {this.showMissMatch()}
-        </View>
-        </View>
-        )
-    }
+    const {Address1, Address2, FirstName, LastName, City, Credential} = props;
+    return(
+        <View style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
+        <HeaderArrow  navigateMeBack={() => backToSignIn()} HeaderText={'Sign up (1 of 2)'} 
+        HeaderStyle={{backgroundColor: 'transparent'}} />
+        <View style={styles.container}>
+            <Input
+            placeholder='First Name'
+            leftIcon={<Icon name={'account'} size={25} color={Colors.mainForeGround}/>}
+            inputContainerStyle={styles.textInputContainer}
+            inputStyle={styles.textInputStyle}
+            onChangeText={(text) => validateName(text, "FirstName")}
+            value={FirstName}
+            placeholderTextColor={Colors.mainForeGround}
+            />
+            <Input
+            placeholder='Last Name'
+            leftIcon={<Icon name={'account-box'} size={25} color={Colors.mainForeGround}/>}
+            inputStyle={styles.textInputStyle}
+            inputContainerStyle={styles.textInputContainer}
+            onChangeText={(text) => validateName(text, "LastName")}
+            value={LastName}
+            placeholderTextColor={Colors.mainForeGround}
+            />
+            <CityPicker title={'City: '} arr={cities} value={City} 
+            setValue={(item) => Credential({prop: "City", value: item})}
+            pickerWidth={'100%'}
+            />
+            <Input
+            placeholder='Address1'
+            leftIcon={<Icon2 name={'address'} size={25} color={Colors.mainForeGround}/>}
+            inputStyle={styles.textInputStyle}
+            inputContainerStyle={styles.textInputContainer}
+            value={Address1}
+            onChangeText={(text) => validateName(text, "Address1")}
+            placeholderTextColor={Colors.mainForeGround}
+            />
+            <Input
+            placeholder='Address2'
+            leftIcon={<Icon2 name={'address'} size={25} color={Colors.mainForeGround}/>}
+            inputStyle={styles.textInputStyle}
+            inputContainerStyle={styles.textInputContainer}
+            value={Address2}
+            onChangeText={(text) => validateName(text, "Address2")}
+            placeholderTextColor={Colors.mainForeGround}
+            />
+            {showButton()}
+            {showMissMatch()}
+    </View>
+    </View>
+    )
 }
 
 const styles = EStyleSheet.create({
@@ -207,4 +199,4 @@ const mapStateToProps= ({ SignInReducer}) =>{
     }
 }
 
-export default connect(mapStateToProps, {createAccount, Credential})(SignUp);
+export default connect(mapStateToProps, {Credential})(SignUp);

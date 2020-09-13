@@ -26,18 +26,20 @@ const styles = EStyleSheet.create({
         alignItems: 'center',
         height: '25rem',
         width: '100%',
-        marginTop: '10rem',
+        marginTop: '15rem',
+        marginBottom: '5rem',
         shadowColor: '#000',
         shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.2,
         elevation: 2,
-        marginHorizontal: '5rem'
+        marginHorizontal: '5rem',
     },
     TextStyle:{
         fontSize: '18rem',
         fontWeight: 'bold',
         textAlign: 'center',
         color: Colors.mainHeader,
+        marginHorizontal: '50rem',
     }
 })
 

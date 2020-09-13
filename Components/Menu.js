@@ -1,7 +1,7 @@
 import  React, {useEffect, useState} from 'react';
 import {View, Text, FlatList, ScrollView, TouchableOpacity, Image} from 'react-native';
 import {connect} from 'react-redux';
-import {getAllCategories, getAllFoods} from '../actions';
+import {fetchAll} from '../actions';
 import _ from 'lodash';
 import EStyleSheet from 'react-native-extended-stylesheet'
 import {Colors} from './Colors';
@@ -11,11 +11,9 @@ import {withNavigation} from 'react-navigation';
 function Menu(props){
 
     const [loaded, setLoaded] = useState(false);
-    const [font, setFont] = useState("");
     
     useEffect(()=>{
-        props.getAllFoods();
-        props.getAllCategories();
+        props.fetchAll();
     },[])
 
     useEffect(()=>{
@@ -76,7 +74,7 @@ function Menu(props){
 
     if(loaded){     
         return(
-            <View style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
+            <View style={{flex: 1, backgroundColor: Colors.mainBackGround, marginBottom: 10}}>
                 {showLogin()}
                 <FlatList 
                 data={props.categories}
@@ -105,8 +103,8 @@ container:{
         color: Colors.mainFooter,
         textAlign: 'center'
     },imageDims:{
-        height: '150rem',
-        width: '150rem',
+        height: '120rem',
+        width: '120rem',
         borderRadius: '20rem',
     },catTitle:{
         fontSize: '12rem',
@@ -127,4 +125,4 @@ const mapStateToProps =({FoodsReducer, SignInReducer}) =>{
     }
 }
 
-export default withNavigation(connect(mapStateToProps, {getAllCategories, getAllFoods}) (Menu));
+export default withNavigation(connect(mapStateToProps, {fetchAll}) (Menu));

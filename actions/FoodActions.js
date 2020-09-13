@@ -3,20 +3,36 @@ import firebase from 'firebase';
 import {Alert} from 'react-native';
 
 
-export const getAllFoods = () =>{
+export const fetchAll = ()=>{
     return(dispatch)=>{
-        axios.get("https://arcane-ocean-58349.herokuapp.com/food?item=fetch_all_foods").then((item) =>{
-            dispatch({type: 'assign_all_foods', payload: item.data})
-        })
+        getAllFoods(dispatch);
+        getAllCategories(dispatch);
+        getAllSides(dispatch);
+        getAllDressings(dispatch);
     }
 }
 
-export const getAllCategories = () =>{
-    return(dispatch)=>{
-        axios.get("https://arcane-ocean-58349.herokuapp.com/food?item=fetch_all_categories").then((item) =>{
-            dispatch({type: 'assign_all_categories', payload: item.data})
-        })
-    }
+const getAllFoods = (dispatch) =>{
+    axios.get("https://arcane-ocean-58349.herokuapp.com/food?item=fetch_all_foods").then((item) =>{
+        dispatch({type: 'assign_all_foods', payload: item.data})
+    })
+}
+
+const getAllCategories = (dispatch) =>{
+    axios.get("https://arcane-ocean-58349.herokuapp.com/food?item=fetch_all_categories").then((item) =>{
+        dispatch({type: 'assign_all_categories', payload: item.data})
+    })
+}
+
+const getAllSides = (dispatch) =>{
+    axios.get("https://arcane-ocean-58349.herokuapp.com/food?item=fetch_all_sides").then((item) =>{
+        dispatch({type: 'assign_all_sides', payload: item.data})
+    })
+}
+const getAllDressings = (dispatch) =>{
+    axios.get("https://arcane-ocean-58349.herokuapp.com/food?item=fetch_all_dressings").then((item) =>{
+        dispatch({type: 'assign_all_dressings', payload: item.data})
+    })
 }
 
 export const AddUserFood = (item) =>{
