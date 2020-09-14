@@ -75,14 +75,12 @@ function Cart(props){
                 return(
                     <>
                         <View style={styles.container}>
-                            <View style={styles.secondContainer}>
-                                <Text style={styles.catTitle}>{item.name}</Text>
-                                <Text style={styles.catTitle}>Sides: {item.sides}</Text>
-                                <Text style={styles.catTitle}>Dressings: {item.dressings}</Text>
-                                <Text style={styles.catTitle}>Price: {item.price} RWF</Text>
-                                <Text style={styles.catTitle}>Quantity: {item.count}</Text>
-                                <Text style={styles.catTitle}>Total price: {item.count * item.price} RWF</Text>
-                            </View>
+                            <Text style={styles.catTitle}>{item.name}</Text>
+                            <Text style={styles.catTitle}>Sides: {item.sides}</Text>
+                            <Text style={styles.catTitle}>Dressings: {item.dressings}</Text>
+                            <Text style={[styles.catTitle, {fontWeight: 'bold'}]}>Item price: {item.price} RWF</Text>
+                            <Text style={styles.catTitle}>Quantity: {item.count}</Text>
+                            <Text style={[styles.catTitle, {fontWeight: 'bold'}]}>Total price: {item.count * item.price} RWF</Text>
                         </View>
                         <TouchableOpacity style={styles.singleRemove}
                         onPress={() => functionsCombined(item.uid)}
@@ -119,22 +117,16 @@ const styles = EStyleSheet.create({
     },
     container:{
         margin: '5rem',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
+        marginLeft: '15rem',
+        justifyContent: 'center'
     },catTitle:{
-        fontSize: '14rem',
+        fontSize: '15rem',
         color: Colors.mainForeGround,
-        textAlign: 'center',
+        marginVertical: '3rem'
     },headerTextStyle:{
         color: Colors.mainForeGround,
         fontSize: '20rem',
         fontWeight: 'bold'
-    },secondContainer:{
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: '5rem',
     },footerStyle:{
         fontSize: '20rem',
         fontWeight:'bold',

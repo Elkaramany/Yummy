@@ -17,7 +17,7 @@ function CustomPicker(props){
             onValueChange={(itemValue) => setValue(itemValue) }
             >
                 {arr.map(pick =>{
-                    return <Picker.Item label={pick.name} value={pick.name} key={pick.name}/>
+                    return <Picker.Item label={pick.name} value={pick.name} key={pick.name} style={styles.pickerItemStyle}/>
                 })}
             </Picker>
         </View>
@@ -35,11 +35,12 @@ const styles = EStyleSheet.create({
         flex: 1,
         height: '25rem',
         color: Colors.mainForeGround,
-        fontSize: '15rem', 
     },textInputStyle:{
-        fontSize: '15rem',
+        fontSize: '17rem',
         color: Colors.mainForeGround,
-    },
+    },pickerItemStyle:{
+        fontSize: '17rem'
+    }
 })
 
 export default CustomPicker;

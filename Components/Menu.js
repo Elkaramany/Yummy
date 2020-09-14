@@ -17,7 +17,7 @@ function Menu(props){
     },[])
 
     useEffect(()=>{
-        if(props.foods){
+        if(props.foods !== undefined && props.foods.length !== 0){
             setLoaded(true);
         }
     },[props.foods])
@@ -64,10 +64,14 @@ function Menu(props){
                 <TouchableOpacity
                 onPress={() => props.navigation.navigate("Home")}
                 >
-                    <Text style={[styles.categoryStyle, {color: Colors.mainHeader, textAlign: 'center'}]}>
+                    <Text style={[styles.categoryStyle, styles.loginStyle]}>
                         Login Here for more of Yummy n Fresh
                     </Text>
                 </TouchableOpacity>
+            )
+        }else{
+            return(
+                <Text style={[styles.categoryStyle, styles.loginStyle]}>Delivering to {props.City}</Text>
             )
         }
     }
@@ -104,16 +108,20 @@ container:{
         textAlign: 'center'
     },imageDims:{
         height: '120rem',
-        width: '120rem',
+        width: '150rem',
         borderRadius: '20rem',
     },catTitle:{
-        fontSize: '12rem',
+        fontSize: '14rem',
         color: Colors.mainForeGround,
         alignSelf: 'center'
     },singleItemContainer:{
         justifyContent: 'center',
         alignItems: 'center',
-        marginHorizontal: '3rem'
+        marginHorizontal: '8rem',
+        marginVertical: "5rem",
+    },loginStyle:{color: Colors.mainHeader, 
+        textAlign: 'center',
+        marginVertical: '10rem'
     }
 })
 
@@ -121,7 +129,8 @@ const mapStateToProps =({FoodsReducer, SignInReducer}) =>{
     return{
         foods: FoodsReducer.allFoods,
         categories: FoodsReducer.allCategories,
-        user: SignInReducer.user
+        user: SignInReducer.user,
+        City: SignInReducer.City,
     }
 }
 

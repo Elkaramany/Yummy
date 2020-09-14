@@ -100,10 +100,12 @@ function FoodSpecific(props){
     const showSides =()=>{
         if(category.name !== "Smoothies" && category.name !== "Juices"){
             return(
+                <View style={styles.pickerStyle}>
                 <CustomPicker title={'Sides: '} arr={props.sides} value={side} 
-                setValue={(item) => setSide(item)} 
-                pickerWidth={'90%'}
+                    setValue={(item) => setSide(item)} 
+                    pickerWidth={'90%'}
                 />
+                </View>
             )
         }
     }
@@ -111,10 +113,12 @@ function FoodSpecific(props){
     const showDressings =()=>{
         if(category.name === "Salads" || category.name === "Veggie Bowls"){
             return(
+                <View style={styles.pickerStyle}>
                 <CustomPicker title={'Dressings: '} arr={props.dressings} value={dressing} 
                 setValue={(item) => setDressing(item)} 
                 pickerWidth={'90%'}
                 />
+                </View>
             )
         }
     }
@@ -130,13 +134,12 @@ function FoodSpecific(props){
                 source={{uri: item.ImageLink}}
                 style={styles.imageDims}
                 />
-                <Text style={[styles.ingStyle, {fontWeight:'bold'}]}>Ingredients:</Text>
                 <Text style={styles.ingStyle}>
                     {item.ingredients}
                 </Text>
                 {showSides()}
                 {showDressings()}
-                <Text style={[styles.ingStyle, {fontWeight:'bold'}]}>Price: {(item.price + addedPrice) * item.count}RWF</Text>
+                <Text style={[styles.ingStyle, {fontWeight:'bold'}]}>Total Price: {(item.price + addedPrice) * item.count}RWF</Text>
                 <View style={{flexDirection: 'row', padding: 10, alignItems: 'center'}}
                 >
                     <Text style={[styles.ingStyle, {marginHorizontal: 10, bottom: 3}]}>Quantity: </Text>
@@ -149,7 +152,7 @@ function FoodSpecific(props){
                         size={18}
                         />
                     </TouchableOpacity>   
-                    <Text style={[styles.ingStyle, {marginHorizontal: 10, bottom: 3, color: Colors.mainFooter}]}>{item.count}</Text>
+                    <Text style={[styles.ingStyle, {marginHorizontal: 10, color: Colors.mainFooter}]}>{item.count}</Text>
                     <TouchableOpacity onPress={() => functionsCombinedMinus(item)}>
                         <Icon 
                         name={'minus-circle'}
@@ -180,20 +183,20 @@ const styles = EStyleSheet.create({
         marginTop: '10rem',
     },
     imageDims:{
-        height: '250rem',
+        height: '225rem',
         width: '300rem',
         borderRadius: '20rem',
+        marginBottom: '5rem'
     },catTitle:{
         fontSize: '19rem',
         color: Colors.mainHeader,
         fontWeight: 'normal',
         alignSelf: 'center',
     },ingStyle:{
-        marginTop: '5rem',
-        fontSize: '15rem',
+        fontSize: '18rem',
         color: Colors.mainForeGround,
-        marginHorizontal: '10rem',
-        textAlign: 'center'
+        marginHorizontal: '20rem',
+        marginVertical: '10rem',
     },buttonContainer:{
         height: '20rem',
         justifyContent: 'center',
@@ -203,6 +206,9 @@ const styles = EStyleSheet.create({
         fontSize: '14rem',
         textAlign: 'center'
     },
+    pickerStyle:{
+        marginVertical: '5rem'
+    }
 })
 
 const mapStateToProps =({FoodsReducer, SignInReducer}) =>{

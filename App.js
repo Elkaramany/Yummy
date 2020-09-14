@@ -23,7 +23,7 @@ const AppContainer = createAppContainer(RootStack);
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['SignInReducer']
+  whitelist: ['SignInReducer', 'FetchedDatabase']
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -34,10 +34,6 @@ const store = createStore(persistedReducer, {},
   );
 
 export default class App extends PureComponent{
-  constructor(props){
-    super(props);
-  }
-
   //firebase
   UNSAFE_componentWillMount(){
     if(!firebase.apps.length){
@@ -59,7 +55,6 @@ export default class App extends PureComponent{
 
   render(){
   const persistor = persistStore(store);
-  persistor.purge();
   return (
     <Provider store={store}>
       <View style={styles.container}>

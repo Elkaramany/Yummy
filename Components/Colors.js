@@ -1,6 +1,6 @@
 export const Colors= {
     mainBackGround: '#fff',
-    mainForeGround: "#000",
+    mainForeGround: "#338329",
     sideText: '#F26522',
     mainFooter: 'tomato',
     brightRed: '#a35d6a',

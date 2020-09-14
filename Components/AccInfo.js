@@ -208,6 +208,7 @@ const styles = EStyleSheet.create({
     },buttonContainer2:{
         justifyContent: 'center',
         alignItems: 'center',
+        marginVertical: '5rem'
     },headerTextStyle:{
         color: Colors.mainForeGround,
         fontSize: '18rem',
