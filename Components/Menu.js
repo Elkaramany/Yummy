@@ -1,20 +1,26 @@
 import  React, {useEffect, useState} from 'react';
 import {View, Text, FlatList, ScrollView, TouchableOpacity, Image} from 'react-native';
 import {connect} from 'react-redux';
-import {fetchAll} from '../actions';
+import {fetchAll, Credential} from '../actions';
 import _ from 'lodash';
 import EStyleSheet from 'react-native-extended-stylesheet'
 import {Colors} from './Colors';
 import Spinner from './common/Spinner';
 import {withNavigation} from 'react-navigation';
+import CityPicker from './CustomPicker';
 
 function Menu(props){
 
     const [loaded, setLoaded] = useState(false);
-    
-    useEffect(()=>{
+    const [selectedCity, setSelectedCity] = useState("No city selected")
+    const [cities] = useState([{name: "Gasabo"}, {name: "Kicukiro"}, {name: "Nyarugenge"}]);
+
+    useEffect(() =>{
         props.fetchAll();
-    },[])
+        if(!props.user){
+            props.Credential({prop: 'City', value: cities[1]})
+        }
+    }, [])
 
     useEffect(()=>{
         if(props.foods !== undefined && props.foods.length !== 0){
@@ -69,9 +75,24 @@ function Menu(props){
                     </Text>
                 </TouchableOpacity>
             )
-        }else{
+        }
+    }
+
+    const showAddress =()=>{
+        if(!props.user){
             return(
-                <Text style={[styles.categoryStyle, styles.loginStyle]}>Delivering to {props.City}</Text>
+                <View style={[styles.categoryStyle, styles.loginStyle]}>
+                <CityPicker title={'Delivering to  '} arr={cities} value={selectedCity} 
+                setValue={(item) => setSelectedCity(item)}
+                pickerWidth={'70%'}
+                />
+                </View>
+            )
+        }else{
+            return (
+                <Text style={[styles.categoryStyle, styles.loginStyle]}>
+                        Delivering to {props.City}
+                </Text>
             )
         }
     }
@@ -79,12 +100,13 @@ function Menu(props){
     if(loaded){     
         return(
             <View style={{flex: 1, backgroundColor: Colors.mainBackGround, marginBottom: 10}}>
-                {showLogin()}
+                {showAddress()}
                 <FlatList 
                 data={props.categories}
                 renderItem={(renderItem)}
                 keyExtractor={cat => cat.id}
                 />
+                {showLogin()}
             </View>
         )
     }else{
@@ -103,25 +125,26 @@ container:{
         backgroundColor: 'transparent',
     },categoryStyle:{
         fontSize: '20rem',
-        alignSelf: 'center',
         color: Colors.mainFooter,
-        textAlign: 'center'
+        marginLeft: '12rem'
     },imageDims:{
         height: '120rem',
         width: '150rem',
         borderRadius: '20rem',
+        alignSelf: 'center'
     },catTitle:{
         fontSize: '14rem',
         color: Colors.mainForeGround,
-        alignSelf: 'center'
+        marginLeft: '8rem',
+        marginVertical: '10rem',
     },singleItemContainer:{
         justifyContent: 'center',
-        alignItems: 'center',
-        marginHorizontal: '8rem',
+        marginHorizontal: '10rem',
         marginVertical: "5rem",
-    },loginStyle:{color: Colors.mainHeader, 
-        textAlign: 'center',
-        marginVertical: '10rem'
+    },loginStyle:{
+        color: Colors.mainHeader, 
+        marginVertical: '10rem',
+        textAlign: 'center'
     }
 })
 
@@ -134,4 +157,4 @@ const mapStateToProps =({FoodsReducer, SignInReducer}) =>{
     }
 }
 
-export default withNavigation(connect(mapStateToProps, {fetchAll}) (Menu));
+export default withNavigation(connect(mapStateToProps, {fetchAll, Credential}) (Menu));

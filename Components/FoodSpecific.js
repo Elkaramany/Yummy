@@ -101,7 +101,7 @@ function FoodSpecific(props){
         if(category.name !== "Smoothies" && category.name !== "Juices"){
             return(
                 <View style={styles.pickerStyle}>
-                <CustomPicker title={'Sides: '} arr={props.sides} value={side} 
+                <CustomPicker title={'Sides:  '} arr={props.sides} value={side} 
                     setValue={(item) => setSide(item)} 
                     pickerWidth={'90%'}
                 />
@@ -114,7 +114,7 @@ function FoodSpecific(props){
         if(category.name === "Salads" || category.name === "Veggie Bowls"){
             return(
                 <View style={styles.pickerStyle}>
-                <CustomPicker title={'Dressings: '} arr={props.dressings} value={dressing} 
+                <CustomPicker title={'Dressings:  '} arr={props.dressings} value={dressing} 
                 setValue={(item) => setDressing(item)} 
                 pickerWidth={'90%'}
                 />

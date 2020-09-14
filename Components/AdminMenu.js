@@ -16,12 +16,6 @@ function AdminMenu(props){
         props.fetchAllOrders();
     },[])
 
-    useEffect(() =>{
-        setTimeout(() =>{
-            props.fetchAllOrders();
-        }, 60000)
-    })
-
     const showDelivery=(item)=>{
         if(item.deliver){
             return(
@@ -109,7 +103,7 @@ const styles = EStyleSheet.create({
         fontSize: '18rem',
         fontWeight: 'bold'
     },itemName:{
-        fontSize: '14rem',
+        fontSize: '15rem',
         color: Colors.mainForeGround
     },miniHeaderStyle:{
         fontSize: '16rem',

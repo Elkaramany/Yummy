@@ -148,7 +148,10 @@ function AccInfo(props){
                 value={LastName}
                 placeholderTextColor={Colors.mainForeGround}
                 />
-                <CityPicker title={'City: '} arr={cities} value={City} setValue={(item) => Credential({prop: "City", value: item})}/>
+                <CityPicker title={'City:   '} arr={cities} value={City} 
+                setValue={(item) => Credential({prop: "City", value: item})}
+                pickerWidth={'95%'}
+                />
                 <Input
                 placeholder='Address1'
                 leftIcon={<Icon2 name={'address'} size={25} color={Colors.mainForeGround}/>}
