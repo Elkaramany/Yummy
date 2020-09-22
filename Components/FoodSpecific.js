@@ -139,10 +139,12 @@ function FoodSpecific(props){
                 </Text>
                 {showSides()}
                 {showDressings()}
-                <Text style={[styles.ingStyle, {fontWeight:'bold'}]}>Total Price: {(item.price + addedPrice) * item.count}RWF</Text>
+                <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+                <Text style={[styles.ingStyle, {fontWeight:'bold'}]}>Total Amount: {(item.price + addedPrice) * item.count}RWF</Text>
+                <Text style={styles.ingStyle}>{(item.price + addedPrice) * item.count}RWF</Text>
+                </View>
                 <View style={{flexDirection: 'row', padding: 10, alignItems: 'center'}}
                 >
-                    <Text style={[styles.ingStyle, {marginHorizontal: 10, bottom: 3}]}>Quantity: </Text>
                     <TouchableOpacity
                     onPress={() => functionsCombinedAdd(item)}
                     >
@@ -159,18 +161,18 @@ function FoodSpecific(props){
                         color={Colors.mainFooter}
                         size={18}
                         />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{flexDirection: 'row', marginTop: 10}}
+                    onPress={() => checkUserAndAdd()}
+                    >
+                        <Text style={[styles.catTitle, {color:Colors.mainFooter, fontFamily: 'roboto'}]}>Add to cart</Text>
+                        <Icon 
+                        name={'cart-plus'}
+                        color={Colors.mainFooter}
+                        size={25}
+                        />
                     </TouchableOpacity>  
                 </View>
-                <TouchableOpacity style={{flexDirection: 'row', marginTop: 10}}
-                onPress={() => checkUserAndAdd()}
-                >
-                    <Text style={[styles.catTitle, {color:Colors.mainFooter, fontFamily: 'roboto'}]}>Add to cart</Text>
-                    <Icon 
-                    name={'cart-plus'}
-                    color={Colors.mainFooter}
-                    size={25}
-                    />
-                </TouchableOpacity>
             </ScrollView>
             {showErrorMessage()}
         </ScrollView>

@@ -17,6 +17,7 @@ import Checkout from './Components/Checkout';
 import MainMenu from './Components/MainMenu';
 
 const ICON_SIZE = 28;
+const ACTIVE_TINT_COLOR = '#338329';
 
 //The customer account navigator
 
@@ -44,7 +45,7 @@ const RootTab = createBottomTabNavigator({
 tabBarOptions: {
   labelStyle: { fontSize: 18, marginTop: 5},
   tabStyle: {marginTop: 10},
-  activeTintColor: '#338329',
+  activeTintColor: ACTIVE_TINT_COLOR,
 },
 defaultNavigationOptions:{
   header: null,
@@ -71,7 +72,8 @@ const RootTab2 = createBottomTabNavigator({
   {
   tabBarOptions: {
     labelStyle: { fontSize: 18, marginTop: 5},
-    tabStyle: {marginTop: 10}
+    tabStyle: {marginTop: 10},
+    activeTintColor: ACTIVE_TINT_COLOR,
   },
   defaultNavigationOptions:{
     header: null,

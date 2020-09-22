@@ -23,9 +23,12 @@ function Menu(props){
     }, [])
 
     useEffect(()=>{
-        if(props.foods !== undefined && props.foods.length !== 0){
+        if(props.foods.length !== 0){
             setLoaded(true);
+        }else{
+            setLoaded(false);
         }
+
     },[props.foods])
 
     const renderItem =({item}) =>{
