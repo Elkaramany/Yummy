@@ -12,7 +12,7 @@ function Settings(props){
             Alert.alert("Please login to access your settings");
             props.navigation.navigate("Home");
         }else{
-            const {data, Credential} = props;
+        const {data, Credential} = props;
         data.map(d =>{
             Credential({prop: "FirstName", value: d.FirstName})
             Credential({prop: "LastName", value: d.LastName})

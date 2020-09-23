@@ -16,7 +16,12 @@ function SignUp (props){
 
     const [missMatch, setMissmatch] = useState('');
     const [InvalidName, setInvalidName] = useState('');
-    const [cities] = useState([{name: "Gasabo"}, {name: "Kicukiro"}, {name: "Nyarugenge"}]);
+    const [cities] = useState([{name: "Gasabo"}, {name: "Kicukiro"}, {name: "Nyarugenge"}
+    ,{name: 'City Centre'},{name: 'Free Trade zone'},{name: 'Gaculiro'},{name: 'Gikondo'},{name: 'Gishushu'}
+    ,{name: 'Gisozi'},{name: 'Kabeza'},{name: 'Kacyiru'},{name: 'Kagugu'},{name: 'Kanombe'},{name: 'Kibagabaga'}
+    ,{name: 'Kimihurura'},{name: 'Kimironko'},{name: 'Kinamba'},{name: 'Kinyinya'},{name: 'Kiyovu'},{name: 'Nyamirambo'}
+    ,{name: 'Nyarutarama'},{name: 'Rebero'},{name: 'Remera'}
+    ]);
 
     useEffect(() =>{
         props.Credential({prop: 'City', value: cities[1]})
@@ -117,9 +122,9 @@ function SignUp (props){
             value={LastName}
             placeholderTextColor={Colors.mainForeGround}
             />
-            <CityPicker title={'City: '} arr={cities} value={City} 
+            <CityPicker title={'City:   '} arr={cities} value={City} 
             setValue={(item) => Credential({prop: "City", value: item})}
-            pickerWidth={'100%'}
+            containerStyle={{marginRight: 50}}
             />
             <Input
             placeholder='Address1'

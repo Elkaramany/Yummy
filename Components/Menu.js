@@ -13,17 +13,19 @@ function Menu(props){
 
     const [loaded, setLoaded] = useState(false);
     const [selectedCity, setSelectedCity] = useState("No city selected")
-    const [cities] = useState([{name: "Gasabo"}, {name: "Kicukiro"}, {name: "Nyarugenge"}]);
+    const [cities] = useState([{name: "Gasabo"}, {name: "Kicukiro"}, {name: "Nyarugenge"}
+    ,{name: 'City Centre'},{name: 'Free Trade zone'},{name: 'Gaculiro'},{name: 'Gikondo'},{name: 'Gishushu'}
+    ,{name: 'Gisozi'},{name: 'Kabeza'},{name: 'Kacyiru'},{name: 'Kagugu'},{name: 'Kanombe'},{name: 'Kibagabaga'}
+    ,{name: 'Kimihurura'},{name: 'Kimironko'},{name: 'Kinamba'},{name: 'Kinyinya'},{name: 'Kiyovu'},{name: 'Nyamirambo'}
+    ,{name: 'Nyarutarama'},{name: 'Rebero'},{name: 'Remera'}
+    ]);
 
     useEffect(() =>{
         props.fetchAll();
-        if(!props.user){
-            props.Credential({prop: 'City', value: cities[1]})
-        }
     }, [])
 
     useEffect(()=>{
-        if(props.foods.length !== 0){
+        if(props.foods){
             setLoaded(true);
         }else{
             setLoaded(false);
@@ -82,22 +84,14 @@ function Menu(props){
     }
 
     const showAddress =()=>{
-        if(!props.user){
-            return(
-                <View style={[styles.categoryStyle, styles.loginStyle]}>
-                <CityPicker title={'Delivering to  '} arr={cities} value={selectedCity} 
-                setValue={(item) => setSelectedCity(item)}
-                pickerWidth={'70%'}
-                />
-                </View>
-            )
-        }else{
-            return (
-                <Text style={[styles.categoryStyle, styles.loginStyle]}>
-                        Delivering to {props.City}
-                </Text>
-            )
-        }
+        return(
+            <View style={[styles.categoryStyle, styles.loginStyle]}>
+            <CityPicker title={'Delivering to  '} arr={cities} value={selectedCity} 
+            setValue={(item) => setSelectedCity(item)}
+            pickerWidth={'70%'}
+            />
+            </View>
+        )
     }
 
     if(loaded){     

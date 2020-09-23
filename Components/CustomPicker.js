@@ -6,10 +6,10 @@ import {Colors} from './Colors';
 
 function CustomPicker(props){
 
-    const {title, arr, value,  setValue, pickerWidth} = props;
+    const {title, arr, value,  setValue, pickerWidth, containerStyle} = props;
 
     return(
-        <View style={[styles.container, {width: pickerWidth}]}>
+        <View style={[styles.container, {width: pickerWidth}, containerStyle]}>
             <Text style={styles.textInputStyle}>{title}</Text>
             <Picker
             selectedValue={value}

@@ -35,7 +35,7 @@ const store = createStore(persistedReducer, {},
 
 export default class App extends PureComponent{
   //firebase
-  UNSAFE_componentWillMount(){
+  componentDidMount(){
     if(!firebase.apps.length){
       var firebaseConfig = {
         apiKey: "AIzaSyCLr6CGAU-T5y9g4NmaGxrVfHpxsYEHC4s",
@@ -49,7 +49,6 @@ export default class App extends PureComponent{
       };
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
-      //firebase.analytics();
   }
 }
 
@@ -70,6 +69,5 @@ export default class App extends PureComponent{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
 });

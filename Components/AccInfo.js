@@ -18,7 +18,12 @@ let toBeShown = '';
 function AccInfo(props){
     const [InvalidName, setInvalidName] = useState('');
     const [missMatch, setmissMatch] = useState('');
-    const [cities] = useState([{name: "Gasabo"}, {name: "Kicukiro"}, {name: "Nyarugenge"}]);
+    const [cities] = useState([{name: "Gasabo"}, {name: "Kicukiro"}, {name: "Nyarugenge"}
+    ,{name: 'City Centre'},{name: 'Free Trade zone'},{name: 'Gaculiro'},{name: 'Gikondo'},{name: 'Gishushu'}
+    ,{name: 'Gisozi'},{name: 'Kabeza'},{name: 'Kacyiru'},{name: 'Kagugu'},{name: 'Kanombe'},{name: 'Kibagabaga'}
+    ,{name: 'Kimihurura'},{name: 'Kimironko'},{name: 'Kinamba'},{name: 'Kinyinya'},{name: 'Kiyovu'},{name: 'Nyamirambo'}
+    ,{name: 'Nyarutarama'},{name: 'Rebero'},{name: 'Remera'}
+    ]);
 
     useEffect(() =>{
         if(!props.City){

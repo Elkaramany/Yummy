@@ -141,9 +141,8 @@ function FoodSpecific(props){
                 {showDressings()}
                 <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
                 <Text style={[styles.ingStyle, {fontWeight:'bold'}]}>Total Amount: {(item.price + addedPrice) * item.count}RWF</Text>
-                <Text style={styles.ingStyle}>{(item.price + addedPrice) * item.count}RWF</Text>
                 </View>
-                <View style={{flexDirection: 'row', padding: 10, alignItems: 'center'}}
+                <View style={{flexDirection: 'row', alignItems: 'center'}}
                 >
                     <TouchableOpacity
                     onPress={() => functionsCombinedAdd(item)}
@@ -154,7 +153,7 @@ function FoodSpecific(props){
                         size={18}
                         />
                     </TouchableOpacity>   
-                    <Text style={[styles.ingStyle, {marginHorizontal: 10, color: Colors.mainFooter}]}>{item.count}</Text>
+                    <Text style={[styles.ingStyle, {marginHorizontal: 50, color: Colors.mainFooter}]}>{item.count}</Text>
                     <TouchableOpacity onPress={() => functionsCombinedMinus(item)}>
                         <Icon 
                         name={'minus-circle'}
@@ -162,17 +161,17 @@ function FoodSpecific(props){
                         size={18}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{flexDirection: 'row', marginTop: 10}}
+                </View>
+                <TouchableOpacity style={styles.checkoutButton}
                     onPress={() => checkUserAndAdd()}
                     >
-                        <Text style={[styles.catTitle, {color:Colors.mainFooter, fontFamily: 'roboto'}]}>Add to cart</Text>
+                        <Text style={[styles.catTitle, {color:Colors.mainBackGround, fontFamily: 'roboto'}]}>Add to cart</Text>
                         <Icon 
                         name={'cart-plus'}
-                        color={Colors.mainFooter}
+                        color={Colors.mainBackGround}
                         size={25}
                         />
                     </TouchableOpacity>  
-                </View>
             </ScrollView>
             {showErrorMessage()}
         </ScrollView>
@@ -210,6 +209,12 @@ const styles = EStyleSheet.create({
     },
     pickerStyle:{
         marginVertical: '5rem'
+    },checkoutButton:{
+        flexDirection: 'row', 
+        marginTop: '10rem', 
+        backgroundColor: Colors.mainFooter, 
+        padding: '8rem',
+        borderRadius: '15rem'
     }
 })
 
