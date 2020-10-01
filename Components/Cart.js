@@ -3,7 +3,7 @@ import {View, Text, FlatList, Image, ScrollView, Dimensions, TouchableOpacity, A
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {fetchMyOrders, deleteSingleFood, ResetError, addThePrice, deletetotalPriceCart} from '../actions';
+import {fetchMyOrders, deleteSingleFood, ResetError, deleteAllCart} from '../actions';
 import {Colors} from './Colors';
 import Header from './common/Header';
 import _ from 'lodash';
@@ -39,7 +39,7 @@ function Cart(props){
 
     const checkMeOut = () =>{
         if(totalPrice !== 0){
-            props.navigation.navigate('Checkout',{
+            props.navigation.navigate('MapLocations',{
                 data: props.data,
                 price: totalPrice,
             });
@@ -49,7 +49,7 @@ function Cart(props){
     }
 
     const ClearMeOut =() =>{
-        props.deletetotalPriceCart();
+        props.deleteAllCart();
     }
 
     const showFooter =()=>{
@@ -159,4 +159,4 @@ const mapStateToProps =({FetchedOrders, FoodsReducer, SignInReducer}) =>{
     }
 }
 
-export default connect(mapStateToProps, {fetchMyOrders, deleteSingleFood, ResetError, addThePrice, deletetotalPriceCart}) (Cart);
+export default connect(mapStateToProps, {fetchMyOrders, deleteSingleFood, ResetError, deleteAllCart}) (Cart);

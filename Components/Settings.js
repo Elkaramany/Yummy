@@ -1,34 +1,41 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Credential} from '../actions';
 import {Alert} from 'react-native';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import AccInfo from './AccInfo';
+import Spinner from './common/Spinner'
 
 function Settings(props){
+
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() =>{
         if(!props.user){
             Alert.alert("Please login to access your settings");
             props.navigation.navigate("Home");
         }else{
-        const {data, Credential} = props;
-        data.map(d =>{
-            Credential({prop: "FirstName", value: d.FirstName})
-            Credential({prop: "LastName", value: d.LastName})
-            Credential({prop: "City", value: d.City})
-            Credential({prop: "Address1", value: d.Address1})
-            Credential({prop: "Address2", value: d.Address2})
-            Credential({prop: "uid", value: d.uid})
-        })
-        }
+            const {data, Credential} = props;
+            data.map(d =>{
+                Credential({prop: "FirstName", value: d.FirstName})
+                Credential({prop: "LastName", value: d.LastName})
+                Credential({prop: "City", value: d.City})
+                Credential({prop: "Address1", value: d.Address1})
+                Credential({prop: "Address2", value: d.Address2})
+                Credential({prop: "uid", value: d.uid})
+                Credential({prop: "points", value: d.points})
+                setLoaded(true)        
+            })
+            }
     }, [])
 
     const takeMeToHome = () =>{
         props.navigation.navigate("Home");
     }
     
-    return <AccInfo away={() => takeMeToHome()}/>
+    if(loaded){
+        return <AccInfo away={() => takeMeToHome()}/>
+    }else return <Spinner size={'large'} />
 }
 
 

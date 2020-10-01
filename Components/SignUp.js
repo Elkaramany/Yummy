@@ -156,6 +156,7 @@ const styles = EStyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        bottom: '50rem'
     },
     textInputStyle:{
         fontSize: '13rem',

@@ -13,7 +13,7 @@ function Menu(props){
 
     const [loaded, setLoaded] = useState(false);
     const [selectedCity, setSelectedCity] = useState("No city selected")
-    const [cities] = useState([{name: "Gasabo"}, {name: "Kicukiro"}, {name: "Nyarugenge"}
+    const [cities, setCities] = useState([{name: "Gasabo"}, {name: "Kicukiro"}, {name: "Nyarugenge"}
     ,{name: 'City Centre'},{name: 'Free Trade zone'},{name: 'Gaculiro'},{name: 'Gikondo'},{name: 'Gishushu'}
     ,{name: 'Gisozi'},{name: 'Kabeza'},{name: 'Kacyiru'},{name: 'Kagugu'},{name: 'Kanombe'},{name: 'Kibagabaga'}
     ,{name: 'Kimihurura'},{name: 'Kimironko'},{name: 'Kinamba'},{name: 'Kinyinya'},{name: 'Kiyovu'},{name: 'Nyamirambo'}
@@ -21,7 +21,19 @@ function Menu(props){
     ]);
 
     useEffect(() =>{
-        props.fetchAll();
+        if(props.user && loaded){
+            const {data, Credential} = props;
+            data.map(d =>{
+                Credential({prop: "FirstName", value: d.FirstName})
+                Credential({prop: "LastName", value: d.LastName})
+                Credential({prop: "City", value: d.City})
+                Credential({prop: "Address1", value: d.Address1})
+                Credential({prop: "Address2", value: d.Address2})
+                Credential({prop: "uid", value: d.uid})
+                Credential({prop: "points", value: d.points})
+            })
+        }
+        props.fetchAll(); 
     }, [])
 
     useEffect(()=>{
@@ -84,14 +96,25 @@ function Menu(props){
     }
 
     const showAddress =()=>{
-        return(
-            <View style={[styles.categoryStyle, styles.loginStyle]}>
-            <CityPicker title={'Delivering to  '} arr={cities} value={selectedCity} 
-            setValue={(item) => setSelectedCity(item)}
-            pickerWidth={'70%'}
-            />
-            </View>
-        )
+        if(props.user){
+            return(
+                <TouchableOpacity 
+                onPress={() => props.navigation.navigate('Settings')}
+                >
+                    <Text style={[styles.categoryStyle, styles.loginStyle]}>Delivering to {props.City}</Text>
+                </TouchableOpacity>
+            )
+        }
+        else{
+            return(
+                <View style={[styles.categoryStyle, styles.loginStyle]}>
+                <CityPicker title={'Delivering to  '} arr={cities} value={selectedCity} 
+                setValue={(item) => setSelectedCity(item)}
+                pickerWidth={'70%'}
+                />
+                </View>
+            )
+        }
     }
 
     if(loaded){     
@@ -145,12 +168,16 @@ container:{
     }
 })
 
-const mapStateToProps =({FoodsReducer, SignInReducer}) =>{
+const mapStateToProps =({FoodsReducer, SignInReducer, FetchedDatabase}) =>{
+    const data = _.map(FetchedDatabase.data, (val, uid) =>{
+        return {...val, uid}
+    })
     return{
         foods: FoodsReducer.allFoods,
         categories: FoodsReducer.allCategories,
         user: SignInReducer.user,
         City: SignInReducer.City,
+        data,
     }
 }
 

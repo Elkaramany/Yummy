@@ -54,6 +54,7 @@ export default class App extends PureComponent{
 
   render(){
   const persistor = persistStore(store);
+  persistor.purge();
   return (
     <Provider store={store}>
       <View style={styles.container}>

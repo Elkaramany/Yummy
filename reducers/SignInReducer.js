@@ -14,6 +14,7 @@ const INITIAL_STATE={
     AdminName: '',
     EditLoading: false,
     navigated: false,
+    points: null,
 }
 
 export default (state={INITIAL_STATE}, action)=>{

@@ -57,9 +57,8 @@ function AccInfo(props){
     }
 
     const functionTwo = async () =>{
-        let AdminStatus = false;
-        const {City, Address1, Address2, FirstName, LastName, uid, EditInfo} = props;
-        await EditInfo({City, Address1, Address2, FirstName, LastName, AdminStatus, uid});
+        const {City, Address1, Address2, FirstName, LastName, uid, EditInfo, points} = props;
+        EditInfo({City, Address1, Address2, FirstName, LastName, uid, points});
     }
 
     const showMissMatch = () =>{
@@ -107,7 +106,7 @@ function AccInfo(props){
     }
 
     const showButton = () =>{
-        if(!props.loading){
+        if(!props.EditLoading){
         return(
             <View style={styles.buttonContainer2}>
             <Button
@@ -125,11 +124,11 @@ function AccInfo(props){
             />
         </View>
         )}else{
-            return <View style={styles.buttonContainer}><Spinner size={'large'} /></View>
+            return <View style={{height: 35}}><Spinner size={'small'} /></View>
         }
     }
 
-        const {FirstName, LastName, City, Address1, Address2, Credential} = props;
+        const {FirstName, LastName, City, Address1, Address2, Credential, points} = props;
         return(
             <View style={{flex: 1, backgroundColor: Colors.mainBackGround}} behaviour={'padding'} enabled={false}>
                 <Header HeaderText={'Account Settings'} HeaderStyle={{backgroundColor: 'transparent'}} 
@@ -175,6 +174,7 @@ function AccInfo(props){
                 onChangeText={(text) => validateName(text, "Address2")}
                 placeholderTextColor={Colors.mainForeGround}
                 />
+                <Text style={[styles.textInputStyle, {alignSelf: 'flex-start'}]}>Loyalty Points: {points}</Text>
                 {showButton()}
                 {showLogOut()}
                 {showMissMatch()}             
@@ -234,6 +234,7 @@ const mapStateToProps = ({SignInReducer}) =>{
         uid: SignInReducer.uid,
         errorMessage: SignInReducer.errorMessage,
         EditLoading: SignInReducer.EditLoading,
+        points: SignInReducer.points
     }
 }
 

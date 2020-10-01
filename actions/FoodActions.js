@@ -65,7 +65,6 @@ export const deleteSingleFood =(uid)=>{
     return async (dispatch)=>{
         const {currentUser} = firebase.auth(); 
         firebase.database().ref(`/users/${currentUser.uid}/MyOrder/${uid}`).remove().then(() =>{
-            Alert.alert('Item removed successfully');
         }).catch(() =>{
             Alert.alert('Error removing the item');
         })
@@ -76,17 +75,16 @@ export const deleteAllCart =()=>{
     return async (dispatch)=>{
         const {currentUser} = firebase.auth(); 
         firebase.database().ref(`/users/${currentUser.uid}/MyOrder`).remove().then(() =>{
-            Alert.alert('Cart cleared successfully');
         }).catch(() =>{
             Alert.alert('Error clearing the cart');
         })
     }
 }
 
-export const makeOrder=({data, price , deliver, address, method, fullDate})=>{
+export const makeOrder=({data, price , deliver, address, method, fullDate, region, points})=>{
     return(dispatch)=>{
         const {currentUser} = firebase.auth();
-        firebase.database().ref(`/orders/AllOrders`).push({data, price , deliver, address, method, fullDate}).then(() =>{
+        firebase.database().ref(`/orders/AllOrders`).push({data, price , deliver, address, method, fullDate, region}).then(() =>{
             firebase.database().ref(`/users/${currentUser.uid}/MyOrder`).remove();
             Alert.alert('Your order was made successfully');
             dispatch({type: 'order_success'})

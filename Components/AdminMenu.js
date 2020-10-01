@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, FlatList, Dimensions, TouchableOpacity} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {Colors} from './Colors';
@@ -6,6 +6,7 @@ import Header from './common/Header';
 import {connect} from 'react-redux';
 import {fetchAllOrders, OrderFinished} from '../actions';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import _ from 'lodash';
 
 const WIDTH = Dimensions.get('window').width;
@@ -16,6 +17,13 @@ function AdminMenu(props){
         props.fetchAllOrders();
     },[])
 
+    const [region, setRegion] = useState({
+        latitude: 1.9441,
+        longitude: 30.0619,
+        latitudeDelta: 2,
+        longitudeDelta: 2,
+      })
+
     const showDelivery=(item)=>{
         if(item.deliver){
             return(
@@ -24,6 +32,14 @@ function AdminMenu(props){
                     <Text style={styles.itemName}>City: {item.address.City}</Text>
                     <Text style={styles.itemName}>Address1: {item.address.Address1}</Text>
                     <Text style={styles.itemName}>Address2: {item.address.Address2}</Text>
+                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
+                        <MapView
+                        style={styles.map}
+                        region={item.region}
+                        >
+                            <Marker coordinate={{ latitude: item.region.latitude, longitude: item.region.longitude }} /> 
+                        </MapView>
+                        </View>
                 </View>
             )
         }else{
@@ -72,7 +88,7 @@ function AdminMenu(props){
     const showOrders =()=>{
         if(props.data.length === 0){
             return(
-                <Text style={[styles.miniHeaderStyle, {textAlign: 'center'}]}>No orders are made</Text>
+                <Text style={[styles.miniHeaderStyle, {textAlign: 'center'}]}>No orders available</Text>
             )
         }else{
             return(
@@ -129,7 +145,12 @@ const styles = EStyleSheet.create({
         borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
         width: Dimensions.get('window').width * 0.07,
         height: Dimensions.get('window').width * 0.07,
-    }
+    },map: {
+        width: '90%',
+        height: '200rem',
+        borderRadius: '10rem',
+        marginVertical: '5rem'
+      },
 })
 
 const mapStateToProps=({FetchedDatabase})=>{

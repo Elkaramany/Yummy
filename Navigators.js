@@ -15,6 +15,7 @@ import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from './Components/Home';
 import Checkout from './Components/Checkout';
 import MainMenu from './Components/MainMenu';
+import MapLocations from './Components/MapLocations'
 
 const ICON_SIZE = 28;
 const ACTIVE_TINT_COLOR = '#338329';
@@ -90,6 +91,7 @@ const RootStack = createStackNavigator({
     AdminSignUp: {screen: AdminSignUp},
     FoodSpecific: {screen: FoodSpecific},
     Checkout:{screen: Checkout},
+    MapLocations: {screen: MapLocations},
     RootTab: {screen: RootTab},
     RootTab2: {screen: RootTab2},
     },

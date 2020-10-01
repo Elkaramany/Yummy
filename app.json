@@ -1,4 +1,10 @@
 {
   "name": "Yummy",
-  "displayName": "Yummy"
+  "displayName": "Yummy",
+  "icon": "./Images/logo.jpg",
+  "splash": {
+    "image": "./Images/logo.jpg",
+    "resizeMode": "cover"
+  },
+  "version": "1.0.0"
 }
