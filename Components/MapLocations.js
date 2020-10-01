@@ -9,10 +9,10 @@ function MapLocations(props){
     const {price, data} = props.navigation.state.params;
 
     const [region, setRegion] = useState({
-        latitude: 1.9441,
-        longitude: 30.0619,
-        latitudeDelta: 2,
-        longitudeDelta: 2,
+        latitude: -1.56,
+        longitude: 30.03,
+        latitudeDelta: 0.07,
+        longitudeDelta: 0.07,
       })
 
     const backToCheckOut = () =>{
@@ -28,7 +28,7 @@ function MapLocations(props){
             <MapView
               style={styles.map}
               region={region}
-              onRegionChangeComplete={region => setRegion(region)}
+              onRegionChange={region => setRegion(region)}
             >
               <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }} /> 
             </MapView>

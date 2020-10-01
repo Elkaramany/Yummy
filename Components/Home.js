@@ -96,56 +96,56 @@ function Home(props){
     }else{
         const {Credential, email, password} = props;
         return(
-        <View style={styles.container}>
-            <Image 
-            style={styles.imageDimensions}
-            source={require("../Images/logo.jpg")}
-            />
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Input
-                    placeholder='Email'
-                    leftIcon={<Icon name={'email'} size={25} color={Colors.mainForeGround}/>}
-                    onChangeText={(text) => Credential({prop: 'email', value: text})}
-                    value={email}
-                    inputContainerStyle={styles.textInputContainer}
-                    inputStyle={styles.textInputStyle}
-                    placeholderTextColor={Colors.mainForeGround}
+            <View style={styles.container}>
+                <Image 
+                style={styles.imageDimensions}
+                source={require("../Images/logo.jpg")}
                 />
-                <Input
-                    placeholder='Password'
-                    leftIcon={<Icon name={'lock'} size={25} color={Colors.mainForeGround}/>}
-                    onChangeText={(text) => Credential({prop: 'password', value: text})}
-                    value={password}
-                    secureTextEntry
-                    inputStyle={styles.textInputStyle}
-                    inputContainerStyle={styles.textInputContainer}
-                    placeholderTextColor={Colors.mainForeGround}
-                />                
-                {showButton()}
-                <View style={[styles.OrStyle, {flexDirection: 'row'}]}>
-                    <Text style={styles.textInputStyle}>Don't have an account?</Text>
-                    <TouchableOpacity
-                        onPress={() => props.navigation.navigate('SignUp')}
-                        >
-                        <Text style={styles.signUpStyle}>Sign Up
-                        </Text>
+                <View style={styles.innerContainer}>
+                    <Input
+                        placeholder='Email'
+                        leftIcon={<Icon name={'email'} size={25} color={Colors.mainForeGround}/>}
+                        onChangeText={(text) => Credential({prop: 'email', value: text})}
+                        value={email}
+                        inputContainerStyle={styles.textInputContainer}
+                        inputStyle={styles.textInputStyle}
+                        placeholderTextColor={Colors.mainForeGround}
+                    />
+                    <Input
+                        placeholder='Password'
+                        leftIcon={<Icon name={'lock'} size={25} color={Colors.mainForeGround}/>}
+                        onChangeText={(text) => Credential({prop: 'password', value: text})}
+                        value={password}
+                        secureTextEntry
+                        inputStyle={styles.textInputStyle}
+                        inputContainerStyle={styles.textInputContainer}
+                        placeholderTextColor={Colors.mainForeGround}
+                    />                
+                    {showButton()}
+                    <View style={[styles.OrStyle, {flexDirection: 'row'}]}>
+                        <Text style={styles.textInputStyle}>Don't have an account?</Text>
+                        <TouchableOpacity
+                            onPress={() => props.navigation.navigate('SignUp')}
+                            >
+                            <Text style={styles.signUpStyle}>Sign Up
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={styles.OrStyle}>Or</Text>
+                    <TouchableOpacity onPress={() => props.navigation.navigate("AdminSignUp")}
+                    >
+                    <Text style={[styles.OrStyle, {color:Colors.sideText}]}>Sign Up as an Admin</Text>
                     </TouchableOpacity>
-                </View>
-                <Text style={styles.OrStyle}>Or</Text>
-                <TouchableOpacity onPress={() => props.navigation.navigate("AdminSignUp")}
-                >
-                <Text style={[styles.OrStyle, {color:Colors.sideText}]}>Sign Up as an Admin</Text>
-                </TouchableOpacity>
-                <Text style={styles.OrStyle}>Or</Text>
-                <TouchableOpacity onPress={() => props.navigation.navigate("MainMenu")}
-                >
-                <Text style={[styles.OrStyle, {color:Colors.sideText}]}>Browse without login</Text>
-                </TouchableOpacity>
-                <View style={styles.ErrorStyle}>
-                    {showErrorMessage()}
+                    <Text style={styles.OrStyle}>Or</Text>
+                    <TouchableOpacity onPress={() => props.navigation.navigate("MainMenu")}
+                    >
+                    <Text style={[styles.OrStyle, {color:Colors.sideText}]}>Browse without login</Text>
+                    </TouchableOpacity>
+                    <View style={styles.ErrorStyle}>
+                        {showErrorMessage()}
+                    </View>
                 </View>
             </View>
-        </View>
         )
     }
 }
@@ -156,7 +156,6 @@ const styles = EStyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: Colors.mainBackGround,
-        bottom: '80rem'
     },
     textInputStyle:{
         fontSize: '15rem',
@@ -171,7 +170,7 @@ const styles = EStyleSheet.create({
     imageDimensions:{
         width: '150rem',
         height: '150rem',
-
+        bottom: '40rem'
     },signUpStyle:{
         color: Colors.sideText,
         fontSize: '15rem',
@@ -202,6 +201,10 @@ const styles = EStyleSheet.create({
         flexDirection: 'row',
         //height: '20rem',
         width: '100%'
+    },innerContainer:{
+        justifyContent: 'center', 
+        alignItems: 'center',
+        bottom: '40rem'
     }
 })
 

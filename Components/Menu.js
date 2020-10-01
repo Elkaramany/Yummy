@@ -119,7 +119,7 @@ function Menu(props){
 
     if(loaded){     
         return(
-            <View style={{flex: 1, backgroundColor: Colors.mainBackGround, marginBottom: 10}}>
+            <View style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
                 {showAddress()}
                 <FlatList 
                 data={props.categories}
