@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Credential} from '../actions';
+import { Credential, fetchData,fetchMyOrders, fetchAdmin} from '../actions';
 import {Alert} from 'react-native';
 import {connect} from 'react-redux';
 import _ from 'lodash';
@@ -9,6 +9,14 @@ import Spinner from './common/Spinner'
 function Settings(props){
 
     const [loaded, setLoaded] = useState(false);
+
+    useEffect(() =>{
+        if(props.user){
+            props.fetchData(props.user.user.uid);
+            props.fetchAdmin(props.user.user.uid);
+            props.fetchMyOrders(props.user.user.uid);
+        }
+    }, [props.user])
 
     useEffect(() =>{
         if(!props.user){
@@ -49,4 +57,5 @@ const mapStateToProps= ({FetchedDatabase, SignInReducer}) =>{
     }
 }
 
-export default connect(mapStateToProps, {Credential}) (Settings);
+export default connect(mapStateToProps, { Credential, fetchData
+    , fetchMyOrders, fetchAdmin}) (Settings);

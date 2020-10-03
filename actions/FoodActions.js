@@ -81,16 +81,17 @@ export const deleteAllCart =()=>{
     }
 }
 
-export const makeOrder=({data, price , deliver, address, method, fullDate, region, points})=>{
+export const makeOrder=({data, navigatedPrice, deliver, address, method, fullDate, region, points, pointsUID})=>{
     return(dispatch)=>{
         const {currentUser} = firebase.auth();
-        firebase.database().ref(`/orders/AllOrders`).push({data, price , deliver, address, method, fullDate, region}).then(() =>{
+        firebase.database().ref(`/orders/AllOrders`).push({data, navigatedPrice , deliver, address, method, fullDate, region}).then(() =>{
             firebase.database().ref(`/users/${currentUser.uid}/MyOrder`).remove();
+            let finalPoint = Math.floor(navigatedPrice / 1000);
+            finalPoint += points;
+            firebase.database().ref(`/users/${currentUser.uid}/Address/${pointsUID}/points`).set(finalPoint);
             Alert.alert('Your order was made successfully');
-            dispatch({type: 'order_success'})
         }).catch(()=>{
-            Alert.alert('Error making yout order');
-            dispatch({type: 'order_fail'})
+            Alert.alert('Error confirming your order');
         })
     }
 }

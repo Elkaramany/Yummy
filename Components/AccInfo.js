@@ -174,7 +174,7 @@ function AccInfo(props){
                 onChangeText={(text) => validateName(text, "Address2")}
                 placeholderTextColor={Colors.mainForeGround}
                 />
-                <Text style={[styles.textInputStyle, {alignSelf: 'flex-start'}]}>Loyalty Points: {points}</Text>
+                <Text style={[styles.textInputStyle, {alignSelf: 'flex-start'}]}>Loyalty Points: {props.data[0].points}</Text>
                 {showButton()}
                 {showLogOut()}
                 {showMissMatch()}             
@@ -224,7 +224,10 @@ const styles = EStyleSheet.create({
     }
 })
 
-const mapStateToProps = ({SignInReducer}) =>{
+const mapStateToProps = ({SignInReducer, FetchedDatabase}) =>{
+    const data = _.map(FetchedDatabase.data, (val, uid) =>{
+        return {...val, uid}
+    })
     return{
         FirstName: SignInReducer.FirstName,
         LastName: SignInReducer.LastName,
@@ -234,7 +237,8 @@ const mapStateToProps = ({SignInReducer}) =>{
         uid: SignInReducer.uid,
         errorMessage: SignInReducer.errorMessage,
         EditLoading: SignInReducer.EditLoading,
-        points: SignInReducer.points
+        points: SignInReducer.points,
+        data,
     }
 }
 

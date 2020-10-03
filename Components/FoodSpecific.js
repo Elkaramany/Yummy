@@ -150,7 +150,7 @@ function FoodSpecific(props){
                         <Icon 
                         name={'plus-circle'}
                         color={Colors.mainFooter}
-                        size={18}
+                        size={20}
                         />
                     </TouchableOpacity>   
                     <Text style={[styles.ingStyle, {marginHorizontal: 50, color: Colors.mainFooter}]}>{item.count}</Text>
@@ -158,7 +158,7 @@ function FoodSpecific(props){
                         <Icon 
                         name={'minus-circle'}
                         color={Colors.mainFooter}
-                        size={18}
+                        size={20}
                         />
                     </TouchableOpacity>
                 </View>
@@ -214,6 +214,7 @@ const styles = EStyleSheet.create({
         marginTop: '10rem', 
         backgroundColor: Colors.mainFooter, 
         padding: '8rem',
+        paddingHorizontal: '12rem',
         borderRadius: '15rem'
     }
 })
