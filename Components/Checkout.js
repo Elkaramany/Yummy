@@ -75,17 +75,17 @@ function Checkout(props) {
                 },
             }
             const token = await stripe.paymentRequestWithCardForm(options);
-            axios.get(`https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent?money=${price}&&cur=${"rwf"}&&token=${token.tokenId}`).then(res => {
-                if (res.data.outcome.seller_message === "Payment complete.") {
-                    props.makeOrder({ data, price, deliver, address, method, fullDate, region, points, pointsUID });
-                    props.navigation.navigate("Menu");
-                } else {
+            axios.get(`https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent?money=${price}&&cur=${"rwf"}&&token=${token.tokenId}`)
+                .then(res => {
+                    if (res.data.outcome.seller_message === "Payment complete.") {
+                        props.makeOrder({ data, price, deliver, address, method, fullDate, region, points, pointsUID });
+                        props.navigation.navigate("Menu");
+                    } else {
+                        Alert.alert("Error confirming Payment");
+                    }
+                }).catch(e => {
                     Alert.alert("Error confirming Payment");
-                }
-            }).catch(e => {
-                console.log(e + ' here');
-                Alert.alert("Error confirming Payment");
-            })
+                })
         } catch {
             Alert.alert("Error making payment, Please try again")
         }
@@ -112,7 +112,7 @@ function Checkout(props) {
         let method = "";
         let { pointsUID } = props;
         let points = props.data[0].points;
-        if(navigatedPrice < price) points = 0;
+        if (navigatedPrice < price) points = 0;
         let currentDate = new Date();
         let month = currentDate.getMonth() + 1;
         let fullDate = currentDate.getDate() + '-' + month + ' at ' + currentDate.getHours() + ":" + currentDate.getMinutes();

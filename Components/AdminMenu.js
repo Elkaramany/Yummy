@@ -20,8 +20,8 @@ function AdminMenu(props){
     const [region, setRegion] = useState({
         latitude: 1.9441,
         longitude: 30.0619,
-        latitudeDelta: 2,
-        longitudeDelta: 2,
+        latitudeDelta: 0.0068185,
+        longitudeDelta: 0.006555,
       })
 
     const showDelivery=(item)=>{
