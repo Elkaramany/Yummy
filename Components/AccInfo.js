@@ -174,7 +174,7 @@ function AccInfo(props){
                 onChangeText={(text) => validateName(text, "Address2")}
                 placeholderTextColor={Colors.mainForeGround}
                 />
-                <Text style={[styles.textInputStyle, {alignSelf: 'flex-start'}]}>Loyalty Points: {props.data[0].points}</Text>
+                <Text style={[styles.textInputStyle, {alignSelf: 'flex-start'}]}>Yummy Points: {props.data[0].points}</Text>
                 {showButton()}
                 {showLogOut()}
                 {showMissMatch()}             

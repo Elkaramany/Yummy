@@ -13,24 +13,24 @@ export const fetchAll = ()=>{
 }
 
 const getAllFoods = (dispatch) =>{
-    axios.get("https://arcane-ocean-58349.herokuapp.com/food?item=fetch_all_foods").then((item) =>{
+    axios.get("https://arcane-ocean-58349.herokuapp.com/food/fetch_all_foods").then((item) =>{
         dispatch({type: 'assign_all_foods', payload: item.data})
     })
 }
 
 const getAllCategories = (dispatch) =>{
-    axios.get("https://arcane-ocean-58349.herokuapp.com/food?item=fetch_all_categories").then((item) =>{
+    axios.get("https://arcane-ocean-58349.herokuapp.com/food/fetch_all_categories").then((item) =>{
         dispatch({type: 'assign_all_categories', payload: item.data})
     })
 }
 
 const getAllSides = (dispatch) =>{
-    axios.get("https://arcane-ocean-58349.herokuapp.com/food?item=fetch_all_sides").then((item) =>{
+    axios.get("https://arcane-ocean-58349.herokuapp.com/food/fetch_all_sides").then((item) =>{
         dispatch({type: 'assign_all_sides', payload: item.data})
     })
 }
 const getAllDressings = (dispatch) =>{
-    axios.get("https://arcane-ocean-58349.herokuapp.com/food?item=fetch_all_dressings").then((item) =>{
+    axios.get("https://arcane-ocean-58349.herokuapp.com/food/fetch_all_dressings").then((item) =>{
         dispatch({type: 'assign_all_dressings', payload: item.data})
     })
 }
@@ -85,13 +85,15 @@ export const makeOrder=({data, navigatedPrice, deliver, address, method, fullDat
     return(dispatch)=>{
         const {currentUser} = firebase.auth();
         firebase.database().ref(`/orders/AllOrders`).push({data, navigatedPrice , deliver, address, method, fullDate, region}).then(() =>{
-            firebase.database().ref(`/users/${currentUser.uid}/MyOrder`).remove();
-            let finalPoint = Math.floor(navigatedPrice / 1000);
-            finalPoint += points;
-            firebase.database().ref(`/users/${currentUser.uid}/Address/${pointsUID}/points`).set(finalPoint);
             Alert.alert('Your order was made successfully');
+            firebase.database().ref(`/users/${currentUser.uid}/MyOrder`).remove().then(() =>{
+                let finalPoint = Math.floor(navigatedPrice / 1000);
+                finalPoint += points;
+                firebase.database().ref(`/users/${currentUser.uid}/Address/${pointsUID}/points`).set(finalPoint);
+                dispatch({type: 'My_Order_Success', payload: ''})
+            })
         }).catch(()=>{
-            Alert.alert('Error confirming your order');
+            Alert.alert('Error confirming order');
         })
     }
 }

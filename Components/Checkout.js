@@ -58,9 +58,10 @@ function Checkout(props) {
         }
     }, [])
 
-    const CardForm = async (data, price, deliver, address, method, fullDate, region, points, pointsUID) => {
+    const CardForm = async (data, navigatedPrice, deliver, address, method, fullDate, region, points, pointsUID) => {
         try {
-            const { Address1, Address2, FirstName, LastName, City, points } = props;
+            const { Address1, Address2, FirstName, LastName, City } = props;
+            const currency = 'rwf';
             let name = FirstName + ' ' + LastName;
             const options = {
                 requiredBillingAddressFields: 'full',
@@ -75,16 +76,16 @@ function Checkout(props) {
                 },
             }
             const token = await stripe.paymentRequestWithCardForm(options);
-            axios.get(`https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent?money=${price}&&cur=${"rwf"}&&token=${token.tokenId}`)
+            axios.get(`https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent/${navigatedPrice}/${currency}/${token.tokenId}`)
                 .then(res => {
                     if (res.data.outcome.seller_message === "Payment complete.") {
-                        props.makeOrder({ data, price, deliver, address, method, fullDate, region, points, pointsUID });
+                        props.makeOrder({ data, navigatedPrice, deliver, address, method, fullDate, region, points, pointsUID });
                         props.navigation.navigate("Menu");
                     } else {
-                        Alert.alert("Error confirming Payment");
+                        Alert.alert('Error making payment, Please try again');
                     }
                 }).catch(e => {
-                    Alert.alert("Error confirming Payment");
+                    Alert.alert('Error in requesting payment');
                 })
         } catch {
             Alert.alert("Error making payment, Please try again")
@@ -162,7 +163,7 @@ function Checkout(props) {
             <TouchableOpacity
                 onPress={() => setTotalPrice()}
             >
-                <Text style={[styles.footerStyle, styles.redeemStyle, { color: Colors.mainBackGround }]}>Redeem {p} points for a {p} RWF discount</Text>
+                <Text style={[styles.footerStyle, styles.redeemStyle, { color: Colors.mainBackGround }]}>Redeem {p} Yummy points for a {p} RWF discount</Text>
             </TouchableOpacity>
         )
     }

@@ -67,7 +67,7 @@ function AdminMenu(props){
                 <Text style={styles.miniHeaderStyle}>Notes:</Text>
                 <Text style={styles.itemName}>{item.method}</Text>
                 <Text style={styles.itemName}>Order made in: {item.fullDate}</Text>
-                <Text style={styles.itemName}>Total Price: {item.price}RWF</Text>
+                <Text style={styles.itemName}>Total Price: {item.navigatedPrice}RWF</Text>
                 <Text style={styles.miniHeaderStyle}>Customer Information:</Text>
                 <Text style={styles.itemName}>Name: {item.address.FirstName} {item.address.LastName}</Text>
                 {showDelivery(item)}
