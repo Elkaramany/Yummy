@@ -1,16 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity, ScrollView, Alert} from 'react-native';
+import {View, Text, Image, TouchableOpacity, ScrollView, Alert, Dimensions} from 'react-native';
 import {connect} from 'react-redux';
 import {AddUserFood, ResetError} from '../actions';
 import HeaderArrow from './common/HeaderArrow';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Colors} from './Colors';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { map } from 'lodash';
 import CustomPicker from './CustomPicker';
 
+const WIDTH = Dimensions.get('window').width;
+
 function FoodSpecific(props){
     const [count, setCount] = useState(null);
+    const [showCart, setShowCart] = useState(false)
     const [addedPrice, setAddedPrice] = useState(0);
     const [side, setSide] = useState("No sides");
     const [dressing, setDressing] = useState("No dressings");
@@ -66,7 +70,7 @@ function FoodSpecific(props){
     }
 
     const functionTwoMinus =() =>{
-        setCount(count - 1)
+        setCount(count => count - 1)
     }
     
 
@@ -80,7 +84,7 @@ function FoodSpecific(props){
     }
 
     const functionTwoAdd = () =>{
-        setCount(count + 1)
+        setCount(count => count + 1)
     }
 
     const checkUserAndAdd =()=>{
@@ -94,6 +98,7 @@ function FoodSpecific(props){
             x.sides = side;
             x.dressings = dressing;
             props.AddUserFood(x);
+            setShowCart(true);
         }
     }
 
@@ -119,6 +124,23 @@ function FoodSpecific(props){
                 pickerWidth={'90%'}
                 />
                 </View>
+            )
+        }
+    }
+
+    const showMyCart =()=>{
+        if(showCart){
+            return(
+                <TouchableOpacity style={styles.cartViewer}
+                    onPress={() => props.navigation.navigate('Cart')}
+                    >
+                        <Text style={[styles.catTitle, {color:Colors.mainBackGround, fontFamily: 'roboto'}]}>View my cart</Text>
+                        <Icon2
+                        name={'food'}
+                        color={Colors.mainBackGround}
+                        size={25}
+                        />
+                </TouchableOpacity>
             )
         }
     }
@@ -171,9 +193,10 @@ function FoodSpecific(props){
                         color={Colors.mainBackGround}
                         size={25}
                         />
-                    </TouchableOpacity>  
+                </TouchableOpacity>  
             </ScrollView>
             {showErrorMessage()}
+            {showMyCart()}
         </ScrollView>
     )
 }
@@ -199,6 +222,7 @@ const styles = EStyleSheet.create({
         marginHorizontal: '20rem',
         marginVertical: '10rem',
     },buttonContainer:{
+        marginTop: '5rem',
         height: '20rem',
         justifyContent: 'center',
         alignItems: 'center'
@@ -216,6 +240,15 @@ const styles = EStyleSheet.create({
         padding: '8rem',
         paddingHorizontal: '12rem',
         borderRadius: '15rem'
+    },cartViewer:{
+        backgroundColor:Colors.mainHeader,
+        paddingVertical: '6rem',
+        paddingHorizontal: '3rem',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        borderRadius: '10rem',
+        marginHorizontal: WIDTH * 0.25,
+        marginVertical: '10rem'
     }
 })
 

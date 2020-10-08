@@ -81,10 +81,10 @@ export const deleteAllCart =()=>{
     }
 }
 
-export const makeOrder=({data, navigatedPrice, deliver, address, method, fullDate, region, points, pointsUID})=>{
+export const makeOrder=({data, navigatedPrice, deliver, address, method, fullDate, region, points, pointsUID, status=''})=>{
     return(dispatch)=>{
         const {currentUser} = firebase.auth();
-        firebase.database().ref(`/orders/AllOrders`).push({data, navigatedPrice , deliver, address, method, fullDate, region}).then(() =>{
+        firebase.database().ref(`/orders/AllOrders`).push({data, navigatedPrice , deliver, address, method, fullDate, region, status}).then(() =>{
             Alert.alert('Your order was made successfully');
             firebase.database().ref(`/users/${currentUser.uid}/MyOrder`).remove().then(() =>{
                 let finalPoint = Math.floor(navigatedPrice / 1000);
@@ -107,8 +107,27 @@ export const fetchAllOrders =()=>{
     }
 }
 
+export const fetchAllTransactions =()=>{
+    return(dispatch)=>{
+        firebase.database().ref(`/orders/History`)
+        .on('value', snapshot =>{
+            dispatch({type: 'fetch_AllTransactions_Success', payload: snapshot.val()})
+        })
+    }
+}
+
 export const OrderFinished =(uid)=>{
     return async (dispatch)=>{
         firebase.database().ref(`/orders/AllOrders/${uid}`).remove();
+    }
+}
+
+export const Transaction=(order)=>{
+    return(dispatch)=>{
+        firebase.database().ref(`/orders/AllOrders/${order.uid}`).remove().then(() =>{
+            firebase.database().ref(`/orders/History`).push(order)
+        }).catch(() =>{
+            Alert.alert("Error in completing this process")
+        })
     }
 }

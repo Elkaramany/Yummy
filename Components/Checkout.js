@@ -105,8 +105,10 @@ function Checkout(props) {
         }
     }
 
-    const MobilePay = () => {
-
+    const MobilePay = (data, navigatedPrice, deliver, address, method, fullDate, region, points, pointsUID) => {
+        let currency = 'rwf';
+        
+        axios.get(`https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent/${navigatedPrice}/${currency}/${token.tokenId}`)
     }
 
     const navigateMeAway = () => {

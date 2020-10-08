@@ -1,7 +1,8 @@
 const INITIAL_STATE={
     data: null,
     admin: null,
-    allOrders: null
+    allOrders: null,
+    allTransactions: null
 }
 
 export default (state={INITIAL_STATE}, action)=>{
@@ -13,5 +14,7 @@ export default (state={INITIAL_STATE}, action)=>{
         return {...state, ...INITIAL_STATE};
     }else if(action.type === "fetch_AllOrders_Success"){
         return{...state, allOrders:action.payload}
+    }else if(action.type === "fetch_AllTransactions_Success"){
+        return{...state, allTransactions:action.payload}
     }return state
 }

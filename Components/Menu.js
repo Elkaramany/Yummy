@@ -1,5 +1,5 @@
 import  React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, ScrollView, TouchableOpacity, Image} from 'react-native';
+import {View, Text, FlatList, ScrollView, TouchableOpacity, Image, Dimensions} from 'react-native';
 import {connect} from 'react-redux';
 import {fetchAll, Credential} from '../actions';
 import _ from 'lodash';
@@ -8,6 +8,8 @@ import {Colors} from './Colors';
 import Spinner from './common/Spinner';
 import {withNavigation} from 'react-navigation';
 import CityPicker from './CustomPicker';
+
+const WIDTH = Dimensions.get('window').width;
 
 function Menu(props){
 
@@ -86,8 +88,9 @@ function Menu(props){
             return(
                 <TouchableOpacity
                 onPress={() => props.navigation.navigate("Home")}
+                style={styles.bottomButton}
                 >
-                    <Text style={[styles.categoryStyle, styles.loginStyle]}>
+                    <Text style={styles.loginButtonStyle}>
                         Login Here for more of Yummy n Fresh
                     </Text>
                 </TouchableOpacity>
@@ -165,7 +168,15 @@ container:{
         color: Colors.mainHeader, 
         marginVertical: '10rem',
         textAlign: 'center'
+    },loginButtonStyle:{
+        color: Colors.mainBackGround,
+        fontSize: '15rem',
+        textAlign: 'center'
+    },bottomButton:{
+        backgroundColor: Colors.mainForeGround, 
+        padding: '7rem',
     }
+
 })
 
 const mapStateToProps =({FoodsReducer, SignInReducer, FetchedDatabase}) =>{

@@ -56,7 +56,7 @@ function AccInfo(props){
         }
     }
 
-    const functionTwo = async () =>{
+    const functionTwo = () =>{
         const {City, Address1, Address2, FirstName, LastName, uid, EditInfo, points} = props;
         EditInfo({City, Address1, Address2, FirstName, LastName, uid, points});
     }
@@ -76,18 +76,9 @@ function AccInfo(props){
     }
 
     const HandleOut =() =>{
-        functionOut();
-        functionAway();
-    }
-
-    const functionOut = () =>{
+        props.navigation.navigate("Home");
         props.signMeOut();
     }
-
-    const functionAway =()=>{
-        props.away();
-    }
-
     const showLogOut =() =>{
         return(
             <View style={styles.buttonContainer2}>
@@ -103,6 +94,11 @@ function AccInfo(props){
                 </TouchableOpacity>
             </View>        
         )
+    }
+
+    const showPoints =()=>{
+        if(props.data.length) return <Text style={[styles.textInputStyle, {alignSelf: 'flex-start'}]}>Yummy Points: {props.data[0].points}</Text>
+        else return <View />
     }
 
     const showButton = () =>{
@@ -128,7 +124,7 @@ function AccInfo(props){
         }
     }
 
-        const {FirstName, LastName, City, Address1, Address2, Credential, points} = props;
+        const {FirstName, LastName, City, Address1, Address2, Credential} = props;
         return(
             <View style={{flex: 1, backgroundColor: Colors.mainBackGround}} behaviour={'padding'} enabled={false}>
                 <Header HeaderText={'Account Settings'} HeaderStyle={{backgroundColor: 'transparent'}} 
@@ -174,7 +170,7 @@ function AccInfo(props){
                 onChangeText={(text) => validateName(text, "Address2")}
                 placeholderTextColor={Colors.mainForeGround}
                 />
-                <Text style={[styles.textInputStyle, {alignSelf: 'flex-start'}]}>Yummy Points: {props.data[0].points}</Text>
+                {showPoints()}
                 {showButton()}
                 {showLogOut()}
                 {showMissMatch()}             

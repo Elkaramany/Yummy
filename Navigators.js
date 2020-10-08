@@ -1,6 +1,7 @@
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
+
 import SignUp from './Components/SignUp';
 import SignUpFinal from './Components/SignUpFinal';
 import Menu from './Components/Menu';
@@ -15,7 +16,8 @@ import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from './Components/Home';
 import Checkout from './Components/Checkout';
 import MainMenu from './Components/MainMenu';
-import MapLocations from './Components/MapLocations'
+import MapLocations from './Components/MapLocations';
+import Transactions from './Components/Transactions';
 
 const ICON_SIZE = 28;
 const ACTIVE_TINT_COLOR = '#338329';
@@ -32,7 +34,7 @@ const RootTab = createBottomTabNavigator({
   },
   Cart: {screen: Cart,navigationOptions:{
     tabBarIcon:({tintColor}) =>{
-      return <Icon name={'shopping-cart'} size={25} color={tintColor} />
+      return <Icon name={'shopping-cart'} size={ICON_SIZE} color={tintColor} />
   },
   }},
   Settings: {screen: Settings,
@@ -55,7 +57,7 @@ defaultNavigationOptions:{
 
 //The Admin account navigator
 
-const RootTab2 = createBottomTabNavigator({
+const AdminRootTab = createBottomTabNavigator({
     AdminMenu: {screen: AdminMenu,
       navigationOptions:{
         tabBarIcon:({tintColor}) =>{
@@ -63,12 +65,17 @@ const RootTab2 = createBottomTabNavigator({
         },
     }
     },
-    AdminSettings: {screen: AdminSettings,
-      navigationOptions:{
-      tabBarIcon:({tintColor}) =>{
-          return <Icon2 name={'account-box-multiple'} size={ICON_SIZE} color={tintColor} />
-      },
-  }}
+    History: {screen: Transactions,
+    navigationOptions:{
+    tabBarIcon:({tintColor}) =>{
+        return <Icon2 name={'history'} size={ICON_SIZE} color={tintColor} />
+    },
+}},AdminSettings: {screen: AdminSettings,
+  navigationOptions:{
+  tabBarIcon:({tintColor}) =>{
+      return <Icon2 name={'account-box-multiple'} size={ICON_SIZE} color={tintColor} />
+  },
+}},
   },
   {
   tabBarOptions: {
@@ -93,7 +100,7 @@ const RootStack = createStackNavigator({
     Checkout:{screen: Checkout},
     MapLocations: {screen: MapLocations},
     RootTab: {screen: RootTab},
-    RootTab2: {screen: RootTab2},
+    AdminRootTab: {screen: AdminRootTab},
     },
     {
     defaultNavigationOptions:{
