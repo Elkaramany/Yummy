@@ -10,70 +10,65 @@ import {Colors} from './Colors';
 
 import Spinner from './common/Spinner'
 
-class SignUpFinal extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            missMatch: '',
-            InvalidEmail:'',
-        }
-    }
+const SignUpFinal =(props) =>{
+    const [missMatch, setMissMatch] = useState('');
+    const [InvalidEmail, setInvalidEmail] = useState('');
 
     functionsCombined = () =>{
-        const {email, password, confirm} = this.props;
-        if(this.state.InvalidEmail != ''){
-            this.setState({missMatch: this.state.InvalidEmail})
+        const {email, password, confirm} = props;
+        if(InvalidEmail != ''){
+            setMissMatch(InvalidEmail)
         }else if(email.length === 0 || password.length === 0 || confirm.length === 0){
             Alert.alert("Please fill all form values")
         }else if(password !== confirm){
             Alert.alert("Password doesn't match it's confirmation");
         }else{
-            this.setState({missMatch: ''});
-            this.setState({InvalidName: ''})
-            this.functionOne();
-            this.functionTwo();
+            setMissMatch('')
+            setInvalidEmail('')
+            functionOne();
+            functionTwo();
         }
     }
 
-    functionOne = () =>{
+    const functionOne = () =>{
         let AdminStatus = false;
-        const {createAccount, FirstName, LastName, City, Address1, Address2, email, password} = this.props;
+        const {createAccount, FirstName, LastName, City, Address1, Address2, email, password} = props;
         createAccount({email, password, City, Address1, Address2, FirstName, LastName, AdminStatus})
     }
     
-    functionTwo = () =>{
-        this.props.navigation.navigate('Home');
+    const functionTwo = () =>{
+        props.navigation.navigate('Home');
     }
 
-    validateEmail = (text) =>{
+    const validateEmail = (text) =>{
         const form = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if(!text.match(form)){
-        this.setState({InvalidEmail:'Incorrect email format'});
+            setInvalidEmail('Incorrect email format');
         }
         else {
-            this.setState({InvalidEmail: ''})
+            setInvalidEmail('')
         }
-        this.props.Credential({prop: 'email', value: text})
+        props.Credential({prop: 'email', value: text})
     }
 
-    validatePassword = (text) =>{
+    const validatePassword = (text) =>{
         const formula=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
         if(!text.match(formula)){
-            this.setState({InvalidEmail: 'Password must be 6 to 20 chars which contain at least one digit, an uppercase and a lowercase letter'})
+            setInvalidEmail('Password must be 6 to 20 chars which contain at least one digit, an uppercase and a lowercase letter')
         }else{
-            this.setState({InvalidEmail: ''})
+            setInvalidEmail('')
         }
-        this.props.Credential({prop: 'password', value: text})
+        props.Credential({prop: 'password', value: text})
     }
 
-    showMissMatch = () =>{
-        if(this.state.missMatch){
-            return <View style={styles.buttonContainer}><Text style={styles.textMissMatch}>{this.state.missMatch}</Text></View>
+    const showMissMatch = () =>{
+        if(missMatch){
+            return <View style={styles.buttonContainer}><Text style={styles.textMissMatch}>{missMatch}</Text></View>
         }
     }
 
-    showButton = () =>{
-        if(!this.props.loading){
+    const showButton = () =>{
+        if(!props.loading){
         return(
             <View style={styles.buttonContainer2}>
             <Button
@@ -87,7 +82,7 @@ class SignUpFinal extends React.Component{
                 title={'Sign Up'}
                 titleStyle={styles.buttonTitleStyle}
                 buttonStyle={styles.Login}
-                onPress={() => this.functionsCombined()}
+                onPress={() => functionsCombined()}
             />
         </View>
         )}else{
@@ -95,16 +90,14 @@ class SignUpFinal extends React.Component{
         }
     }
 
-    backToSignIn = () =>{
-        this.props.navigation.navigate('SignUp');
+    const backToSignIn = () =>{
+        props.navigation.navigate('SignUp');
     }
 
-
-    render(){
-        const {email, password, Credential, confirm} = this.props;
+        const {email, password, Credential, confirm} = props;
         return(
             <View style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
-            <HeaderArrow  navigateMeBack={() => this.backToSignIn()} HeaderText={'Sign up (2 of 2)'} HeaderStyle={{backgroundColor: 'transparent'}}
+            <HeaderArrow  navigateMeBack={() => backToSignIn()} HeaderText={'Sign up (2 of 2)'} HeaderStyle={{backgroundColor: 'transparent'}}
              />
             <View style={styles.container} >
                 <Input
@@ -112,7 +105,7 @@ class SignUpFinal extends React.Component{
                 leftIcon={<Icon name={'email'} size={25} color={Colors.mainForeGround}/>}
                 inputContainerStyle={styles.textInputContainer}
                 inputStyle={styles.textInputStyle}
-                onChangeText={(text) => this.validateEmail(text)}
+                onChangeText={(text) => validateEmail(text)}
                 value={email}
                 placeholderTextColor={Colors.mainForeGround}
                 />
@@ -122,7 +115,7 @@ class SignUpFinal extends React.Component{
                 secureTextEntry
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
-                onChangeText={(text) => this.validatePassword(text)}
+                onChangeText={(text) => validatePassword(text)}
                 value={password}
                 placeholderTextColor={Colors.mainForeGround}
                 />
@@ -136,12 +129,11 @@ class SignUpFinal extends React.Component{
                 onChangeText={(text) => Credential({prop: 'confirm', value: text})}
                 placeholderTextColor={Colors.mainForeGround}
                 />
-                {this.showButton()}
-                {this.showMissMatch()}
+                {showButton()}
+                {showMissMatch()}
         </View>
         </View>
         )
-    }
 }
 
 const styles = EStyleSheet.create({

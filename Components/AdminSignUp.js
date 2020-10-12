@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, KeyboardAvoidingView, Alert} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {Input, Button} from 'react-native-elements';
@@ -11,19 +11,14 @@ import {Colors} from './Colors';
 
 import Spinner from './common/Spinner'
 
-class AdminSignUp extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            missMatch: '',
-            InvalidEmail:'',
-        }
-    }
+const AdminSignUp = (props) =>{
+    const [missMatch, setMissMatch] = useState('');
+    const [InvalidEmail, setInvalidEmail] = useState('');
 
-    functionsCombined = () =>{
-        const {email, password, confirm, AdminToken, AdminName} = this.props;
-        if(this.state.InvalidEmail !== ''){
-            this.setState({missMatch: this.state.InvalidEmail})
+    const functionsCombined = () =>{
+        const {email, password, confirm, AdminToken, AdminName} = props;
+        if(InvalidEmail !== ''){
+            setMissMatch(InvalidEmail);
         }else if(email.length === 0 || password.length === 0|| confirm.length === 0|| AdminToken.length === 0|| AdminName.length === 0 ){
             Alert.alert("Please fill all form values");
         }else if(password !== confirm){
@@ -33,51 +28,51 @@ class AdminSignUp extends React.Component{
         }else if(AdminName.length < 2){
             Alert.alert("User name can't be less than 2 chars long")
         }else{
-            this.setState({missMatch: ''});
-            this.functionOne();
-            this.functionTwo();
+            setMissMatch('');
+            functionOne();
+            functionTwo();
         }
     }
 
-    functionOne = () =>{
+    const functionOne = () =>{
         let AdminStatus = true;
-        const {createAccount2, AdminName, AdminToken, email, password} = this.props;
+        const {createAccount2, AdminName, AdminToken, email, password} = props;
         createAccount2({email, password, AdminToken, AdminName, AdminStatus});
     }
     
-    functionTwo = () =>{
-        this.props.navigation.navigate('Home');
+    const functionTwo = () =>{
+        props.navigation.navigate('Home');
     }
 
-    validateEmail = (text) =>{
+    const validateEmail = (text) =>{
         const form = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if(!text.match(form)){
-        this.setState({InvalidEmail:'Incorrect email format'});
+            setInvalidEmail('Incorrect email format');
         }
         else {
-            this.setState({InvalidEmail: ''})
+            setInvalidEmail('')
         }
-        this.props.Credential({prop: 'email', value: text})
+        props.Credential({prop: 'email', value: text})
     }
 
-    validatePassword = (text) =>{
+    const validatePassword = (text) =>{
         const formula=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
         if(!text.match(formula)){
-            this.setState({InvalidEmail: 'Password must be 6 to 20 chars which contain at least one digit, an uppercase and a lowercase letter'})
+            setInvalidEmail('Password must be 6 to 20 chars which contain at least one digit, an uppercase and a lowercase letter')
         }else{
-            this.setState({InvalidEmail: ''})
+            setInvalidEmail('');
         }
-        this.props.Credential({prop: 'password', value: text})
+        props.Credential({prop: 'password', value: text})
     }
 
-    showMissMatch = () =>{
-        if(this.state.missMatch){
-            return <View style={styles.buttonContainer}><Text style={styles.textMissMatch}>{this.state.missMatch}</Text></View>
+    const showMissMatch = () =>{
+        if(missMatch){
+            return <View style={styles.buttonContainer}><Text style={styles.textMissMatch}>{missMatch}</Text></View>
         }
     }
 
-    showButton = () =>{
-        if(!this.props.loading){
+    const showButton = () =>{
+        if(!props.loading){
         return(
             <View style={styles.buttonContainer2}>
             <Button
@@ -91,7 +86,7 @@ class AdminSignUp extends React.Component{
                 title={'Sign Up as an Admin'}
                 titleStyle={styles.buttonTitleStyle}
                 buttonStyle={styles.Login}
-                onPress={() => this.functionsCombined()}
+                onPress={() => functionsCombined()}
             />
         </View>
         )}else{
@@ -99,16 +94,14 @@ class AdminSignUp extends React.Component{
         }
     }
 
-    backToSignIn = () =>{
-        this.props.navigation.navigate('Home');
+    const backToSignIn = () =>{
+        props.navigation.navigate('Home');
     }
 
-
-    render(){
-        const {email, password,Credential, confirm, AdminName, AdminToken} = this.props;
+        const {email, password,Credential, confirm, AdminName, AdminToken} = props;
         return(
             <View style={{flex: 1, backgroundColor: Colors.mainBackGround}}>
-            <HeaderArrow  navigateMeBack={() => this.backToSignIn()} HeaderText={'Sign up as an Admin'} 
+            <HeaderArrow  navigateMeBack={() => backToSignIn()} HeaderText={'Sign up as an Admin'} 
             HeaderStyle={{backgroundColor: 'transparent'}}/>
             <View style={styles.container}>
                 <Input
@@ -116,7 +109,7 @@ class AdminSignUp extends React.Component{
                 leftIcon={<Icon name={'email'} size={25} color={Colors.mainForeGround}/>}
                 inputContainerStyle={styles.textInputContainer}
                 inputStyle={styles.textInputStyle}
-                onChangeText={(text) => this.validateEmail(text)}
+                onChangeText={(text) => validateEmail(text)}
                 value={email}
                 placeholderTextColor={Colors.mainForeGround}
                 />
@@ -126,7 +119,7 @@ class AdminSignUp extends React.Component{
                 secureTextEntry
                 inputStyle={styles.textInputStyle}
                 inputContainerStyle={styles.textInputContainer}
-                onChangeText={(text) => this.validatePassword(text)}
+                onChangeText={(text) => validatePassword(text)}
                 value={password}
                 placeholderTextColor={Colors.mainForeGround}
                 />
@@ -158,12 +151,11 @@ class AdminSignUp extends React.Component{
                 onChangeText={(text) => Credential({prop: 'AdminToken', value: text})}
                 placeholderTextColor={Colors.mainForeGround}
                 />
-                {this.showButton()}
-                {this.showMissMatch()}
+                {showButton()}
+                {showMissMatch()}
         </View>
         </View>
         )
-    }
 }
 
 const styles = EStyleSheet.create({

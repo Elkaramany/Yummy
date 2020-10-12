@@ -1,4 +1,5 @@
-import firebase from 'firebase';
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 
 export const Credential = ({prop, value}) =>{
     return{
@@ -17,7 +18,7 @@ export const CredentialCard = ({prop, value}) =>{
 export const TryLogin = ({email, password}) =>{
 return(dispatch)=>{
     dispatch({type: 'login_started'})
-    firebase.auth().signInWithEmailAndPassword(email, password)
+    auth().signInWithEmailAndPassword(email, password)
     .then((user)=>{
         dispatch({type: 'login_success', payload: user})
     }).catch(()=>{
@@ -29,11 +30,11 @@ return(dispatch)=>{
 export const createAccount = ({email, password, City, Address1, Address2, FirstName, LastName, AdminStatus, points = 0}) =>{
     return(dispatch)=>{
         dispatch({type: 'login_started'})
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+        auth().createUserWithEmailAndPassword(email, password)
         .then(()=>{
-            const {currentUser} = firebase.auth(); 
-            firebase.database().ref(`/users/${currentUser.uid}/Address`).push({City, Address1, Address2, FirstName, LastName, points}).then(() =>{
-                firebase.database().ref(`/users/${currentUser.uid}/Admin`).push({AdminStatus}).then(() =>{
+            const {currentUser} = auth(); 
+            database().ref(`/users/${currentUser.uid}/Address`).push({City, Address1, Address2, FirstName, LastName, points}).then(() =>{
+                database().ref(`/users/${currentUser.uid}/Admin`).push({AdminStatus}).then(() =>{
                     dispatch({type: 'create_account_success'})
                 }).catch(() =>{
                     dispatch({type: 'create_account_fail'})
@@ -48,11 +49,11 @@ export const createAccount = ({email, password, City, Address1, Address2, FirstN
 export const createAccount2 = ({email, password, AdminName, AdminStatus}) =>{
     return(dispatch)=>{
         dispatch({type: 'login_started'})
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+        auth().createUserWithEmailAndPassword(email, password)
         .then(()=>{
-            const {currentUser} = firebase.auth();
-            firebase.database().ref(`/users/${currentUser.uid}/Address`).push({AdminName}).then(() =>{
-                firebase.database().ref(`/users/${currentUser.uid}/Admin`).push({AdminStatus}).then(() =>{
+            const {currentUser} = auth();
+            database().ref(`/users/${currentUser.uid}/Address`).push({AdminName}).then(() =>{
+                database().ref(`/users/${currentUser.uid}/Admin`).push({AdminStatus}).then(() =>{
                     dispatch({type: 'create_account_success'})
                 }).catch(() =>{
                     dispatch({type: 'create_account_fail'})
@@ -66,7 +67,7 @@ export const createAccount2 = ({email, password, AdminName, AdminStatus}) =>{
 
 export const signMeOut = () =>{
     return(dispatch)=>{
-        firebase.auth().signOut().then(() =>{
+        auth().signOut().then(() =>{
             dispatch({type: 'sign_me_out_success'})
         }).catch(() =>{
             dispatch({type: 'sign_me_out_fail', payload: 'Sign Out Failed'})
@@ -76,7 +77,7 @@ export const signMeOut = () =>{
 
 export const fetchData = (uid) => {
     return (dispatch)=>{
-        firebase.database().ref(`/users/${uid}/Address`)
+        database().ref(`/users/${uid}/Address`)
         .on('value', snapshot =>{
             dispatch({type: 'fetch_data_success', payload: snapshot.val()})
         })
@@ -85,7 +86,7 @@ export const fetchData = (uid) => {
 
 export const fetchAdmin = (uid) => {
     return (dispatch)=>{
-        firebase.database().ref(`/users/${uid}/Admin`)
+        database().ref(`/users/${uid}/Admin`)
         .on('value', snapshot =>{
             dispatch({type: 'fetch_admin_success', payload: snapshot.val()})
         })
@@ -95,8 +96,8 @@ export const fetchAdmin = (uid) => {
 export const EditInfo = ({City, Address1, Address2, FirstName, LastName, uid, points}) =>{
     return(dispatch) =>{
         dispatch({type: 'edit_start'});
-        const {currentUser} = firebase.auth();
-        firebase.database().ref(`/users/${currentUser.uid}/Address/${uid}`)
+        const {currentUser} = auth();
+        database().ref(`/users/${currentUser.uid}/Address/${uid}`)
         .set({City, Address1, Address2, FirstName, LastName, points})
         .then(()=>{
             dispatch({type: 'edit_success', payload: 'Changes saved'})
@@ -109,8 +110,8 @@ export const EditInfo = ({City, Address1, Address2, FirstName, LastName, uid, po
 export const EditInfoAdmin = ({AdminName, uid}) =>{
     return(dispatch) =>{
         dispatch({type: 'edit_start'});
-        const {currentUser} = firebase.auth();
-        firebase.database().ref(`/users/${currentUser.uid}/Address/${uid}`)
+        const {currentUser} = auth();
+        database().ref(`/users/${currentUser.uid}/Address/${uid}`)
         .set({AdminName})
         .then(()=>{
             dispatch({type: 'edit_success', payload: 'Edit was successful'})

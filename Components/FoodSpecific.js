@@ -56,34 +56,17 @@ function FoodSpecific(props){
         props.navigation.goBack();
     }
 
-    const functionsCombinedMinus =(item) =>{
+    const functionsCombinedMinus =() =>{
         if(item.count === 1){
             Alert.alert("Quantity can't be less than 1");
         }else{
-            functionOneMinus(item);
-            functionTwoMinus();
+            item.count--;
+            setCount(count => count - 1)
         }
-    }
+    }  
 
-    const functionOneMinus =(item)=>{
-        item.count--;
-    }
-
-    const functionTwoMinus =() =>{
-        setCount(count => count - 1)
-    }
-    
-
-    const functionsCombinedAdd =(item) =>{
-        functionOneAdd(item);
-        functionTwoAdd();
-    }
-
-    const functionOneAdd = (item) =>{
+    const functionsCombinedAdd =() =>{
         item.count++;
-    }
-
-    const functionTwoAdd = () =>{
         setCount(count => count + 1)
     }
 
@@ -92,12 +75,12 @@ function FoodSpecific(props){
             Alert.alert("Please login to access your cart");
             props.navigation.navigate("Home");
         }else{
-            let x = {...item};
-            x.name = title;
-            x.price += addedPrice;
-            x.sides = side;
-            x.dressings = dressing;
-            props.AddUserFood(x);
+            let finalAddedFood = {...item};
+            finalAddedFood.name = title;
+            finalAddedFood.price += addedPrice;
+            finalAddedFood.sides = side;
+            finalAddedFood.dressings = dressing;
+            props.AddUserFood(finalAddedFood);
             setShowCart(true);
         }
     }
@@ -167,7 +150,7 @@ function FoodSpecific(props){
                 <View style={{flexDirection: 'row', alignItems: 'center'}}
                 >
                     <TouchableOpacity
-                    onPress={() => functionsCombinedAdd(item)}
+                    onPress={() => functionsCombinedAdd()}
                     >
                         <Icon 
                         name={'plus-circle'}
@@ -176,7 +159,7 @@ function FoodSpecific(props){
                         />
                     </TouchableOpacity>   
                     <Text style={[styles.ingStyle, {marginHorizontal: 50, color: Colors.mainFooter}]}>{item.count}</Text>
-                    <TouchableOpacity onPress={() => functionsCombinedMinus(item)}>
+                    <TouchableOpacity onPress={() => functionsCombinedMinus()}>
                         <Icon 
                         name={'minus-circle'}
                         color={Colors.mainFooter}

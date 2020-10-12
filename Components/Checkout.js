@@ -13,13 +13,12 @@ import Icon4 from 'react-native-vector-icons/SimpleLineIcons';
 import axios from 'axios';
 import stripe from 'tipsi-stripe';
 import Spinner from './common/Spinner';
+import {API, STRIPE} from '@env';
 
-const entireScreenWidth = Dimensions.get('window').width
-
+const entireScreenWidth = Dimensions.get('window').width;
 stripe.setOptions({
-    publishableKey: 'pk_test_51HLo2zFQ6XcCeM3SnP2VHEkBSVskdi0wmEwaQ1Yku5WnNYv1W01pG8qb4bNutTbVGkopFSCWOUUVib1N7ccQ1piw00Tur1PvEY',
-})
-
+    publishableKey: STRIPE,
+})  
 
 function Checkout(props) {
     let { price, data, region } = props.navigation.state.params;
@@ -58,7 +57,7 @@ function Checkout(props) {
         }
     }, [])
 
-    const CardForm = async (data, navigatedPrice, deliver, address, method, fullDate, region, points, pointsUID) => {
+    const CardForm = async (data, navigatedPrice, deliver, address, method, fullDate, region, points, pointsUID) => {  
         try {
             const { Address1, Address2, FirstName, LastName, City } = props;
             const currency = 'rwf';
@@ -76,16 +75,16 @@ function Checkout(props) {
                 },
             }
             const token = await stripe.paymentRequestWithCardForm(options);
-            axios.get(`https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent/${navigatedPrice}/${currency}/${token.tokenId}`)
-                .then(res => {
+            axios.get(`${API}/createStripePaymentIntent?money=${navigatedPrice}&&cur=${currency}&&token=${token.tokenId}`)
+                .then((res) => {
                     if (res.data.outcome.seller_message === "Payment complete.") {
                         props.makeOrder({ data, navigatedPrice, deliver, address, method, fullDate, region, points, pointsUID });
                         props.navigation.navigate("Menu");
                     } else {
                         Alert.alert('Error making payment, Please try again');
                     }
-                }).catch(e => {
-                    Alert.alert('Error in requesting payment');
+                }).catch((e) => {
+                    Alert.alert('Error Requesting payment');
                 })
         } catch {
             Alert.alert("Error making payment, Please try again")
@@ -107,8 +106,7 @@ function Checkout(props) {
 
     const MobilePay = (data, navigatedPrice, deliver, address, method, fullDate, region, points, pointsUID) => {
         let currency = 'rwf';
-        
-        axios.get(`https://arcane-ocean-58349.herokuapp.com/createStripePaymentIntent/${navigatedPrice}/${currency}/${token.tokenId}`)
+
     }
 
     const navigateMeAway = () => {

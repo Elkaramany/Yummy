@@ -70,7 +70,7 @@ const AdminRootTab = createBottomTabNavigator({
     tabBarIcon:({tintColor}) =>{
         return <Icon2 name={'history'} size={ICON_SIZE} color={tintColor} />
     },
-}},AdminSettings: {screen: AdminSettings,
+}},Settings: {screen: AdminSettings,
   navigationOptions:{
   tabBarIcon:({tintColor}) =>{
       return <Icon2 name={'account-box-multiple'} size={ICON_SIZE} color={tintColor} />

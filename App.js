@@ -9,7 +9,6 @@ import ReduxThunk from 'redux-thunk';
 import {persistStore, persistReducer} from 'redux-persist';
 import reducers from './reducers';
 import {PersistGate} from 'redux-persist/lib/integration/react';
-import firebase from 'firebase';
 import RootStack from './Navigators';
 
 const entireScreenWidth = Dimensions.get('window').width;
@@ -34,23 +33,6 @@ const store = createStore(persistedReducer, {},
   );
 
 export default class App extends PureComponent{
-  //firebase
-  componentDidMount(){
-    if(!firebase.apps.length){
-      var firebaseConfig = {
-        apiKey: "AIzaSyCLr6CGAU-T5y9g4NmaGxrVfHpxsYEHC4s",
-        authDomain: "yummy-7016c.firebaseapp.com",
-        databaseURL: "https://yummy-7016c.firebaseio.com",
-        projectId: "yummy-7016c",
-        storageBucket: "yummy-7016c.appspot.com",
-        messagingSenderId: "747840545905",
-        appId: "1:747840545905:web:02f5e7dbc35f68064fe7d0",
-        measurementId: "G-4R4626T1YX"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-  }
-}
 
   render(){
   const persistor = persistStore(store);
