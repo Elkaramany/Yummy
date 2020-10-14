@@ -112,7 +112,7 @@ const styles = EStyleSheet.create({
         flex: 1,
         backgroundColor: Colors.mainBackGround
     },headerTextStyle:{
-        color: Colors.mainForeGround,
+        color: Colors.mainHeader,
         fontSize: '18rem',
         fontWeight: 'bold'
     },itemName:{
@@ -121,7 +121,7 @@ const styles = EStyleSheet.create({
     },miniHeaderStyle:{
         fontSize: '16rem',
         fontWeight: 'bold',
-        color: Colors.mainHeader,
+        color: Colors.mainForeGround,
     },itemContainer:{
         margin: '10rem'
     },mainItemContainer:{

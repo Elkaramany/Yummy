@@ -150,7 +150,7 @@ function AccInfo(props){
                 />
                 <CityPicker title={'City:   '} arr={cities} value={City} 
                 setValue={(item) => Credential({prop: "City", value: item})}
-                pickerWidth={'95%'}
+                pickerWidth={'90%'}
                 />
                 <Input
                 placeholder='Address1'

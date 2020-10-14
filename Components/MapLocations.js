@@ -56,6 +56,10 @@ function MapLocations(props){
     )
   }
 
+  const backToCheckOut =() =>{
+    props.navigation.goBack();
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <HeaderArrow navigateMeBack={() => backToCheckOut()} HeaderText={'Delivery Location'}

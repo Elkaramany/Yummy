@@ -14,7 +14,6 @@ import RootStack from './Navigators';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({$rem: entireScreenWidth / 380});
 
-
 //All the React navigators in the Navigators.js file
 const AppContainer = createAppContainer(RootStack);
 

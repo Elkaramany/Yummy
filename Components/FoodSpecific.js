@@ -14,7 +14,6 @@ const WIDTH = Dimensions.get('window').width;
 
 function FoodSpecific(props){
     const [count, setCount] = useState(null);
-    const [showCart, setShowCart] = useState(false)
     const [addedPrice, setAddedPrice] = useState(0);
     const [side, setSide] = useState("No sides");
     const [dressing, setDressing] = useState("No dressings");
@@ -81,7 +80,6 @@ function FoodSpecific(props){
             finalAddedFood.sides = side;
             finalAddedFood.dressings = dressing;
             props.AddUserFood(finalAddedFood);
-            setShowCart(true);
         }
     }
 
@@ -112,20 +110,18 @@ function FoodSpecific(props){
     }
 
     const showMyCart =()=>{
-        if(showCart){
-            return(
-                <TouchableOpacity style={styles.cartViewer}
-                    onPress={() => props.navigation.navigate('Cart')}
-                    >
-                        <Text style={[styles.catTitle, {color:Colors.mainBackGround, fontFamily: 'roboto'}]}>View my cart</Text>
-                        <Icon2
-                        name={'food'}
-                        color={Colors.mainBackGround}
-                        size={25}
-                        />
-                </TouchableOpacity>
-            )
-        }
+        return(
+            <TouchableOpacity style={styles.cartViewer}
+                onPress={() => props.navigation.navigate('Cart')}
+                >
+                    <Text style={[styles.catTitle, {color:Colors.mainBackGround, fontFamily: 'roboto'}]}>View my cart</Text>
+                    <Icon2
+                    name={'food'}
+                    color={Colors.mainBackGround}
+                    size={25}
+                    />
+            </TouchableOpacity>
+        )
     }
     
     return(

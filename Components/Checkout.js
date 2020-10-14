@@ -35,16 +35,14 @@ function Checkout(props) {
     useEffect(() => {
         //getting the user address for the checkout
         const { data, Credential } = props;
-        data.map(d => {
-            Credential({ prop: "FirstName", value: d.FirstName })
-            Credential({ prop: "LastName", value: d.LastName })
-            Credential({ prop: "City", value: d.City })
-            Credential({ prop: "Address1", value: d.Address1 })
-            Credential({ prop: "Address2", value: d.Address2 })
-            Credential({ prop: "uid", value: d.uid })
-            Credential({ prop: "points", value: d.points })
-            setLoaded(true)
-        })
+        Credential({prop: "FirstName", value: data[0].FirstName})
+        Credential({prop: "LastName", value: data[0].LastName})
+        Credential({prop: "City", value: data[0].City})
+        Credential({prop: "Address1", value: data[0].Address1})
+        Credential({prop: "Address2", value: data[0].Address2})
+        Credential({prop: "uid", value: data[0].uid})
+        Credential({prop: "points", value: data[0].points})
+        setLoaded(true)
     }, [])
 
     useEffect(() => {

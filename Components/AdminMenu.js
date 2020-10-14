@@ -139,7 +139,7 @@ const styles = EStyleSheet.create({
         flex: 1,
         backgroundColor: Colors.mainBackGround
     },headerTextStyle:{
-        color: Colors.mainForeGround,
+        color: Colors.mainHeader,
         fontSize: '18rem',
         fontWeight: 'bold'
     },itemName:{

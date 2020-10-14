@@ -13,7 +13,7 @@ import Spinner from './common/Spinner';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
-function Home(props){
+const Home = (props) =>{
     
     useEffect(() =>{
         if(props.user){
@@ -28,13 +28,11 @@ function Home(props){
         //To prevent multiple navigation everytime data gets updated
         if(props.user && !props.navigated && props.data.length !== 0){
             props.Credential({prop: 'navigated', value: true})
-            props.data.map(d =>{
-                if(d.AdminStatus === false){
-                    props.navigation.navigate("Menu");
-                }else if(d.AdminStatus === true){
-                    props.navigation.navigate("AdminMenu");
-                }
-            })  
+            if(props.data[0].AdminStatus === false){
+                props.navigation.navigate("Menu");
+            }else if(props.data[0].AdminStatus === true){
+                props.navigation.navigate("AdminMenu");
+            }
         }
     },[props.data])
 

@@ -11,30 +11,20 @@ function Settings(props){
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() =>{
-        if(props.user){
-            props.fetchData(props.user.user.uid);
-            props.fetchAdmin(props.user.user.uid);
-            props.fetchMyOrders(props.user.user.uid);
-        }
-    }, [props.user])
-
-    useEffect(() =>{
         if(!props.user){
             Alert.alert("Please login to access your settings");
             props.navigation.navigate("Home");
         }else{
             const {data, Credential} = props;
-            data.map(d =>{
-                Credential({prop: "FirstName", value: d.FirstName})
-                Credential({prop: "LastName", value: d.LastName})
-                Credential({prop: "City", value: d.City})
-                Credential({prop: "Address1", value: d.Address1})
-                Credential({prop: "Address2", value: d.Address2})
-                Credential({prop: "uid", value: d.uid})
-                Credential({prop: "points", value: d.points})
-                setLoaded(true)        
-            })
-            }
+            Credential({prop: "FirstName", value: data[0].FirstName})
+            Credential({prop: "LastName", value: data[0].LastName})
+            Credential({prop: "City", value: data[0].City})
+            Credential({prop: "Address1", value: data[0].Address1})
+            Credential({prop: "Address2", value: data[0].Address2})
+            Credential({prop: "uid", value: data[0].uid})
+            Credential({prop: "points", value: data[0].points})
+            setLoaded(true)       
+        }
     }, [])
 
     const takeMeToHome = () =>{
