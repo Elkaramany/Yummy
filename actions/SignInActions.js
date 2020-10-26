@@ -8,13 +8,6 @@ export const Credential = ({prop, value}) =>{
     }
 }
 
-export const CredentialCard = ({prop, value}) =>{
-    return{
-        type: 'Credential_In_Card',
-        payload: {prop,value}
-    }
-}
-
 export const TryLogin = ({email, password}) =>{
 return(dispatch)=>{
     dispatch({type: 'login_started'})
